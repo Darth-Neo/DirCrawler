@@ -132,18 +132,19 @@ def trainClassifier():
 
 if __name__ == "__main__":
 
-    printExamples()
+    #printExamples()
 
-    if False:
-        conceptFile = 'sentencesDict.p'
-        
-        logger.info("Loading :" + conceptFile)
-        concepts = Concepts.loadConcepts(conceptFile)
 
-        stop.append("This")
-        stop.append("The")
+    conceptFile = 'documents.p'
+    
+    logger.info("Loading :" + conceptFile)
+    concepts = Concepts.loadConcepts(conceptFile)
 
-        for x in concepts.getConcepts().values():
+    stop.append("This")
+    stop.append("The")
+
+    for document in concepts.getConcepts().values():
+        for x in document.getConcepts().values():
             print("x:%s(%s)" % (x.name, x.typeName))
 
             cleanSentence = ' '.join([word for word in x.name.split() if word not in stop])
