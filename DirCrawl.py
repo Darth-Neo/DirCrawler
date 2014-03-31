@@ -1,24 +1,21 @@
 # Import the os module, for the os.walk function
-import os
 import sys
-
-from docx import opendocx, getdocumenttext
 import os
 import csv
-import Queue
-import threading
-import time
 
 from nl_lib import Logger
 logger = Logger.setupLogging(__name__)
 
 from nl_lib import Constants
 from nl_lib import Concepts 
-from nl_lib import PeopleText
-from nl_lib import Tokens
+#from nl_lib import PeopleText
+#from nl_lib import Tokens
+#from nltk.corpus import stopwords
+#from nltk import tokenize
 
-from nltk.corpus import stopwords
-from nltk import tokenize
+from docx import opendocx, getdocumenttext
+
+documentsConcepts = Concepts.Concepts("DocumentConcepts", "Documents")
 
 def getText(filename):
     document = opendocx(filename)
@@ -43,17 +40,39 @@ def getConcepts(fname, d):
 
     return listText
 
-if __name__ == '__main__':
-    documentsConcepts = Concepts.Concepts("DocumentConcepts", "Documents")
-    
+def checkFile(fname):
+    try:
+        if fname[-5:] == ".docx":
+            d = documentsConcepts.addConceptKeyType(fname, "Document")
+            logger.info("filename: %s" % fname)
+            getConcepts(fname, d)
+    except:
+        logger.warn("File could not be parsed : %s" % fname)
+            
+def searchSubDir(subdir):
+    i = 0
+    for root, dirs, files in os.walk(rootDir, topdown=False):
+        for name in files:
+            nameFile = os.path.join(root, name)
+            i += 1
+            logger.debug(nameFile)
+            checkFile(nameFile)
+
+        for name in dirs:
+            nameFile = os.path.join(root, name)
+            i += 1
+            logger.debug(nameFile)
+            checkFile(nameFile)
+
+    logger.info("=====Complete=====")
+    logger.info("Checked %d documents" % i)
+  
+if __name__ == '__main__':  
     # Set the directory you want to start from
-    rootDir = '.'
-    for dirName, subdirList, fileList in os.walk(rootDir):
-        logger.info('Found directory: %s' % dirName)
-        for fname in fileList:
-            if fname[-5:] == ".docx":
-                d = documentsConcepts.addConceptKeyType(fname, "Document")
-                getConcepts(fname, d)
+    #rootDir = '.'
+    rootDir = 'C:\\Users\\morrj140\\Documents\\'
+    
+    searchSubDir(rootDir)
 
     Concepts.Concepts.saveConcepts(documentsConcepts, "documents.p")
             

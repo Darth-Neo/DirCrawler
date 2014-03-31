@@ -12,13 +12,8 @@ logger = Logger.setupLogging(__name__)
    
 if __name__ == "__main__":
     listConceptFile = list()
-    #listConceptFile.append(projectsFile)
-    listConceptFile.append(peopleFile)
-    #listConceptFile.append(wordsFile)
-    #listConceptFile.append(topicsFile)
-    #listConceptFile.append(sentencesFile)
-    #listConceptFile.append(similarityFile)
-
+    listConceptFile.append("documents.p")
+    
     #graph = NetworkXGraph()
     graph = PatternGraph()
 
@@ -26,7 +21,8 @@ if __name__ == "__main__":
         logger.info("Loading :" + conceptFile)
         concepts = Concepts.loadConcepts(conceptFile)
 
-        graph.addConcepts(concepts)
+        for c in concepts.getConcepts().values():
+            graph.addConcepts(c)
 
     if isinstance(graph, PatternGraph):
         #graph.g.remove("ProjectConceptsSimilarity")
