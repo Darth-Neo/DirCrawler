@@ -10,8 +10,8 @@ from nl_lib.Concepts import Concepts
 logger = Logger.setupLogging(__name__)
    
 if __name__ == "__main__":
-    conceptFile = "documents.p"
-    #conceptFile = "chunks.p"
+    #conceptFile = "documents.p"
+    conceptFile = "chunks.p"
     
     logger.info("Loading :" + os.getcwd() + os.sep + conceptFile)
     concepts = Concepts.loadConcepts(conceptFile)

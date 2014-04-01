@@ -13,6 +13,24 @@ from nl_lib import Concepts
 #from nltk.corpus import stopwords
 #from nltk import tokenize
 
+from pptx import Presentation
+
+
+def getPPTX(filename):
+    path_to_presentation = "C:\\Users\\morrj140\\Dev\\GitRepository\\DirCrawler\\Introduction to GBTS - v1.1.pptx"
+    prs = Presentation(filename)
+
+    newparatextlist = []
+
+    for slide in prs.slides:
+        for shape in slide.shapes:
+            if not shape.has_textframe:
+                continue
+            for paragraph in shape.textframe.paragraphs:
+                for run in paragraph.runs:
+                    newparatextlist.append(run.text.encode("utf-8"))
+    return newparatextlist
+
 from docx import opendocx, getdocumenttext
 
 documentsConcepts = Concepts.Concepts("DocumentConcepts", "Documents")
@@ -31,21 +49,24 @@ def getText(filename):
     return newparatextlist
 
 def getConcepts(fname, d):
-    logger.info('\t%s' % fname)
+    logger.debug("filename: %s" % fname)
 
-    listText = getText(fname)
-    
+    if fname[-5:] == ".docx" or fname[-4:] == ".doc":
+        listText = getText(fname)
+    elif fname[-5:] == ".pptx":
+        listText = getPPTX(fname)
+                
     for t in listText:
         d.addConceptKeyType(t.strip(), "Text")
 
     return listText
 
 def checkFile(fname):
+    logger.debug("filename: %s" % fname)
+            
     try:
-        if fname[-5:] == ".docx":
-            d = documentsConcepts.addConceptKeyType(fname, "Document")
-            logger.info("filename: %s" % fname)
-            getConcepts(fname, d)
+        d = documentsConcepts.addConceptKeyType(fname, "Document")
+        getConcepts(fname, d)
     except:
         logger.warn("File could not be parsed : %s" % fname)
             
@@ -55,13 +76,13 @@ def searchSubDir(subdir):
         for name in files:
             nameFile = os.path.join(root, name)
             i += 1
-            logger.debug(nameFile)
+            logger.info(nameFile)
             checkFile(nameFile)
 
         for name in dirs:
             nameFile = os.path.join(root, name)
             i += 1
-            logger.debug(nameFile)
+            logger.info(nameFile)
             checkFile(nameFile)
 
     logger.info("=====Complete=====")
@@ -70,7 +91,8 @@ def searchSubDir(subdir):
 if __name__ == '__main__':  
     # Set the directory you want to start from
     #rootDir = '.'
-    rootDir = 'C:\\Users\\morrj140\\Documents\\'
+    #rootDir = 'C:\\Users\\morrj140\\Documents\\'
+    rootDir = "C:\\Users\\morrj140\\Documents\\System Architecture\\Accovia"
     
     searchSubDir(rootDir)
 
