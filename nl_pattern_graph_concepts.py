@@ -12,10 +12,11 @@ logger = Logger.setupLogging(__name__)
    
 if __name__ == "__main__":
     listConceptFile = list()
-    listConceptFile.append("documents.p")
+    #listConceptFile.append("documents.p")
+    listConceptFile.append("chunks.p")
     
-    #graph = NetworkXGraph()
-    graph = PatternGraph()
+    graph = NetworkXGraph()
+    #graph = PatternGraph()
 
     for conceptFile in listConceptFile:
         logger.info("Loading :" + conceptFile)

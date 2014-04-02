@@ -114,6 +114,8 @@ if __name__ == "__main__":
     #document = PDFDocument(parser, password)
     document = PDFDocument(parser)
 
+    print document
+
     # Check if the document allows text extraction. If not, abort.
     if not document.is_extractable:
         raise PDFTextExtractionNotAllowed

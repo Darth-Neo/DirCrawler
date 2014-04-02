@@ -164,9 +164,10 @@ if __name__ == "__main__":
     chunkConcepts = Concepts("Chunk", "Chunks")
 
     for document in concepts.getConcepts().values():
+        logger.debug("%s" % document.name)
         d = chunkConcepts.addConceptKeyType(document.name, "Document") 
         for x in document.getConcepts().values():
-            #print("x:%s(%s)" % (x.name, x.typeName))
+            logger.debug("x:%s(%s)" % (x.name, x.typeName))
 
             cleanSentence = ' '.join([word for word in x.name.split() if word not in stop])
       
@@ -209,7 +210,7 @@ if __name__ == "__main__":
                         #print "--chunk--"
                         #print ("%s" % listWords)
                         d.addConceptKeyType(printList(listWords), "Chunk") 
-                        print printList(listWords)
+                        logger.info("%s" % printList(listWords))
 
     Concepts.saveConcepts(chunkConcepts, "chunks.p")
 
