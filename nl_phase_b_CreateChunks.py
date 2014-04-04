@@ -149,9 +149,7 @@ def getListAsString(pl, n = 0, pt=None):
 
     return pt
         
-if __name__ == "__main__":
-
-    #printExamples()
+def createChunks():
 
     conceptFile = 'documents.p'
     
@@ -216,7 +214,8 @@ if __name__ == "__main__":
 
     Concepts.saveConcepts(chunkConcepts, "chunks.p")
 
-
+if __name__ == "__main__":
+    createChunks()
 
             
 

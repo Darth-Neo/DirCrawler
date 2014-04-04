@@ -11,7 +11,7 @@ from nl_lib.TopicsModel import TopicsModel
 
 num_topics = 150
 
-def createTopics(conceptFile):
+def createChunkTopics(conceptFile):
     stopwords = list()
     stopwords.append("data")
     stopwords.append("applications")
@@ -62,7 +62,7 @@ def createTopics(conceptFile):
     Concepts.saveConcepts(topicChunksConcepts, "TopicChunks.p")
 
 if __name__ == "__main__":
-    createTopics("chunks.p")
+    createChunkTopics("chunks.p")
 
 
 

@@ -8,8 +8,8 @@ from nl_lib import Logger
 from nl_lib.Concepts import Concepts
 
 logger = Logger.setupLogging(__name__)
-   
-if __name__ == "__main__":
+
+def getChunkTopics():
     #conceptFile = "documents.p"
     #conceptFile = "chunks.p"
     #conceptFile = "topicsDict.p"
@@ -43,6 +43,6 @@ if __name__ == "__main__":
     
     cf.close()
 
-
-
+if __name__ == "__main__":
+    getChunkTopics()
 

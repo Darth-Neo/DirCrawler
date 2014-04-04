@@ -129,14 +129,15 @@ def checkFile(fname):
     #logger.warn("File could not be parsed : %s" % fname)
             
 def searchSubDir(subdir):
-    for root, dirs, files in os.walk(rootDir, topdown=False):
+    for root, dirs, files in os.walk(subdir, topdown=False):
         for name in files:
             nameFile = os.path.join(root, name)
             checkFile(nameFile)
   
 if __name__ == '__main__':  
     # Set the directory you want to start from
-    rootDir = "C:\\Users\\morrj140\\Documents\\System Architecture\\Accovia"
+    rootDir = "C:\\Users\\morrj140\\Documents\\System Architecture"
+    #rootDir = "C:\\Users\\morrj140\\Documents\\System Architecture\\Accovia"
     #rootDir = "C:\\Users\morrj140\\Documents\\System Architecture\\OneSourceDocumentation"
     
     searchSubDir(rootDir)
