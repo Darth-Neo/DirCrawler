@@ -153,7 +153,7 @@ if __name__ == "__main__":
 
     #printExamples()
 
-    conceptFile = 'documents.p'
+    conceptFile = 'chunks.p'
     
     logger.info("Loading :" + conceptFile)
     concepts = Concepts.loadConcepts(conceptFile)
@@ -161,7 +161,7 @@ if __name__ == "__main__":
     stop.append("This")
     stop.append("The")
 
-    chunkConcepts = Concepts("Chunk", "Chunks")
+    chunkConcepts = Concepts("NVPChunk", "NVPChunks")
 
     for document in concepts.getConcepts().values():
         d = chunkConcepts.addConceptKeyType(document.name, "Document") 
@@ -189,29 +189,11 @@ if __name__ == "__main__":
                     dictChunks = dict()
                     #print ("Sentence : %s" % sentence.chunks)
                     for chunk in sentence.chunks:
-                        
-                        relation = str(chunk.relation).encode("utf-8").strip()
-                        role = str(chunk.role).encode("utf-8").strip()
-                        #print("Relation : %s" % relation)
-                        #print("Role     : %s" % role)
+                        print("Chunk %s: .%s." % (chunk.type, chunk)) 
+                        for word in chunk.words:
+                            print("word: .%s." % (word)) 
 
-                        cw = [(w.string.encode("utf-8"), w.type.encode("utf-8"), chunk.role) for w in chunk.words]
-                        #print("Role : %s \t %s" % (role, cw))
-                        
-                        # Split up and order the chunk words
-                        if dictChunks.has_key(relation):
-                            listWords = dictChunks[relation]
-                            listWords.append(cw)
-                        else:
-                            dictChunks[relation] = cw
-
-                    for listWords in dictChunks.values():
-                        #print "--chunk--"
-                        #print ("%s" % listWords)
-                        d.addConceptKeyType(printList(listWords), "Chunk") 
-                        print printList(listWords)
-
-    Concepts.saveConcepts(chunkConcepts, "chunks.p")
+    #Concepts.saveConcepts(chunkConcepts, "NVPChunks.p")
 
 
 

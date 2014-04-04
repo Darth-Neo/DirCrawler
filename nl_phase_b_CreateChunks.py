@@ -134,14 +134,14 @@ def getChunkWords(chunk, role, ID):
     if chunk.relation == ID and chunk.role == role:
         print("Chunk[%s] : .%s.%s.%s" % (chunk.type , [w.string for w in chunk.words], chunk.relation, chunk.role))
 
-def printList(pl, n = 0, pt=None):
+def getListAsString(pl, n = 0, pt=None):
     if pt == None:
         pt = ""
         
     n += 1
     if isinstance(pl, list):
         for l in pl:
-            pt += printList(l) + " "
+            pt += getListAsString(l) + " "
     else:
         spaces = " " * n
         pti = pl[0]
@@ -196,21 +196,23 @@ if __name__ == "__main__":
                         #print("Relation : %s" % relation)
                         #print("Role     : %s" % role)
 
-                        cw = [(w.string.encode("utf-8"), w.type.encode("utf-8"), chunk.role) for w in chunk.words]
-                        #print("Role : %s \t %s" % (role, cw))
-                        
-                        # Split up and order the chunk words
-                        if dictChunks.has_key(relation):
-                            listWords = dictChunks[relation]
-                            listWords.append(cw)
-                        else:
-                            dictChunks[relation] = cw
+                        if role == "SBJ" or role == "OBJ":
+                            cw = [(w.string.encode("utf-8"), w.type.encode("utf-8"), role) for w in chunk.words]
+                            #cw = chunk.words
+                            logger.info("Role : %s[%s] \t %s" % (role, type(role), cw))
+                            
+                            # Split up and order the chunk words
+                            if dictChunks.has_key(relation):
+                                listWords = dictChunks[relation]
+                                listWords.append(cw)
+                            else:
+                                dictChunks[relation] = cw
 
                     for listWords in dictChunks.values():
                         #print "--chunk--"
-                        #print ("%s" % listWords)
-                        d.addConceptKeyType(printList(listWords), "Chunk") 
-                        logger.info("%s" % printList(listWords))
+                        logger.debug("listWords : %s" % listWords)
+                        d.addConceptKeyType(getListAsString(listWords), "Chunk") 
+                        logger.debug("%s" % getListAsString(listWords))
 
     Concepts.saveConcepts(chunkConcepts, "chunks.p")
 
