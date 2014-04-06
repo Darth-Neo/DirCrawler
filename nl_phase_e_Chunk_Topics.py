@@ -23,6 +23,7 @@ def getChunkTopics():
     cf = open(conceptFile[:-2] + ".txt", "wb")
 
     for conceptDoc in concepts.getConcepts().values():
+        logger.info("len %d" % len(conceptDoc.getConcepts()))
         if len(conceptDoc.getConcepts()) > 1:
             logger.debug("%d:%s" % (len(conceptDoc.getConcepts()), conceptDoc.name))
             listTopics.append((len(conceptDoc.getConcepts()), conceptDoc))

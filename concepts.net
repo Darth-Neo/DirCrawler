@@ -1,0 +1,491 @@
+*vertices 232
+1 code 0.0 0.0 ellipse count 1 typeName BWord
+2 .). 0.0 0.0 ellipse count 1 typeName BWord
+3 office 0.0 0.0 ellipse count 1 typeName BWord
+4 supported 0.0 0.0 ellipse count 1 typeName BWord
+5 trade 0.0 0.0 ellipse count 1 typeName BWord
+6 including 0.0 0.0 ellipse count 1 typeName TWord
+7 managed 0.0 0.0 ellipse count 1 typeName TWord
+8 rooming 0.0 0.0 ellipse count 1 typeName BWord
+9 availability 0.0 0.0 ellipse count 1 typeName TWord
+10 principal 0.0 0.0 ellipse count 1 typeName TWord
+11 content 0.0 0.0 ellipse count 1 typeName TWord
+12 group 0.0 0.0 ellipse count 1 typeName BWord
+13 mix 0.0 0.0 ellipse count 1 typeName BWord
+14 guaranteed 0.0 0.0 ellipse count 1 typeName TWord
+15 operational 0.0 0.0 ellipse count 1 typeName BWord
+16 platform 0.0 0.0 ellipse count 1 typeName BWord
+17 charge 0.0 0.0 ellipse count 1 typeName BWord
+18 program 0.0 0.0 ellipse count 1 typeName BWord
+19 cardholder 0.0 0.0 ellipse count 1 typeName BWord
+20 role 0.0 0.0 ellipse count 1 typeName TWord
+21 local 0.0 0.0 ellipse count 1 typeName TWord
+22 smart 0.0 0.0 ellipse count 1 typeName BWord
+23 real 0.0 0.0 ellipse count 1 typeName BWord
+24 customer 0.0 0.0 ellipse count 1 typeName TWord
+25 non 0.0 0.0 ellipse count 1 typeName TWord
+26 confirmation 0.0 0.0 ellipse count 1 typeName BWord
+27 risk 0.0 0.0 ellipse count 1 typeName BWord
+28 permission 0.0 0.0 ellipse count 1 typeName BWord
+29 bid 0.0 0.0 ellipse count 1 typeName BWord
+30 grid 0.0 0.0 ellipse count 1 typeName BWord
+31 desk 0.0 0.0 ellipse count 1 typeName BWord
+32 front 0.0 0.0 ellipse count 1 typeName BWord
+33 rotation 0.0 0.0 ellipse count 1 typeName BWord
+34 existing 0.0 0.0 ellipse count 1 typeName TWord
+35 target 0.0 0.0 ellipse count 1 typeName BWord
+36 resource 0.0 0.0 ellipse count 1 typeName TWord
+37 level 0.0 0.0 ellipse count 1 typeName TWord
+38 fully 0.0 0.0 ellipse count 1 typeName BWord
+39 cell 0.0 0.0 ellipse count 1 typeName BWord
+40 list 0.0 0.0 ellipse count 1 typeName BWord
+41 solution 0.0 0.0 ellipse count 1 typeName BWord
+42 method 0.0 0.0 ellipse count 1 typeName BWord
+43 capability 0.0 0.0 ellipse count 1 typeName BWord
+44 bag 0.0 0.0 ellipse count 1 typeName BWord
+45 architecture 0.0 0.0 ellipse count 1 typeName BWord
+46 wish 0.0 0.0 ellipse count 1 typeName BWord
+47 security 0.0 0.0 ellipse count 1 typeName BWord
+48 inspection 0.0 0.0 ellipse count 1 typeName BWord
+49 cro 0.0 0.0 ellipse count 1 typeName BWord
+50 view 0.0 0.0 ellipse count 1 typeName TWord
+51 status 0.0 0.0 ellipse count 1 typeName TWord
+52 right 0.0 0.0 ellipse count 1 typeName TWord
+53 back 0.0 0.0 ellipse count 1 typeName BWord
+54 rate 0.0 0.0 ellipse count 1 typeName TWord
+55 cost 0.0 0.0 ellipse count 1 typeName BWord
+56 static 0.0 0.0 ellipse count 1 typeName BWord
+57 pricing 0.0 0.0 ellipse count 1 typeName TWord
+58 event 0.0 0.0 ellipse count 1 typeName BWord
+59 special 0.0 0.0 ellipse count 1 typeName TWord
+60 facing 0.0 0.0 ellipse count 1 typeName TWord
+61 lead 0.0 0.0 ellipse count 1 typeName TWord
+62 space 0.0 0.0 ellipse count 1 typeName BWord
+63 cleanliness 0.0 0.0 ellipse count 1 typeName TWord
+64 cleaning 0.0 0.0 ellipse count 1 typeName BWord
+65 per 0.0 0.0 ellipse count 1 typeName TWord
+66 label 0.0 0.0 ellipse count 1 typeName BWord
+67 access 0.0 0.0 ellipse count 1 typeName TWord
+68 state 0.0 0.0 ellipse count 1 typeName TWord
+69 dlp 0.0 0.0 ellipse count 1 typeName TWord
+70 connecting 0.0 0.0 ellipse count 1 typeName BWord
+71 routing 0.0 0.0 ellipse count 1 typeName BWord
+72 channel 0.0 0.0 ellipse count 1 typeName BWord
+73 provider 0.0 0.0 ellipse count 1 typeName TWord
+74 international 0.0 0.0 ellipse count 1 typeName TWord
+75 email 0.0 0.0 ellipse count 1 typeName BWord
+76 business 0.0 0.0 ellipse count 1 typeName BWord
+77 schedule 0.0 0.0 ellipse count 1 typeName BWord
+78 eligibility 0.0 0.0 ellipse count 1 typeName TWord
+79 component 0.0 0.0 ellipse count 1 typeName TWord
+80 night 0.0 0.0 ellipse count 1 typeName BWord
+81 modify 0.0 0.0 ellipse count 1 typeName BWord
+82 standard 0.0 0.0 ellipse count 1 typeName TWord
+83 discount 0.0 0.0 ellipse count 1 typeName TWord
+84 step 0.0 0.0 ellipse count 1 typeName BWord
+85 web 0.0 0.0 ellipse count 1 typeName BWord
+86 key 0.0 0.0 ellipse count 1 typeName TWord
+87 address 0.0 0.0 ellipse count 1 typeName BWord
+88 interface 0.0 0.0 ellipse count 1 typeName BWord
+89 based 0.0 0.0 ellipse count 1 typeName TWord
+90 post 0.0 0.0 ellipse count 1 typeName BWord
+91 card 0.0 0.0 ellipse count 1 typeName TWord
+92 additional 0.0 0.0 ellipse count 1 typeName TWord
+93 definition 0.0 0.0 ellipse count 1 typeName TWord
+94 central 0.0 0.0 ellipse count 1 typeName BWord
+95 billing 0.0 0.0 ellipse count 1 typeName BWord
+96 rigorously 0.0 0.0 ellipse count 1 typeName BWord
+97 reason 0.0 0.0 ellipse count 1 typeName BWord
+98 foreign 0.0 0.0 ellipse count 1 typeName BWord
+99 queue 0.0 0.0 ellipse count 1 typeName BWord
+100 etc 0.0 0.0 ellipse count 1 typeName BWord
+101 amount 0.0 0.0 ellipse count 1 typeName BWord
+102 guest 0.0 0.0 ellipse count 1 typeName BWord
+103 party 0.0 0.0 ellipse count 1 typeName BWord
+104 wdw 0.0 0.0 ellipse count 1 typeName BWord
+105 exceeds 0.0 0.0 ellipse count 1 typeName TWord
+106 delete 0.0 0.0 ellipse count 1 typeName TWord
+107 user 0.0 0.0 ellipse count 1 typeName TWord
+108 via 0.0 0.0 ellipse count 1 typeName TWord
+109 followed 0.0 0.0 ellipse count 1 typeName TWord
+110 revenue 0.0 0.0 ellipse count 1 typeName BWord
+111 manage 0.0 0.0 ellipse count 1 typeName TWord
+112 number 0.0 0.0 ellipse count 1 typeName BWord
+113 logical 0.0 0.0 ellipse count 1 typeName TWord
+114 one 0.0 0.0 ellipse count 1 typeName TWord
+115 phase 0.0 0.0 ellipse count 1 typeName BWord
+116 vip 0.0 0.0 ellipse count 1 typeName TWord
+117 another 0.0 0.0 ellipse count 1 typeName TWord
+118 registration 0.0 0.0 ellipse count 1 typeName TWord
+119 message 0.0 0.0 ellipse count 1 typeName BWord
+120 establish 0.0 0.0 ellipse count 1 typeName BWord
+121 attendant 0.0 0.0 ellipse count 1 typeName BWord
+122 market 0.0 0.0 ellipse count 1 typeName BWord
+123 receivable 0.0 0.0 ellipse count 1 typeName BWord
+124 use 0.0 0.0 ellipse count 1 typeName BWord
+125 management 0.0 0.0 ellipse count 1 typeName TWord
+126 described 0.0 0.0 ellipse count 1 typeName BWord
+127 log 0.0 0.0 ellipse count 1 typeName BWord
+128 service 0.0 0.0 ellipse count 1 typeName BWord
+129 unknown 0.0 0.0 ellipse count 1 typeName TWord
+130 create 0.0 0.0 ellipse count 2 typeName TWord
+131 occupancy 0.0 0.0 ellipse count 1 typeName BWord
+132 next 0.0 0.0 ellipse count 1 typeName BWord
+133 process 0.0 0.0 ellipse count 1 typeName TWord
+134 duplicate 0.0 0.0 ellipse count 1 typeName BWord
+135 master 0.0 0.0 ellipse count 1 typeName BWord
+136 maintenance 0.0 0.0 ellipse count 1 typeName TWord
+137 white 0.0 0.0 ellipse count 1 typeName BWord
+138 type 0.0 0.0 ellipse count 1 typeName TWord
+139 dnx 0.0 0.0 ellipse count 1 typeName BWord
+140 medium 0.0 0.0 ellipse count 1 typeName BWord
+141 easy 0.0 0.0 ellipse count 1 typeName BWord
+142 hub 0.0 0.0 ellipse count 1 typeName BWord
+143 offer 0.0 0.0 ellipse count 1 typeName BWord
+144 hotel 0.0 0.0 ellipse count 1 typeName TWord
+145 gap 0.0 0.0 ellipse count 1 typeName BWord
+146 phone 0.0 0.0 ellipse count 1 typeName BWord
+147 task 0.0 0.0 ellipse count 1 typeName BWord
+148 external 0.0 0.0 ellipse count 1 typeName TWord
+149 housekeeping 0.0 0.0 ellipse count 1 typeName BWord
+150 case 0.0 0.0 ellipse count 1 typeName BWord
+151 account 0.0 0.0 ellipse count 1 typeName TWord
+152 traced 0.0 0.0 ellipse count 1 typeName BWord
+153 room 0.0 0.0 ellipse count 1 typeName TWord
+154 intuitive 0.0 0.0 ellipse count 1 typeName TWord
+155 prevent 0.0 0.0 ellipse count 1 typeName BWord
+156 meeting 0.0 0.0 ellipse count 1 typeName BWord
+157 setup 0.0 0.0 ellipse count 1 typeName TWord
+158 work 0.0 0.0 ellipse count 1 typeName BWord
+159 cash 0.0 0.0 ellipse count 1 typeName BWord
+160 record 0.0 0.0 ellipse count 1 typeName TWord
+161 individual 0.0 0.0 ellipse count 1 typeName TWord
+162 limit 0.0 0.0 ellipse count 1 typeName BWord
+163 historical 0.0 0.0 ellipse count 1 typeName TWord
+164 error 0.0 0.0 ellipse count 1 typeName BWord
+165 growing 0.0 0.0 ellipse count 1 typeName BWord
+166 distribution 0.0 0.0 ellipse count 1 typeName BWord
+167 property 0.0 0.0 ellipse count 1 typeName TWord
+168 display 0.0 0.0 ellipse count 1 typeName TWord
+169 history 0.0 0.0 ellipse count 1 typeName TWord
+170 layer 0.0 0.0 ellipse count 1 typeName BWord
+171 defined 0.0 0.0 ellipse count 1 typeName TWord
+172 attribute 0.0 0.0 ellipse count 1 typeName TWord
+173 share 0.0 0.0 ellipse count 1 typeName TWord
+174 agent 0.0 0.0 ellipse count 1 typeName BWord
+175 general 0.0 0.0 ellipse count 1 typeName BWord
+176 high 0.0 0.0 ellipse count 1 typeName BWord
+177 currency 0.0 0.0 ellipse count 1 typeName BWord
+178 enable 0.0 0.0 ellipse count 1 typeName TWord
+179 rule 0.0 0.0 ellipse count 1 typeName BWord
+180 slip 0.0 0.0 ellipse count 1 typeName BWord
+181 partner 0.0 0.0 ellipse count 1 typeName BWord
+182 check 0.0 0.0 ellipse count 1 typeName TWord
+183 physical 0.0 0.0 ellipse count 1 typeName TWord
+184 information 0.0 0.0 ellipse count 1 typeName TWord
+185 folio 0.0 0.0 ellipse count 1 typeName TWord
+186 pas 0.0 0.0 ellipse count 1 typeName BWord
+187 offering 0.0 0.0 ellipse count 1 typeName BWord
+188 credit 0.0 0.0 ellipse count 1 typeName BWord
+189 provide 0.0 0.0 ellipse count 1 typeName TWord
+190 travel 0.0 0.0 ellipse count 1 typeName BWord
+191 ledger 0.0 0.0 ellipse count 1 typeName BWord
+192 also 0.0 0.0 ellipse count 1 typeName BWord
+193 book 0.0 0.0 ellipse count 1 typeName TWord
+194 functionality 0.0 0.0 ellipse count 1 typeName BWord
+195 inventory 0.0 0.0 ellipse count 1 typeName TWord
+196 digital 0.0 0.0 ellipse count 1 typeName BWord
+197 am_maintain 0.0 0.0 ellipse count 1 typeName BWord
+198 several 0.0 0.0 ellipse count 1 typeName TWord
+199 conflict 0.0 0.0 ellipse count 1 typeName TWord
+200 stock 0.0 0.0 ellipse count 1 typeName TWord
+201 profile 0.0 0.0 ellipse count 1 typeName BWord
+202 product 0.0 0.0 ellipse count 1 typeName BWord
+203 multiple 0.0 0.0 ellipse count 1 typeName TWord
+204 price 0.0 0.0 ellipse count 1 typeName TWord
+205 reporting 0.0 0.0 ellipse count 1 typeName BWord
+206 upon 0.0 0.0 ellipse count 1 typeName TWord
+207 update 0.0 0.0 ellipse count 1 typeName TWord
+208 bundle 0.0 0.0 ellipse count 1 typeName BWord
+209 stay 0.0 0.0 ellipse count 1 typeName TWord
+210 plan 0.0 0.0 ellipse count 1 typeName BWord
+211 letter 0.0 0.0 ellipse count 1 typeName BWord
+212 included 0.0 0.0 ellipse count 1 typeName BWord
+213 reservation 0.0 0.0 ellipse count 1 typeName BWord
+214 data 0.0 0.0 ellipse count 1 typeName BWord
+215 payment 0.0 0.0 ellipse count 1 typeName TWord
+216 standalone 0.0 0.0 ellipse count 1 typeName BWord
+217 audit 0.0 0.0 ellipse count 1 typeName BWord
+218 reimbursement 0.0 0.0 ellipse count 1 typeName TWord
+219 transaction 0.0 0.0 ellipse count 1 typeName BWord
+220 remote 0.0 0.0 ellipse count 1 typeName BWord
+221 center 0.0 0.0 ellipse count 1 typeName BWord
+222 third 0.0 0.0 ellipse count 1 typeName BWord
+223 gather 0.0 0.0 ellipse count 1 typeName TWord
+224 request 0.0 0.0 ellipse count 1 typeName BWord
+225 sale 0.0 0.0 ellipse count 1 typeName BWord
+226 analysis 0.0 0.0 ellipse count 1 typeName BWord
+227 contact 0.0 0.0 ellipse count 1 typeName BWord
+228 mass 0.0 0.0 ellipse count 1 typeName BWord
+229 deposit 0.0 0.0 ellipse count 1 typeName BWord
+230 allow 0.0 0.0 ellipse count 1 typeName BWord
+231 time 0.0 0.0 ellipse count 1 typeName BWord
+232 model 0.0 0.0 ellipse count 1 typeName BWord
+*edges
+1 97 1.0
+1 111 1.0
+2 100 1.0
+3 53 1.0
+4 38 1.0
+5 181 1.0
+6 204 1.0
+6 214 1.0
+7 202 1.0
+8 40 1.0
+9 189 1.0
+10 88 1.0
+11 125 1.0
+12 213 1.0
+12 111 1.0
+12 135 1.0
+12 107 1.0
+12 109 1.0
+13 103 1.0
+14 138 1.0
+14 153 1.0
+15 205 1.0
+16 196 1.0
+17 178 1.0
+17 153 1.0
+17 129 1.0
+17 144 1.0
+17 54 1.0
+17 71 1.0
+17 90 1.0
+17 91 1.0
+18 202 1.0
+19 214 1.0
+20 206 1.0
+21 207 1.0
+21 102 1.0
+22 140 1.0
+23 111 1.0
+23 231 1.0
+24 125 1.0
+25 153 1.0
+25 82 1.0
+26 211 1.0
+27 176 1.0
+28 47 1.0
+29 204 1.0
+30 54 1.0
+31 32 1.0
+33 77 1.0
+34 213 1.0
+35 45 1.0
+36 125 1.0
+37 176 1.0
+37 202 1.0
+39 146 1.0
+41 125 1.0
+41 122 1.0
+42 215 1.0
+43 125 1.0
+43 232 1.0
+43 167 1.0
+44 159 1.0
+46 190 1.0
+48 210 1.0
+49 85 1.0
+50 51 1.0
+50 213 1.0
+51 89 1.0
+51 153 1.0
+51 63 1.0
+51 111 1.0
+51 131 1.0
+51 199 1.0
+52 67 1.0
+52 125 1.0
+54 153 1.0
+55 221 1.0
+56 130 1.0
+56 208 1.0
+57 202 1.0
+57 157 1.0
+58 227 1.0
+59 67 1.0
+59 95 1.0
+59 143 1.0
+60 205 1.0
+60 102 1.0
+61 133 1.0
+62 156 1.0
+63 153 1.0
+64 210 1.0
+64 77 1.0
+65 151 1.0
+65 112 1.0
+66 137 1.0
+67 220 1.0
+67 107 1.0
+68 89 1.0
+68 153 1.0
+69 213 1.0
+69 125 1.0
+70 111 1.0
+70 153 1.0
+72 166 1.0
+73 215 1.0
+74 214 1.0
+74 102 1.0
+75 87 1.0
+76 179 1.0
+78 202 1.0
+78 179 1.0
+79 202 1.0
+80 217 1.0
+81 228 1.0
+82 195 1.0
+82 153 1.0
+83 111 1.0
+83 179 1.0
+84 132 1.0
+86 189 1.0
+88 107 1.0
+88 154 1.0
+89 213 1.0
+89 206 1.0
+89 107 1.0
+91 188 1.0
+91 118 1.0
+91 102 1.0
+91 213 1.0
+92 224 1.0
+93 202 1.0
+93 157 1.0
+93 179 1.0
+94 213 1.0
+95 201 1.0
+96 152 1.0
+98 177 1.0
+99 158 1.0
+101 165 1.0
+102 184 1.0
+102 151 1.0
+102 125 1.0
+102 127 1.0
+102 218 1.0
+102 189 1.0
+102 111 1.0
+102 224 1.0
+102 185 1.0
+102 112 1.0
+102 160 1.0
+102 116 1.0
+102 148 1.0
+102 118 1.0
+102 214 1.0
+102 168 1.0
+103 222 1.0
+103 142 1.0
+104 124 1.0
+105 138 1.0
+105 153 1.0
+106 151 1.0
+107 151 1.0
+107 125 1.0
+107 206 1.0
+107 108 1.0
+107 230 1.0
+108 117 1.0
+110 202 1.0
+110 125 1.0
+111 153 1.0
+111 128 1.0
+111 218 1.0
+111 129 1.0
+111 148 1.0
+111 131 1.0
+111 219 1.0
+111 161 1.0
+111 200 1.0
+111 163 1.0
+111 172 1.0
+111 213 1.0
+111 198 1.0
+111 214 1.0
+112 146 1.0
+113 153 1.0
+113 195 1.0
+114 185 1.0
+115 139 1.0
+116 182 1.0
+119 160 1.0
+119 164 1.0
+120 188 1.0
+121 149 1.0
+123 151 1.0
+124 150 1.0
+125 202 1.0
+125 133 1.0
+125 204 1.0
+125 209 1.0
+125 147 1.0
+125 194 1.0
+125 167 1.0
+125 195 1.0
+126 194 1.0
+127 219 1.0
+127 128 1.0
+128 170 1.0
+128 204 1.0
+128 224 1.0
+128 185 1.0
+128 179 1.0
+128 148 1.0
+128 215 1.0
+130 202 1.0
+130 207 1.0
+131 153 1.0
+134 155 1.0
+134 213 1.0
+136 161 1.0
+138 171 1.0
+138 153 1.0
+141 186 1.0
+144 189 1.0
+145 226 1.0
+150 197 1.0
+153 189 1.0
+153 171 1.0
+153 172 1.0
+153 161 1.0
+153 195 1.0
+153 193 1.0
+153 183 1.0
+157 202 1.0
+157 207 1.0
+162 188 1.0
+163 214 1.0
+168 169 1.0
+169 189 1.0
+169 213 1.0
+173 213 1.0
+174 190 1.0
+175 191 1.0
+178 188 1.0
+179 202 1.0
+179 225 1.0
+180 229 1.0
+182 188 1.0
+183 195 1.0
+184 189 1.0
+184 223 1.0
+185 215 1.0
+187 195 1.0
+189 213 1.0
+192 212 1.0
+193 203 1.0
+202 207 1.0
+202 216 1.0

@@ -9,7 +9,7 @@ from nl_phase_a_DirCrawl import *
 from nl_phase_b_CreateChunks import *
 from nl_phase_c_ChunkTopics import *
 from nl_phase_e_Chunk_Topics import *
-
+from nl_phase_f_graph_concepts import *
 import time
 
 logger = Logger.setupLogging(__name__)
@@ -39,6 +39,8 @@ def nl_phases():
 
     getChunkTopics()
 
+    graphConcepts()
+    
 if __name__ == "__main__":
     nl_phases()
     

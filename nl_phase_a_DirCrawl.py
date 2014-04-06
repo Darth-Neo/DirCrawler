@@ -9,10 +9,6 @@ logger = Logger.setupLogging(__name__)
 
 from nl_lib import Constants
 from nl_lib import Concepts 
-#from nl_lib import PeopleText
-#from nl_lib import Tokens
-#from nltk.corpus import stopwords
-#from nltk import tokenize
 
 from pptx import Presentation
 from docx import opendocx, getdocumenttext
@@ -29,7 +25,7 @@ def getPDFText(filename):
     for page in input.pages:
         text = page.extractText()
         logger.debug("PDF : %s" % text)
-        newparatextlist.append(text)
+        newparatextlist.append(text + ". ")
 
     return newparatextlist
 
@@ -47,7 +43,8 @@ def getPPTXText(filename):
             for paragraph in shape.textframe.paragraphs:
                 for run in paragraph.runs:
                     logger.debug("PPTX : %s" % run.text)
-                    newparatextlist.append(run.text)
+                    if run.text != None:
+                        newparatextlist.append(run.text + ". ")
 
     return newparatextlist
 
@@ -80,7 +77,7 @@ def getXLSText(filename):
                 cell_value = worksheet.cell_value(curr_row, curr_cell)
                 if cell_type == 1:
                     logger.debug("XLXS : %s" % cell_value)
-                    newparatextlist.append(cell_value)
+                    newparatextlist.append(cell_value + ". ")
 
     return newparatextlist
 
@@ -96,7 +93,7 @@ def getDOCXText(filename):
     newparatextlist = []
     for paratext in paratextlist:
         logger.debug("DOCX : %s" % paratext)
-        newparatextlist.append(paratext)
+        newparatextlist.append(paratext + ". ")
         
     return newparatextlist
 
@@ -136,8 +133,8 @@ def searchSubDir(subdir):
   
 if __name__ == '__main__':  
     # Set the directory you want to start from
-    rootDir = "C:\\Users\\morrj140\\Documents\\System Architecture"
-    #rootDir = "C:\\Users\\morrj140\\Documents\\System Architecture\\Accovia"
+    #rootDir = "C:\\Users\\morrj140\\Documents\\System Architecture"
+    rootDir = "C:\\Users\\morrj140\\Documents\\System Architecture\\Accovia"
     #rootDir = "C:\\Users\morrj140\\Documents\\System Architecture\\OneSourceDocumentation"
     
     searchSubDir(rootDir)
