@@ -12,6 +12,8 @@ logger = Logger.setupLogging(__name__)
 
 def createGraph(graph, concepts):
     for c in concepts.getConcepts().values():
+        logger.info("Node c : %s" % c.name)
+        graph.addConcepts(c)
         for d in c.getConcepts().values():
             logger.info("Node d : %s" % d.name)
             graph.addConcepts(d)
@@ -22,10 +24,11 @@ def createGraph(graph, concepts):
         for d in c.getConcepts().values():
             logger.info("Edge d : %s" % d.name)
             if i == 0:
-                parentNode = d
+                parentNode = c
+                graph.addEdge(parentNode, d)
             else:
                 graph.addEdge(parentNode, d)
-                logger.info("Edge %s-%s" % (parentNode.name, d.name))
+            logger.info("Edge %s-%s" % (parentNode.name, d.name))
             i += 1
 
 def graphConcepts():
@@ -34,11 +37,12 @@ def graphConcepts():
     #listConceptFile.append("documents.p")
     #listConceptFile.append("NVPChunks.p")
     #listConceptFile.append("TopicChunks.p")
-    #listConceptFile.append("chunks.p")
+    listConceptFile.append("chunks.p")
     #listConceptFile.append("topicsDict.p")
     #listConceptFile.append("TopicChunks.p")
-    listConceptFile.append("ngrams.p")
+    #listConceptFile.append("ngrams.p")
     #listConceptFile.append("ngramscore.p")
+    listConceptFile.append("ngramsubject.p")
 
     for conceptFile in listConceptFile:
         logger.info("Loadng :" + conceptFile)
@@ -56,6 +60,7 @@ def graphConcepts():
         logger.info("Saving Graph - %s" % filename)
         graph.saveGraphPajek(filename)
         graph.saveGraph("concepts.gml")
+        logger.info("Saving Graph - %s" % "concepts.gml")
         
     if isinstance(graph, PatternGraph):
         #graph.g.remove("ProjectConceptsSimilarity")

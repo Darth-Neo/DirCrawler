@@ -14,7 +14,7 @@ from nltk import tokenize, tag, chunk
 from nltk.corpus import wordnet as wn
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer, WordNetLemmatizer
-
+from nltk.tokenize import RegexpTokenizer
 from pattern.vector import count, words, PORTER, LEMMA
 from pattern.vector import Document, Model, TFIDF, HIERARCHICAL
 from pattern.vector import Vector, distance, NB
@@ -45,6 +45,7 @@ def createChunks():
 
     stemmer = PorterStemmer()
     lemmatizer = WordNetLemmatizer()
+    tokenizer = RegexpTokenizer("[\w]+")
     
     for document in concepts.getConcepts().values():
         logger.info("%s" % document.name)
@@ -55,8 +56,8 @@ def createChunks():
             cleanSentence = ' '.join([word for word in sentence.name.split() if word not in stop])
 
             listSentence = list()
-            
-            for word, pos in nltk.pos_tag(nltk.wordpunct_tokenize(cleanSentence)):
+
+            for word, pos in nltk.pos_tag(nltk.wordpunct_tokenize(cleanSentence)):                
                 logger.debug("Word: " + word + " POS: " + pos)
 
                 if pos[:1] == "N":
@@ -81,7 +82,7 @@ def createChunks():
                         else:
                             hyponyms = None
                             
-                        listSentence.append((word, lemmaWord, root, hypernyms, hyponyms))
+                        listSentence.append((word, lemmaWord, pos, root, hypernyms, hyponyms))
 
             nounSentence = ""
             for word in listSentence:
@@ -91,7 +92,7 @@ def createChunks():
                 e = d.addConceptKeyType(nounSentence, "NounSentence")
 
                 for word in listSentence:
-                    f = e.addConceptKeyType(word[0], "Word")
+                    f = e.addConceptKeyType(word[0], word[2])
                     f.addConceptKeyType(word[1], "Lemma")
                 
             pt = parsetree(cleanSentence, relations=True, lemmata=True)
@@ -125,12 +126,12 @@ def createChunks():
                                     logger.debug("Verb   : %s " % verb.string)
                                     g = f.addConceptKeyType(verb.string, "VP")
 
-                                for obj in sentence.objects:
-                                    if obj.relation == verb.relation:
-                                        logger.debug("Obj.realtion : %s " % obj.relation)
-                                        logger.debug("Object : %s " % obj.string)
-                                        g.addConceptKeyType(obj.string, "OBJ")
-                    
+                                    for obj in sentence.objects:
+                                        if obj.relation == verb.relation:
+                                            logger.debug("Obj.realtion : %s " % obj.relation)
+                                            logger.debug("Object : %s " % obj.string)
+                                            g.addConceptKeyType(obj.string, "OBJ")
+                        
     Concepts.saveConcepts(chunkConcepts, "chunks.p")
 
 if __name__ == "__main__":

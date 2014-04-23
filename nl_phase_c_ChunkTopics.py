@@ -54,6 +54,5 @@ def createChunkTopics(conceptFile):
 
 if __name__ == "__main__":
     createChunkTopics("chunks.p")
-
-
+    
 

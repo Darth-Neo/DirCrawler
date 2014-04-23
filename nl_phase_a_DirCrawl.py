@@ -68,7 +68,7 @@ def getXLSText(filename):
         while curr_row < num_rows:
             curr_row += 1
             row = worksheet.row(curr_row)
-            # print 'Row:', curr_row
+            logger.info('Row: %s' % curr_row)
             curr_cell = -1
             while curr_cell < num_cells:
                 curr_cell += 1
@@ -76,7 +76,7 @@ def getXLSText(filename):
                 cell_type = worksheet.cell_type(curr_row, curr_cell)
                 cell_value = worksheet.cell_value(curr_row, curr_cell)
                 if cell_type == 1:
-                    logger.debug("XLXS : %s" % cell_value)
+                    logger.info("XLXS : %s" % cell_value)
                     newparatextlist.append(cell_value + ". ")
 
     return newparatextlist
@@ -100,15 +100,18 @@ def getDOCXText(filename):
 def getConcepts(fname, d):
     listText = list()
 
-    if fname[-5:] == ".docx":
-        listText = getDOCXText(fname)
-    elif fname[-5:] == ".pptx":
-        listText = getPPTXText(fname)
-    elif fname[-5:] == ".xlsx":
-        listText = getXLSText(fname)
-    elif fname[-4:] == ".pdf":
-        listText = getPDFText(fname)
-   
+    try:
+        if fname[-5:] == ".docx":
+            listText = getDOCXText(fname)
+        elif fname[-5:] == ".pptx":
+            listText = getPPTXText(fname)
+        elif fname[-5:] == ".xlsx":
+            listText = getXLSText(fname)
+        elif fname[-4:] == ".pdf":
+            listText = getPDFText(fname)
+    except:
+        pass
+    
     for t in listText:
         if t != None:
             sentence = t.strip()
@@ -134,8 +137,10 @@ def searchSubDir(subdir):
 if __name__ == '__main__':  
     # Set the directory you want to start from
     #rootDir = "C:\\Users\\morrj140\\Documents\\System Architecture"
-    rootDir = "C:\\Users\\morrj140\\Documents\\System Architecture\\Accovia"
+    rootDir = "C:\\Users\\morrj140\\Documents\\System Architecture\\\AccoviaReplacement"
+    #rootDir = "C:\\Users\\morrj140\\Dev\\GitRepository\\DirCrawler\\product_types"
     #rootDir = "C:\\Users\morrj140\\Documents\\System Architecture\\OneSourceDocumentation"
+    #rootDir = "C:\\Users\\morrj140\\Documents\\System Architecture\\AccoviaReplacement\\ProductProgram\\functionality"
     
     searchSubDir(rootDir)
 

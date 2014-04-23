@@ -17,10 +17,8 @@ from nltk.corpus import wordnet as wn
 from nltk.stem import PorterStemmer, WordNetLemmatizer
 
 logger = Logger.setupLogging(__name__)
-   
-if __name__ == "__main__":
-    conceptFile = "documents.p"
 
+def find_collocations(conceptFile):
     stop = stopwords.words('english')
     stop.append("This")
     stop.append("The")
@@ -28,6 +26,8 @@ if __name__ == "__main__":
     stop.append(".")
     stop.append("..")
     stop.append("...")
+    stop.append("...).")
+    stop.append("\")..")
     stop.append(".")
     stop.append(";")
     stop.append("/")
@@ -72,18 +72,18 @@ if __name__ == "__main__":
         concept = ' '.join([bg for bg in bigram])
         e = conceptNGram.addConceptKeyType(concept, "BiGram")
         logger.info("Bigram  : %s" % concept)
-        for x in concept.split():
-            e.addConceptKeyType(x, "BWord")
+        for word, pos in nltk.pos_tag(nltk.wordpunct_tokenize(concept)):
+            e.addConceptKeyType(word, pos)
 
     listTCF = tcf.nbest(TrigramAssocMeasures.likelihood_ratio, 100)
 
     for trigram in listTCF:
         concept = ' '.join([bg for bg in trigram])
         e = conceptNGram.addConceptKeyType(concept, "TriGram")
-        for x in concept.split():
-            e.addConceptKeyType(x, "TWord")
         logger.info("Trigram : %s" % concept)
-
+        for word, pos in nltk.pos_tag(nltk.wordpunct_tokenize(concept)):
+            e.addConceptKeyType(word, pos)
+        
     conceptScore = Concepts("NGram_Score", "Score")
 
     bcfscored = bcf.score_ngrams(BigramAssocMeasures.likelihood_ratio)
@@ -95,7 +95,7 @@ if __name__ == "__main__":
         for x in score[0]:
             e.addConceptKeyType(x, "BWord")
         e.count = count
-        logger.info("bcfscored: %s=%s" % (name, count))
+        logger.debug("bcfscored: %s=%s" % (name, count))
 
     tcfscored = tcf.score_ngrams(TrigramAssocMeasures.likelihood_ratio)
     lt = sorted(tcfscored, key=lambda c: c[1], reverse=True)
@@ -106,7 +106,20 @@ if __name__ == "__main__":
         for x in score[0]:
             e.addConceptKeyType(x, "TWord")
         e.count = count
-        logger.info("tcfscored: %s = %s" % (name, count))
+        logger.debug("tcfscored: %s = %s" % (name, count))
 
     Concepts.saveConcepts(conceptScore, "ngramscore.p")
     Concepts.saveConcepts(conceptNGram, "ngrams.p")
+
+    conceptSubject = Concepts("Subject", "Subjects")
+    for concept in conceptNGram.getConcepts().values():
+        for word, pos in nltk.pos_tag(nltk.wordpunct_tokenize(concept.name)):
+            if pos[0] == "N":
+                e = conceptSubject.addConceptKeyType(word, pos)
+                e.addConceptKeyType(concept.name, "NGRAM")
+
+    Concepts.saveConcepts(conceptSubject, "ngramsubject.p")
+
+if __name__ == "__main__":
+    conceptFile = "documents.p"
+    find_collocations(conceptFile)

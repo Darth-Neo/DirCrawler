@@ -14,18 +14,19 @@ if __name__ == "__main__":
     #conceptFile = "chunks.p"
     #conceptFile = "topicsDict.p"
     #conceptFile = "TopicChunks.p"
-    conceptFile = "ngrams.p"
+    #conceptFile = "ngrams.p"
     #conceptFile = "ngramscore.p"
+    conceptFile = "ngramsubject.p"
     
     logger.info("Loading :" + os.getcwd() + os.sep + conceptFile)
     concepts = Concepts.loadConcepts(conceptFile)
 
     listTopics = list()
 
-    if conceptFile == "TopicChunks.p":
+    if True:
         cf = open(conceptFile[:-2] + ".txt", "wb")
  
-        cf.write("Concepts from %s" % conceptFile)
+        cf.write("Concepts from %s%s" % (conceptFile, os.linesep))
         for conceptDoc in concepts.getConcepts().values():
            for concept in conceptDoc.getConcepts().values():
                logger.info(concept.name)
@@ -45,6 +46,8 @@ if __name__ == "__main__":
         for x in lt:
             logger.info( x)
     else:
+        #for x in concepts.getConcepts().values():
+        #    logger.info( "%s" % x.name)
         concepts.logConcepts()
         #concepts.printConcepts()
     

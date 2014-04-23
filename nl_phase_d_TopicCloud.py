@@ -13,7 +13,12 @@ logger = Logger.setupLogging(__name__)
 def createTopicsCloud():
     logger.info("Starting Tag Cloud...")
 
+    #conceptFile = "topicsDict.p"
+    #conceptTopic = "Topic"
+    
     conceptFile = "TopicChunks.p"
+    conceptTopic = "SBJ"
+    
     
     logger.info("Loading Topics from : " + conceptFile)
     concepts = Concepts.loadConcepts(conceptFile)
@@ -28,7 +33,8 @@ def createTopicsCloud():
 
     logger.info("Create Tag Cloud")
 
-    tc.createCloudImage("TopicWord", size_x=1200, size_y=900, numWords=60)
+    # Note: the first parameter must match for a topic cloud image to be created!
+    tc.createCloudImage(conceptTopic, size_x=1200, size_y=900, numWords=100)
 
     logger.info("Complete createTopicsCloud")
 
