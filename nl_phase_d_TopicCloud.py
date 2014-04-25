@@ -34,7 +34,7 @@ def createTopicsCloud():
     logger.info("Create Tag Cloud")
 
     # Note: the first parameter must match for a topic cloud image to be created!
-    tc.createCloudImage(conceptTopic, size_x=1200, size_y=900, numWords=100)
+    tc.createCloudImage(conceptTopic, size_x=1200, size_y=900, numWords=50)
 
     logger.info("Complete createTopicsCloud")
 

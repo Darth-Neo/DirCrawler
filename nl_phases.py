@@ -16,6 +16,8 @@ import time
 logger = Logger.setupLogging(__name__)
 
 def nl_phases():
+    numFilesParsed = 0
+
     # measure process time
     t0 = time.clock()
 
@@ -27,24 +29,39 @@ def nl_phases():
     
     # Set the directory you want to start from
     #rootDir = "C:\\Users\\morrj140\\Documents\\System Architecture"
-    rootDir = "C:\\Users\\morrj140\\Documents\\System Architecture\\\AccoviaReplacement"
+    #rootDir = "C:\\Users\\morrj140\\Documents\\System Architecture\\\AccoviaReplacement"
     #rootDir = "C:\\Users\\morrj140\\Dev\\GitRepository\\DirCrawler\\product_types"
     #rootDir = "C:\\Users\morrj140\\Documents\\System Architecture\\OneSourceDocumentation"
     #rootDir = "C:\\Users\\morrj140\\Documents\\System Architecture\\AccoviaReplacement\\ProductProgram\\functionality"
+    #rootDir = "C:\\Users\\morrj140\\Dev\\GitRepository\\DirCrawler\\Issues"
+    rootDir = "C:\\Users\\morrj140\\Documents\\System Architecture\\AccoviaReplacement\\Product"
     
-    searchSubDir(rootDir)
+    numFilesParsed = searchSubDir(rootDir)
+    
+    logger.info("Documents Parsed = %d" % numFilesParsed)
 
     Concepts.saveConcepts(documentsConcepts, "documents.p")
-            
+    
+    logger.info("Create Chunks")        
     createChunks()
 
+    logger.info("find_collocations") 
     find_collocations("documents.p")
 
+    logger.info("getChunkTopics")
     getChunkTopics()
 
+    logger.info("graphConcepts")
     graphConcepts()
 
+    logger.info("createChunkTopics")
     createChunkTopics("chunks.p")
+
+    # measure process time
+    logger.info("Process Time = %s" % t0)
+
+    # measure wall time
+    logger.info("Wall Time = %s" % t1)
     
 if __name__ == "__main__":
     nl_phases()

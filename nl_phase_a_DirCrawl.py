@@ -18,7 +18,7 @@ from pyPdf import PdfFileReader
 documentsConcepts = Concepts.Concepts("DocumentConcepts", "Documents")
 
 def getPDFText(filename):
-    logger.info("filename: %s" % filename)
+    logger.debug("filename: %s" % filename)
     newparatextlist = []
 
     input = PdfFileReader(file(filename, "rb"))
@@ -30,7 +30,7 @@ def getPDFText(filename):
     return newparatextlist
 
 def getPPTXText(filename):
-    logger.info("filename: %s" % filename)
+    logger.debug("filename: %s" % filename)
     
     prs = Presentation(filename)
 
@@ -49,7 +49,7 @@ def getPPTXText(filename):
     return newparatextlist
 
 def getXLSText(filename):
-    logger.info("filename: %s" % filename)
+    logger.debug("filename: %s" % filename)
 
     newparatextlist = []
     workbook = xlrd.open_workbook(filename)
@@ -68,7 +68,7 @@ def getXLSText(filename):
         while curr_row < num_rows:
             curr_row += 1
             row = worksheet.row(curr_row)
-            logger.info('Row: %s' % curr_row)
+            logger.debug('Row: %s' % curr_row)
             curr_cell = -1
             while curr_cell < num_cells:
                 curr_cell += 1
@@ -76,13 +76,13 @@ def getXLSText(filename):
                 cell_type = worksheet.cell_type(curr_row, curr_cell)
                 cell_value = worksheet.cell_value(curr_row, curr_cell)
                 if cell_type == 1:
-                    logger.info("XLXS : %s" % cell_value)
+                    logger.debug("XLXS : %s" % cell_value)
                     newparatextlist.append(cell_value + ". ")
 
     return newparatextlist
 
 def getDOCXText(filename):
-    logger.info("filename: %s" % filename)
+    logger.debug("filename: %s" % filename)
 
     document = opendocx(filename)
     
@@ -99,24 +99,28 @@ def getDOCXText(filename):
 
 def getConcepts(fname, d):
     listText = list()
-
+    
     try:
         if fname[-5:] == ".docx":
             listText = getDOCXText(fname)
+            logger.info("++Parsing = %s" % fname) 
         elif fname[-5:] == ".pptx":
             listText = getPPTXText(fname)
+            logger.info("++Parsing = %s" % fname) 
         elif fname[-5:] == ".xlsx":
             listText = getXLSText(fname)
+            logger.info("++Parsing = %s" % fname) 
         elif fname[-4:] == ".pdf":
             listText = getPDFText(fname)
-    except:
-        pass
+            logger.info("++Parsing = %s" % fname) 
     
-    for t in listText:
-        if t != None:
-            sentence = t.strip()
-            logger.debug("Text : %s" % sentence)
-            d.addConceptKeyType(sentence, "Text")
+        for t in listText:
+            if t != None:
+                sentence = t.strip()
+                logger.debug("Text : %s" % sentence)
+                d.addConceptKeyType(sentence, "Text")
+    except:
+        logger.info("**Failed Parsing = %s" % fname)
         
     return listText
 
@@ -124,25 +128,37 @@ def checkFile(fname):
     logger.debug("filename: %s" % fname)
             
     d = documentsConcepts.addConceptKeyType(fname, "Document")
-    getConcepts(fname, d)
+    listText = getConcepts(fname, d)
 
     #logger.warn("File could not be parsed : %s" % fname)
+
+    if listText == None:
+        return 0
+    else:
+        return 1
             
 def searchSubDir(subdir):
+    numFilesParsed = 0
     for root, dirs, files in os.walk(subdir, topdown=False):
         for name in files:
             nameFile = os.path.join(root, name)
-            checkFile(nameFile)
-  
-if __name__ == '__main__':  
+            numFilesParsed += checkFile(nameFile)
+
+    return numFilesParsed
+
+if __name__ == '__main__':
+    numFilesParsed = 0
     # Set the directory you want to start from
     #rootDir = "C:\\Users\\morrj140\\Documents\\System Architecture"
-    rootDir = "C:\\Users\\morrj140\\Documents\\System Architecture\\\AccoviaReplacement"
+    #rootDir = "C:\\Users\\morrj140\\Documents\\System Architecture\\\AccoviaReplacement"
     #rootDir = "C:\\Users\\morrj140\\Dev\\GitRepository\\DirCrawler\\product_types"
     #rootDir = "C:\\Users\morrj140\\Documents\\System Architecture\\OneSourceDocumentation"
-    #rootDir = "C:\\Users\\morrj140\\Documents\\System Architecture\\AccoviaReplacement\\ProductProgram\\functionality"
+    rootDir = "C:\\Users\\morrj140\\Documents\\System Architecture\\AccoviaReplacement\\Product"
+    #rootDir = "C:\\Users\\morrj140\\Dev\\GitRepository\\DirCrawler\\Issues"
     
-    searchSubDir(rootDir)
+    numFilesParsed = searchSubDir(rootDir)
+    
+    logger.info("Documents Parsed = %d" % numFilesParsed)
 
     Concepts.Concepts.saveConcepts(documentsConcepts, "documents.p")
             

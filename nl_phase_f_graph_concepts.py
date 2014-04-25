@@ -37,7 +37,7 @@ def graphConcepts():
     #listConceptFile.append("documents.p")
     #listConceptFile.append("NVPChunks.p")
     #listConceptFile.append("TopicChunks.p")
-    listConceptFile.append("chunks.p")
+    #listConceptFile.append("chunks.p")
     #listConceptFile.append("topicsDict.p")
     #listConceptFile.append("TopicChunks.p")
     #listConceptFile.append("ngrams.p")
