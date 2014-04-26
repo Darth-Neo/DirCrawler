@@ -164,36 +164,38 @@ if __name__ == "__main__":
     chunkConcepts = Concepts("NVPChunk", "NVPChunks")
 
     for document in concepts.getConcepts().values():
+        logger.info("Document : %s" % document.name)
         d = chunkConcepts.addConceptKeyType(document.name, "Document") 
-        for x in document.getConcepts().values():
-            #print("x:%s(%s)" % (x.name, x.typeName))
+        for y in document.getConcepts().values():
+            for x in y.getConcepts().values():
+                #logger.info("x:%s(%s)" % (x.name, x.typeName))
 
-            cleanSentence = ' '.join([word for word in x.name.split() if word not in stop])
-      
-            pt = parsetree(cleanSentence, relations=True, lemmata=True)
+                cleanSentence = ' '.join([word for word in x.name.split() if word not in stop])
+          
+                pt = parsetree(cleanSentence, relations=True, lemmata=True)
 
-            #print("s: .%s." % pt)
+                #logger.info("s: .%s." % pt)
 
-            for sentence in pt:
-                #print("sentence: .%s.\n.%s.\nlen=%d" % (sentence, sentence.subjects, len(sentence.subjects)))
-                #printSentence(sentence)
+                for sentence in pt:
+                    #logger.info("sentence: .%s.\n.%s.\nlen=%d" % (sentence, sentence.subjects, len(sentence.subjects)))
+                    #printSentence(sentence)
 
-                #print ("relations: %s" % [x for x in sentence.relations])
-                #print ("subject  : %s" % [x for x in sentence.subjects])
-                #print ("verb     : %s" % [x for x in sentence.verbs])
-                #print ("object   : %s" % [x for x in sentence.objects])
-                
-                #print("%s.%s(%s)" % (subject, verb, predicate))
+                    #logger.info("relations: %s" % [x for x in sentence.relations])
+                    #logger.info("subject  : %s" % [x for x in sentence.subjects])
+                    #logger.info("verb     : %s" % [x for x in sentence.verbs])
+                    #logger.info("object   : %s" % [x for x in sentence.objects])
+                    
+                    #logger.info("%s.%s(%s)" % (subject, verb, predicate))
 
-                if sentence.subjects is not None and sentence.verbs is not None:
-                    dictChunks = dict()
-                    #print ("Sentence : %s" % sentence.chunks)
-                    for chunk in sentence.chunks:
-                        print("Chunk %s: .%s." % (chunk.type, chunk)) 
-                        for word in chunk.words:
-                            print("word: .%s." % (word)) 
+                    if sentence.subjects is not None and sentence.verbs is not None:
+                        dictChunks = dict()
+                        #logger.info("Sentence : %s" % sentence.chunks)
+                        for chunk in sentence.chunks:
+                            logger.info("Chunk %s: .%s." % (chunk.type, chunk)) 
+                            for word in chunk.words:
+                                logger.info("word: .%s." % (word)) 
 
-    #Concepts.saveConcepts(chunkConcepts, "NVPChunks.p")
+    Concepts.saveConcepts(chunkConcepts, "NVPChunks.p")
 
 
 

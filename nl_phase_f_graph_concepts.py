@@ -15,38 +15,24 @@ def createGraph(graph, concepts):
         logger.info("Node c : %s" % c.name)
         graph.addConcepts(c)
         for d in c.getConcepts().values():
-            logger.info("Node d : %s" % d.name)
+            logger.debug("Node d : %s" % d.name)
             graph.addConcepts(d)
 
     for c in concepts.getConcepts().values():
         i = 0
         logger.info("Edge c : %s" % c.name)
         for d in c.getConcepts().values():
-            logger.info("Edge d : %s" % d.name)
+            logger.debug("Edge d : %s" % d.name)
             if i == 0:
                 parentNode = c
                 graph.addEdge(parentNode, d)
             else:
                 graph.addEdge(parentNode, d)
-            logger.info("Edge %s-%s" % (parentNode.name, d.name))
+            logger.debug("Edge %s-%s" % (parentNode.name, d.name))
             i += 1
 
-def graphConcepts():
-    
-    listConceptFile = list()
-    #listConceptFile.append("documents.p")
-    #listConceptFile.append("NVPChunks.p")
-    #listConceptFile.append("TopicChunks.p")
-    #listConceptFile.append("chunks.p")
-    #listConceptFile.append("topicsDict.p")
-    #listConceptFile.append("TopicChunks.p")
-    listConceptFile.append("ngrams.p")
-    #listConceptFile.append("ngramscore.p")
-    listConceptFile.append("ngramsubject.p")
-
-    for conceptFile in listConceptFile:
-        logger.info("Loadng :" + conceptFile)
-        concepts = Concepts.loadConcepts(conceptFile)
+def graphConcepts(listConcepts):
+    for concepts in listConcepts:
     
         graph = NetworkXGraph()
         #graph2 = PatternGraph()
@@ -66,10 +52,26 @@ def graphConcepts():
         #graph.g.remove("ProjectConceptsSimilarity")
         logger.info("Exporting Graph")
         graph.exportGraph()
-
    
 if __name__ == "__main__":
-    graphConcepts()
+    listConceptFile = list()
+    #listConceptFile.append("documents.p")
+    #listConceptFile.append("NVPChunks.p")
+    #listConceptFile.append("TopicChunks.p")
+    #listConceptFile.append("chunks.p")
+    #listConceptFile.append("topicsDict.p")
+    #listConceptFile.append("TopicChunks.p")
+    listConceptFile.append("ngrams.p")
+    #listConceptFile.append("ngramscore.p")
+    listConceptFile.append("ngramsubject.p")
+
+    listConcepts = list()
+    
+    for conceptFile in listConceptFile:
+        logger.info("Loadng :" + conceptFile)
+        listConcepts.append(Concepts.loadConcepts(conceptFile))
+
+    graphConcepts(listConcepts)
 
 
 
