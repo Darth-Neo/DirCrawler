@@ -40,7 +40,7 @@ def graphConcepts():
     #listConceptFile.append("chunks.p")
     #listConceptFile.append("topicsDict.p")
     #listConceptFile.append("TopicChunks.p")
-    #listConceptFile.append("ngrams.p")
+    listConceptFile.append("ngrams.p")
     #listConceptFile.append("ngramscore.p")
     listConceptFile.append("ngramsubject.p")
 

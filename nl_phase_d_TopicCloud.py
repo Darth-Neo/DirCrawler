@@ -19,11 +19,10 @@ def createTopicsCloud():
     conceptFile = "TopicChunks.p"
     conceptTopic = "SBJ"
     
-    
     logger.info("Loading Topics from : " + conceptFile)
     concepts = Concepts.loadConcepts(conceptFile)
 
-    concepts.logConcepts()
+    #concepts.logConcepts()
 
     for topic in concepts.getConcepts().values():
         if topic.count == 0:
