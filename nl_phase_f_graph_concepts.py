@@ -5,10 +5,13 @@
 import os
 from nl_lib import Logger
 from nl_lib.Concepts import Concepts
-from nl_lib.ConceptGraph import PatternGraph, NetworkXGraph
+from nl_lib.ConceptGraph import PatternGraph, NetworkXGraph, Neo4JGraph
 from nl_lib.Constants import *
 
 logger = Logger.setupLogging(__name__)
+
+gdb = "http://localhost:7474/db/data/"
+#gdb = "http://10.92.82.60:7574/db/data/"
 
 def createGraph(graph, concepts):
     for c in concepts.getConcepts().values():
@@ -33,9 +36,13 @@ def createGraph(graph, concepts):
 
 def graphConcepts(listConcepts):
     for concepts in listConcepts:
+        graph = Neo4JGraph(gdb)
+
+        #logger.info("Clear the Graph @" + gdb)
+        #graph.clearGraphDB()
     
-        graph = NetworkXGraph()
-        #graph2 = PatternGraph()
+        #graph = NetworkXGraph()
+        #graph = PatternGraph()
 
         createGraph(graph, concepts)
         
@@ -60,10 +67,17 @@ if __name__ == "__main__":
     #listConceptFile.append("TopicChunks.p")
     #listConceptFile.append("chunks.p")
     #listConceptFile.append("topicsDict.p")
-    #listConceptFile.append("TopicChunks.p")
-    listConceptFile.append("ngrams.p")
+    listConceptFile.append("TopicChunks.p")
+    #listConceptFile.append("ngrams.p")
     #listConceptFile.append("ngramscore.p")
-    listConceptFile.append("ngramsubject.p")
+    #listConceptFile.append("ngramsubject.p")
+
+    #homeDir = "C:\\Users\\morrj140\\Dev\\GitRepository\\DirCrawler\\Estimates_20141205_124422"
+    #homeDir = "C:\\Users\\morrj140\\Dev\\GitRepository\\DirCrawler\\Requirements_20143004_160216"
+    homeDir = "C:\\Users\\morrj140\\Dev\\GitRepository\\DirCrawler\\ExternalInterfaces_20141205_095115"
+
+    # Change current directory to enable to save pickles
+    p, f = os.path.split(homeDir)
 
     listConcepts = list()
     

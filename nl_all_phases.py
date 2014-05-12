@@ -27,9 +27,14 @@ def nl_phases():
     #rootDir = "C:\\Users\morrj140\\Documents\\System Architecture\\OneSourceDocumentation"
     #rootDir = "C:\\Users\\morrj140\\Documents\\System Architecture\\AccoviaReplacement\\ProductProgram\\functionality"
     #rootDir = "C:\\Users\\morrj140\\Dev\\GitRepository\\DirCrawler\\Issues"
-    rootDir = "C:\\Users\\morrj140\\Dev\\GitRepository\\DirCrawler\\product_types"
+    #rootDir = "C:\\Users\\morrj140\\Dev\\GitRepository\\DirCrawler\\Services"
+    #rootDir = "C:\\Users\\morrj140\\Dev\\GitRepository\\DirCrawler\\Requirements"
+    #rootDir = "C:\\Users\\morrj140\\Dev\\GitRepository\\DirCrawler\\ExternalInterfaces"
+    #rootDir = "C:\\Users\\morrj140\\Dev\\GitRepository\\DirCrawler\\product_types"
     #rootDir = "C:\\Users\\morrj140\\Documents\\System Architecture\\AccoviaReplacement\\Product"
     #rootDir = "C:\\Users\\morrj140\\Documents\\System Architecture\\AccoviaReplacement\\Order"
+    #rootDir = "C:\\Users\\morrj140\\Documents\\System Architecture\\AccoviaReplacement\\Estimates"
+    rootDir = "C:\\Users\\morrj140\\Documents\\System Architecture\\AccoviaReplacement\\HKDL"
 
     # Change current directory to enable to save pickles
     p, f = os.path.split(rootDir)
@@ -67,7 +72,7 @@ def nl_phases():
 
     # nl_phase_e
     logger.info("createTopicCloud for Subjects")
-    createTopicsCloud(conceptsNGram, "NGRAM")
+    createTopicsCloud(conceptsNGramSubject, "NGRAM", numWords=30, scale=1.5)
     
     # nl_phase_f
     logger.info("graphConcepts")

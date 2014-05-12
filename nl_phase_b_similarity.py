@@ -57,7 +57,7 @@ class myThread (threading.Thread):
             
         logger.info("Exiting %s" % self.threadID)
 
-class nl_phase_b_topics(object):
+class DocumentsSimilarity(object):
     conceptsSimilarity = None
     tm = None
     documentsList = None
@@ -76,7 +76,7 @@ class nl_phase_b_topics(object):
         self.tm = TopicsModel()
 
         logger.info("Load Documents from Concepts")
-        self.documentsList, self.wordcount = self.tm.loadWords(concepts)
+        self.documentsList, self.wordcount = self.tm.loadConceptsWords(concepts)
 
         logger.info("Read " + str(len(self.documentsList)) + " Documents, with " + str(self.wordcount) + " words.")
 
@@ -173,7 +173,7 @@ class nl_phase_b_topics(object):
             logger.debug("   similarity below threshold")
 
 if __name__ == "__main__":
-    npbt = nl_phase_b_topics()
+    npbt = DocumentsSimilarity()
     npbt.createTopics("documents.p", "documentsSimilarity.p")
 
 

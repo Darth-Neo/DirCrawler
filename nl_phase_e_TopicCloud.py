@@ -10,7 +10,7 @@ from nl_lib.TopicCloud import TopicCloud
 
 logger = Logger.setupLogging(__name__)
 
-def createTopicsCloud(concepts, topic, numWords=40):
+def createTopicsCloud(concepts, topic, numWords=30, scale=1.5):
     logger.info("Starting Tag Cloud...")
 
     tc = TopicCloud(concepts, os.getcwd() + os.sep)
@@ -18,7 +18,7 @@ def createTopicsCloud(concepts, topic, numWords=40):
     logger.info("Create Tag Cloud")
 
     # Note: the first parameter must match for a topic cloud image to be created!
-    tc.createCloudImage(topic, size_x=1200, size_y=900, numWords=numWords, scale = 1.5)
+    tc.createCloudImage(topic, size_x=1200, size_y=900, numWords=numWords, scale=scale)
 
     logger.info("Complete createTopicsCloud")
 
