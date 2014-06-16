@@ -1,4 +1,4 @@
-#!/usr/bin/python
+﻿#!/usr/bin/python
 #
 # Natural Language Processing of Information
 #
@@ -34,7 +34,19 @@ def nl_phases():
     #rootDir = "C:\\Users\\morrj140\\Documents\\System Architecture\\AccoviaReplacement\\Product"
     #rootDir = "C:\\Users\\morrj140\\Documents\\System Architecture\\AccoviaReplacement\\Order"
     #rootDir = "C:\\Users\\morrj140\\Documents\\System Architecture\\AccoviaReplacement\\Estimates"
-    rootDir = "C:\\Users\\morrj140\\Documents\\System Architecture\\AccoviaReplacement\\HKDL"
+    #rootDir = "C:\\Users\\morrj140\\Documents\\System Architecture\\AccoviaReplacement\\HKDL"
+    #rootDir = "C:\\Users\\morrj140\\Documents\\System Architecture\\AccoviaReplacement\\RFP\\Accovia"
+    #rootDir = "C:\\Users\\morrj140\\Documents\\System Architecture\\SmartMedia"
+    #rootDir = "C:\\Users\\morrj140\\Documents\\System Architecture\\AccoviaReplacement\RFP\Requirements"
+    #rootDir = "C:\\Users\\morrj140\\Documents\\System Architecture\\TechnologySegment\\NGE"
+    #rootDir = "C:\\Users\\morrj140\\Documents\\SolutionEngineering\\DigitalAccessManagement"
+    #rootDir = "C:\\Users\\morrj140\\Documents\\SolutionEngineering\\DigitalAccessManagement\\Vendor_Demo_Prep_Package\\OpenText"
+    #rootDir = "C:\\Users\\morrj140\\Documents\\SolutionEngineering\\DigitalAccessManagement\\Vendor_Demo_Prep_Package\\MediaBeacon"
+    #rootDir = "C:\\Users\\morrj140\\Documents\\SolutionEngineering\\DigitalAccessManagement\\Vendor_Demo_Prep_Package\\NorthPlains"
+    #rootDir = "C:\\Users\\morrj140\\Documents\\SolutionEngineering\\DigitalAccessManagement\\Vendor_Demo_Prep_Package\\Adam"
+    #rootDir = "C:\\Users\\morrj140\\Documents\\SolutionEngineering\\DigitalAccessManagement\\Vendor_Demo_Prep_Package\\5thKind"
+    #rootDir = "C:\\Users\\morrj140\\Documents\\SolutionEngineering\\SOAService"
+    rootDir = "C:\\Users\\morrj140\\Documents\\SolutionEngineering\\DigitalAccessManagement\\MAM"
 
     # Change current directory to enable to save pickles
     p, f = os.path.split(rootDir)
@@ -63,7 +75,7 @@ def nl_phases():
     logger.info("createChunkTopics")
     ct = ChunkTopics(chunks.getChunkConcepts())
     ct.createChunkTopics()
-
+    
     # nl_phase_d
     logger.info("find_collocations")
     fc = Collocations(dc.getDocumentsConcepts())
@@ -73,17 +85,17 @@ def nl_phases():
     # nl_phase_e
     logger.info("createTopicCloud for Subjects")
     createTopicsCloud(conceptsNGramSubject, "NGRAM", numWords=30, scale=1.5)
-    
+
     # nl_phase_f
     logger.info("graphConcepts")
-    listConcepts = list()
-    #listConcepts.append(dc.getDocumentsConcepts())
-    #listConcepts.append(chunks.getChunkConcepts())
-    #listConcepts.append(ct.getChunkTopicsConcepts())
-    listConcepts.append(conceptsNGram)
-    #listConcepts.append(conceptsNGramScore)
-    listConcepts.append(conceptsNGramSubject)
-    graphConcepts(listConcepts)
+    #listConcepts = list()
+    #graphConcepts(dc.getDocumentsConcepts())
+    graphConcepts(chunks.getChunkConcepts())
+    #graphConcepts(ct.getChunkTopicsConcepts())
+    #graphConcepts(conceptsNGram)
+    #graphConcepts(conceptsNGramScore)
+    #graphConcepts(conceptsNGramSubject)
+    #graphConcepts(conceptsNGram)
 
     # Conclude Batch Run
     # Timer

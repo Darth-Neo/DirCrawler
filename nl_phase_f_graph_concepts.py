@@ -13,39 +13,46 @@ logger = Logger.setupLogging(__name__)
 gdb = "http://localhost:7474/db/data/"
 #gdb = "http://10.92.82.60:7574/db/data/"
 
-def createGraph(graph, concepts):
+def addGraphNodes(graph, concepts, n=0):
+    n += 1
     for c in concepts.getConcepts().values():
-        logger.info("Node c : %s" % c.name)
-        graph.addConcepts(c)
-        for d in c.getConcepts().values():
-            logger.debug("Node d : %s" % d.name)
-            graph.addConcepts(d)
+        logger.debug("%d : %d Node c : %s:%s" % (n, len(c.getConcepts()), c.name, c.typeName))
+        graph.addConcept(c)
+        if len(c.getConcepts()) != 0:
+            addGraphNodes(graph, c, n)
 
+def addGraphEdges(graph, concepts, n=0):
+    n += 1
+    i = 1
     for c in concepts.getConcepts().values():
-        i = 0
-        logger.info("Edge c : %s" % c.name)
-        for d in c.getConcepts().values():
-            logger.debug("Edge d : %s" % d.name)
-            if i == 0:
-                parentNode = c
-                graph.addEdge(parentNode, d)
-            else:
-                graph.addEdge(parentNode, d)
-            logger.debug("Edge %s-%s" % (parentNode.name, d.name))
+        logger.debug("%d : %d Edge c : %s:%s" % (n, len(c.getConcepts()), c.name, c.typeName))
+        if i == 1:
+            p = c
             i += 1
+        else:
+            graph.addEdge(p, c)
+        if len(c.getConcepts()) != 0:
+            addGraphEdges(graph, c, n)
 
-def graphConcepts(listConcepts):
-    for concepts in listConcepts:
-        graph = Neo4JGraph(gdb)
+def graphConcepts(concepts, graph=None):
+    
+    if graph == None:
+        #graph = Neo4JGraph(gdb)
 
         #logger.info("Clear the Graph @" + gdb)
         #graph.clearGraphDB()
-    
-        #graph = NetworkXGraph()
-        #graph = PatternGraph()
 
-        createGraph(graph, concepts)
-        
+        #graph = NetworkXGraph()
+        graph = PatternGraph()
+
+    logger.info("Adding nodes the graph ...")
+    addGraphNodes(graph, concepts)
+    logger.info("Adding edges the graph ...")
+    addGraphEdges(graph, concepts)
+
+    if isinstance(graph, Neo4JGraph):
+        graph.setNodeLabels()
+
     if isinstance(graph, NetworkXGraph):
         #graph.G.remove_node("ProjectConceptsSimilarity")
         #graph.drawGraph("concepts.png")
@@ -61,31 +68,36 @@ def graphConcepts(listConcepts):
         graph.exportGraph()
    
 if __name__ == "__main__":
-    listConceptFile = list()
-    #listConceptFile.append("documents.p")
-    #listConceptFile.append("NVPChunks.p")
-    #listConceptFile.append("TopicChunks.p")
-    #listConceptFile.append("chunks.p")
-    #listConceptFile.append("topicsDict.p")
-    listConceptFile.append("TopicChunks.p")
-    #listConceptFile.append("ngrams.p")
-    #listConceptFile.append("ngramscore.p")
-    #listConceptFile.append("ngramsubject.p")
+    #conceptFile = "documents.p"
+    #conceptFile = "NVPChunks.p"
+    #conceptFile = "chunks.p"
+    #conceptFile = "topicsDict.p"
+    conceptFile = "TopicChunks.p"
+    #conceptFile = "ngrams.p"
+    #conceptFile = "ngramscore.p"
+    #conceptFile = "ngramsubject.p"
 
-    #homeDir = "C:\\Users\\morrj140\\Dev\\GitRepository\\DirCrawler\\Estimates_20141205_124422"
+    listHomeDir = list()
+    listHomeDir.append(os.getcwd())
+    #listHomeDir.append("C:\Users\morrj140\Dev\GitRepository\DirCrawler\SmartMedia_20140206_120122")
+    #listHomeDir.append("C:\\Users\\morrj140\\Dev\\GitRepository\\DirCrawler\\Estimates_20141205_124422")
     #homeDir = "C:\\Users\\morrj140\\Dev\\GitRepository\\DirCrawler\\Requirements_20143004_160216"
-    homeDir = "C:\\Users\\morrj140\\Dev\\GitRepository\\DirCrawler\\ExternalInterfaces_20141205_095115"
+    #homeDir = "C:\\Users\\morrj140\\Dev\\GitRepository\\DirCrawler\\ExternalInterfaces_20141205_095115"
+    #listHomeDir.append("C:\\Users\\morrj140\\Dev\\GitRepository\\DirCrawler\\Services_20143004_101231")
 
-    # Change current directory to enable to save pickles
-    p, f = os.path.split(homeDir)
-
-    listConcepts = list()
+    c = Concepts("GraphConcepts", "GRAPH")
     
-    for conceptFile in listConceptFile:
-        logger.info("Loadng :" + conceptFile)
-        listConcepts.append(Concepts.loadConcepts(conceptFile))
+    for conceptDir in listHomeDir:
+        # Change current directory to enable to save pickles
+        p, f = os.path.split(conceptDir)
+        logger.info("Loadng :" + conceptDir + "\\" + conceptFile)
+        c.addConcept(Concepts.loadConcepts(conceptDir + "\\" + conceptFile))
 
-    graphConcepts(listConcepts)
+    # c.logConcepts()
+    
+    graphConcepts(c)
+
+    
 
 
 

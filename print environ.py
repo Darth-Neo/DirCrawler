@@ -22,3 +22,7 @@ def enVar(variable):
                 print 'Make sure the Environment variable "%s" exists or spelled correctly.' % variable[x]
 
 enVar(variable)
+
+print os.environ['USERNAME']
+print os.environ['USERDOMAIN']
+print os.environ['USERDNSDOMAIN']

@@ -61,7 +61,7 @@ class DirCrawl(object):
         for page in pdfDoc.pages:
             text = page.extractText()
             logger.debug("PDF : %s" % text)
-            newparatextlist.append(text + ". ")
+            newparatextlist.append(text.decode("utf-8", errors="ignore") + ". ")
 
         return newparatextlist
 
@@ -101,7 +101,7 @@ class DirCrawl(object):
                     for run in paragraph.runs:
                         logger.debug("PPTX : %s" % run.text)
                         if run.text != None:
-                            newparatextlist.append(run.text + ". ")
+                            newparatextlist.append(run.text.decode("utf-8", errors="ignore") + ". ")
         return newparatextlist, c
 
     def _getXLSText(self, filename):
@@ -133,7 +133,7 @@ class DirCrawl(object):
                     cell_value = worksheet.cell_value(curr_row, curr_cell)
                     if cell_type == 1:
                         logger.debug("XLXS : %s" % cell_value)
-                        newparatextlist.append(cell_value + ". ")
+                        newparatextlist.append(cell_value.decode("utf-8", errors="ignore") + ". ")
 
         return newparatextlist
 
@@ -149,40 +149,36 @@ class DirCrawl(object):
         newparatextlist = []
         for paratext in paratextlist:
             logger.debug("DOCX : %s" % paratext)
-            newparatextlist.append(paratext + ". ")
+            newparatextlist.append(paratext.decode("utf-8", errors="ignore") + ". ")
             
         return newparatextlist
 
     def _getConcepts(self, fname, d, w):
         listText = list()
-         
-        #try:
-        if fname[-5:] == ".docx":
-            listText = self._getDOCXText(fname)
-            logger.info("++Parsing = %s" % fname) 
-        elif fname[-5:] == ".pptx":
-            listText, cp = self._getPPTXText(fname)
-            d.addConcept(cp)
-            logger.info("++Parsing = %s" % fname) 
-        elif fname[-5:] == ".xlsx":
-            listText = self._getXLSText(fname)
-            logger.info("++Parsing = %s" % fname) 
-        elif fname[-4:] == ".pdf":
-            listText = self._getPDFText(fname)
-            logger.info("++Parsing = %s" % fname) 
 
-        
-
+        try:
+            if fname[-5:] == ".docx":
+                listText = self._getDOCXText(fname)
+                logger.info("++Parsing = %s" % fname) 
+            elif fname[-5:] == ".pptx":
+                listText, cp = self._getPPTXText(fname)
+                d.addConcept(cp)
+                logger.info("++Parsing = %s" % fname) 
+            elif fname[-5:] == ".xlsx":
+                listText = self._getXLSText(fname)
+                logger.info("++Parsing = %s" % fname) 
+            elif fname[-4:] == ".pdf":
+                listText = self._getPDFText(fname)
+                logger.info("++Parsing = %s" % fname) 
+        except:
+            logger.warn("error hit parsing text")
+            
         for t in listText:
             if t != None:
-                sentence = t.strip()
+                sentence = t.encode('utf-8', errors="ignore").strip()
                 logger.debug("Text : %s" % sentence)
                 d.addConceptKeyType(sentence, "Text")
                 self._addWords(w, sentence)           
-    #except:
-        #    e = sys.exc_info()[0]
-        #    logger.error("%s" % e)
-        #    logger.info("**Failed Parsing = %s" % fname)
         
         return listText
 
@@ -229,7 +225,8 @@ if __name__ == '__main__':
     #rootDir = "C:\\Users\morrj140\\Documents\\System Architecture\\OneSourceDocumentation"
     #rootDir = "C:\\Users\\morrj140\\Documents\\System Architecture\\AccoviaReplacement\\Product"
     #rootDir = "C:\\Users\\morrj140\\Dev\\GitRepository\\DirCrawler\\Issues"
-    rootDir = "C:\\Users\\morrj140\\Dev\\GitRepository\\DirCrawler\\test"
+    #rootDir = "C:\\Users\\morrj140\\Dev\\GitRepository\\DirCrawler\\test"
+    rootDir = "C:\\Users\morrj140\\Documents\\System Architecture\\SmartMedia"
 
     dc = DirCrawl()
     

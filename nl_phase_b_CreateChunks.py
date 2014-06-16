@@ -106,7 +106,9 @@ class Chunks(object):
                     for word in listSentence:
                         f = e.addConceptKeyType(word[0], word[2])
                         f.addConceptKeyType(word[1], "Lemma")
-                    
+                
+                logger.info("%s = %s" % (cleanSentence, type(cleanSentence)))
+                cleanSentence = cleanSentence.decode("utf-8", errors="ignore")
                 pt = parsetree(cleanSentence, relations=True, lemmata=True)
 
                 for sentence in pt:
@@ -121,8 +123,8 @@ class Chunks(object):
                         for chunk in sentence.chunks:
                             logger.debug("Chunk  : %s" % chunk)
                         
-                            relation = str(chunk.relation).encode("utf-8").strip()
-                            role = str(chunk.role).encode("utf-8").strip()
+                            relation = str(chunk.relation).encode("utf-8", errors="ignore").strip()
+                            role = str(chunk.role).encode("utf-8", errors="ignore").strip()
 
                             logger.debug("Relation : %s" % relation)
                             logger.debug("Role     : %s" % role)
