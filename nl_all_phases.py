@@ -46,7 +46,9 @@ def nl_phases():
     #rootDir = "C:\\Users\\morrj140\\Documents\\SolutionEngineering\\DigitalAccessManagement\\Vendor_Demo_Prep_Package\\Adam"
     #rootDir = "C:\\Users\\morrj140\\Documents\\SolutionEngineering\\DigitalAccessManagement\\Vendor_Demo_Prep_Package\\5thKind"
     #rootDir = "C:\\Users\\morrj140\\Documents\\SolutionEngineering\\SOAService"
-    rootDir = "C:\\Users\\morrj140\\Documents\\SolutionEngineering\\DigitalAccessManagement\\MAM"
+    #rootDir = "C:\\Users\\morrj140\\Documents\\SolutionEngineering\\DigitalAccessManagement\\MAM"
+    #rootDir = "/Users/morrj140/Documents/SolutionEngineering/DigitalAccessManagement"
+    rootDir = "/Users/morrj140/Development/GitRepository/DirCrawler/Examples"
 
     # Change current directory to enable to save pickles
     p, f = os.path.split(rootDir)
@@ -90,13 +92,12 @@ def nl_phases():
     logger.info("graphConcepts")
     #listConcepts = list()
     #graphConcepts(dc.getDocumentsConcepts())
-    graphConcepts(chunks.getChunkConcepts())
+    #graphConcepts(chunks.getChunkConcepts())
     #graphConcepts(ct.getChunkTopicsConcepts())
-    #graphConcepts(conceptsNGram)
+    graphConcepts(conceptsNGram)
     #graphConcepts(conceptsNGramScore)
     #graphConcepts(conceptsNGramSubject)
-    #graphConcepts(conceptsNGram)
-
+    
     # Conclude Batch Run
     # Timer
     logger.info("Documents Parsed = %d" % numFilesParsed)

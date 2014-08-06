@@ -31,13 +31,13 @@ class Collocations(object):
     ngramScoreFile   = "ngramscore.p"
     ngramSubjectFile = "ngramsubject.p"
     
-    def __init__(self, concepts=None):
-        if concepts == None:
-            logger.info("Load Concepts from " + self.conceptFile)
-            self.concepts = Concepts.loadConcepts(self.conceptFile)
-            logger.info("Loaded Concepts")
-        else:
-            self.concepts = concepts
+    def __init__(self, conceptFile=None):
+        if conceptFile == None:
+            conceptFile      = "documents.p"
+
+        logger.info("Load Concepts from " + conceptFile)
+        self.concepts = Concepts.loadConcepts(conceptFile)
+        logger.info("Loaded Concepts")
 
         self.conceptsNGram = Concepts("n-gram", "NGRAM")
         self.conceptsNGramScore = Concepts("NGram_Score", "Score")
@@ -141,5 +141,5 @@ class Collocations(object):
         Concepts.saveConcepts(self.conceptsNGramSubject, self.ngramSubjectFile)
 
 if __name__ == "__main__":
-    fc = Collocations()
+    fc = Collocations("documents.p")
     fc.find_collocations()

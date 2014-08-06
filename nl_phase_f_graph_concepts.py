@@ -42,8 +42,8 @@ def graphConcepts(concepts, graph=None):
         #logger.info("Clear the Graph @" + gdb)
         #graph.clearGraphDB()
 
-        #graph = NetworkXGraph()
-        graph = PatternGraph()
+        graph = NetworkXGraph()
+        #graph = PatternGraph()
 
     logger.info("Adding nodes the graph ...")
     addGraphNodes(graph, concepts)
@@ -68,30 +68,31 @@ def graphConcepts(concepts, graph=None):
         graph.exportGraph()
    
 if __name__ == "__main__":
-    #conceptFile = "documents.p"
+    conceptFile = "documents.p"
     #conceptFile = "NVPChunks.p"
     #conceptFile = "chunks.p"
     #conceptFile = "topicsDict.p"
-    conceptFile = "TopicChunks.p"
+    #conceptFile = "TopicChunks.p"
     #conceptFile = "ngrams.p"
     #conceptFile = "ngramscore.p"
     #conceptFile = "ngramsubject.p"
 
     listHomeDir = list()
-    listHomeDir.append(os.getcwd())
+    #listHomeDir.append(os.getcwd())
     #listHomeDir.append("C:\Users\morrj140\Dev\GitRepository\DirCrawler\SmartMedia_20140206_120122")
     #listHomeDir.append("C:\\Users\\morrj140\\Dev\\GitRepository\\DirCrawler\\Estimates_20141205_124422")
     #homeDir = "C:\\Users\\morrj140\\Dev\\GitRepository\\DirCrawler\\Requirements_20143004_160216"
     #homeDir = "C:\\Users\\morrj140\\Dev\\GitRepository\\DirCrawler\\ExternalInterfaces_20141205_095115"
     #listHomeDir.append("C:\\Users\\morrj140\\Dev\\GitRepository\\DirCrawler\\Services_20143004_101231")
+    listHomeDir.append("/Users/morrj140/Development/GitRepository/DirCrawler")
 
     c = Concepts("GraphConcepts", "GRAPH")
     
     for conceptDir in listHomeDir:
         # Change current directory to enable to save pickles
         p, f = os.path.split(conceptDir)
-        logger.info("Loadng :" + conceptDir + "\\" + conceptFile)
-        c.addConcept(Concepts.loadConcepts(conceptDir + "\\" + conceptFile))
+        logger.info("Loading :" + conceptDir + os.sep + conceptFile)
+        c.addConcept(Concepts.loadConcepts(conceptDir + os.sep + conceptFile))
 
     # c.logConcepts()
     

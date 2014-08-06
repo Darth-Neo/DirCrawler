@@ -12,8 +12,10 @@ logger = Logger.setupLogging(__name__)
 if __name__ == "__main__":
     #conceptFile = "documents.p"
     #conceptFile = "words.p"
-    #conceptFile = "chunks.p"
-    conceptFile = "topicChunks.p"
+    conceptFile = "chunks.p"
+    #conceptFile = "topicChunks.p"
+    #conceptFile = "topicsDict.p"
+    #conceptFile = "documentsSimilarity.p"
     
     logger.info("Loading :" + os.getcwd() + os.sep + conceptFile)
     concepts = Concepts.loadConcepts(conceptFile)
