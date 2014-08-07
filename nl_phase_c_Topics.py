@@ -120,7 +120,7 @@ class DocumentsSimilarity(object):
 
             logger.info("Document %s" % (df[indexNum]))
 
-            logger.info("documentsList[" + str(indexNum) + "]=" + str(document))
+            logger.info("  documentsList[" + str(indexNum) + "]=" + str(document))
 
             # Show common topics
             d = [x.encode('ascii', errors="ignore").strip().replace("'", "") for x in document]
@@ -130,7 +130,7 @@ class DocumentsSimilarity(object):
             s2 = set(d)
             common =  s1 & s2
             lc = [x for x in common]
-            logger.info("  Topics : %s" % (lc))
+            logger.info("  Common Topics : %s" % (lc))
 
             if THREAD == False:
                 self.doComputation(document, similarityThreshold)
@@ -203,6 +203,7 @@ class DocumentsSimilarity(object):
 
 if __name__ == "__main__":
     npbt = DocumentsSimilarity()
+    #npbt.createTopics("documents.p")
     npbt.createTopics("chunks.p")
     npbt.findSimilarties("documentsSimilarity.p")
 

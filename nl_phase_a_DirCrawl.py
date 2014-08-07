@@ -233,6 +233,8 @@ if __name__ == '__main__':
     #rootDir = "C:\\Users\\morrj140\\Dev\\GitRepository\\DirCrawler\\test"
     rootDir = "/Users/morrj140/Development/GitRepository/DirCrawler/Examples"
 
+    rootDir = "/Users/morrj140/Documents/SolutionEngineering/DNX Phase 2/OLCI"
+
     dc = DirCrawl()
     
     numFilesParsed = dc.searchSubDir(rootDir)

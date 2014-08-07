@@ -68,12 +68,12 @@ def graphConcepts(concepts, graph=None):
         graph.exportGraph()
    
 if __name__ == "__main__":
-    conceptFile = "documents.p"
+    #conceptFile = "documents.p"
     #conceptFile = "NVPChunks.p"
     #conceptFile = "chunks.p"
-    #conceptFile = "topicsDict.p"
+    conceptFile = "topicsDict.p"
     #conceptFile = "TopicChunks.p"
-    #conceptFile = "ngrams.p"
+    conceptFile = "ngrams.p"
     #conceptFile = "ngramscore.p"
     #conceptFile = "ngramsubject.p"
 

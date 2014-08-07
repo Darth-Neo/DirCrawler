@@ -96,7 +96,7 @@ class ChunkTopics(object):
         Concepts.saveConcepts(self.topicChunksConcepts, self.topicChunksFile)
 
 if __name__ == "__main__":
-    ct = ChunkTopics()
+    ct = ChunkTopics(conceptChunks="chunks.p")
     ct.createChunkTopics()
     
 

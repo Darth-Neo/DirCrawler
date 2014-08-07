@@ -7,9 +7,9 @@ import sys
 
 from nl_phase_a_DirCrawl import *
 from nl_phase_b_CreateChunks import *
-from nl_phase_c_ChunkTopics import *
+from nl_phase_c_Topics import *
 from nl_phase_d_find_collocations import *
-from nl_phase_e_TopicCloud import *
+#from nl_phase_e_TopicCloud import *
 from nl_phase_f_graph_concepts import *
 import time
 
@@ -48,7 +48,9 @@ def nl_phases():
     #rootDir = "C:\\Users\\morrj140\\Documents\\SolutionEngineering\\SOAService"
     #rootDir = "C:\\Users\\morrj140\\Documents\\SolutionEngineering\\DigitalAccessManagement\\MAM"
     #rootDir = "/Users/morrj140/Documents/SolutionEngineering/DigitalAccessManagement"
-    rootDir = "/Users/morrj140/Development/GitRepository/DirCrawler/Examples"
+    #rootDir = "/Users/morrj140/Development/GitRepository/DirCrawler/Examples"
+    #rootDir = "/Users/morrj140/Documents/SolutionEngineering/DNX Phase 2/OLCI"
+    rootDir = "/Users/morrj140/Documents/SolutionEngineering/DNX Phase 2"
 
     # Change current directory to enable to save pickles
     p, f = os.path.split(rootDir)
@@ -74,19 +76,20 @@ def nl_phases():
     chunks.createChunks()
 
     # nl_phase_c
-    logger.info("createChunkTopics")
-    ct = ChunkTopics(chunks.getChunkConcepts())
-    ct.createChunkTopics()
+    logger.info("create Topics")
+    npbt = DocumentsSimilarity()
+    npbt.createTopics("chunks.p")
+    #npbt.findSimilarties("documentsSimilarity.p")
     
     # nl_phase_d
     logger.info("find_collocations")
-    fc = Collocations(dc.getDocumentsConcepts())
+    fc = Collocations("chunks.p")
     fc.find_collocations()
     conceptsNGram, conceptsNGramScore, conceptsNGramSubject = fc.getCollocationConcepts()
 
     # nl_phase_e
-    logger.info("createTopicCloud for Subjects")
-    createTopicsCloud(conceptsNGramSubject, "NGRAM", numWords=30, scale=1.5)
+    #logger.info("createTopicCloud for Subjects")
+    #createTopicsCloud(conceptsNGramSubject, "NGRAM", numWords=30, scale=1.5)
 
     # nl_phase_f
     logger.info("graphConcepts")
