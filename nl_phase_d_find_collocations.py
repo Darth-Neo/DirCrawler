@@ -35,7 +35,7 @@ class Collocations(object):
         if conceptFile == None:
             conceptFile      = "documents.p"
 
-        logger.info("Load Concepts from " + conceptFile)
+        logger.info("Load Concepts from %s " % (conceptFile))
         self.concepts = Concepts.loadConcepts(conceptFile)
         logger.info("Loaded Concepts")
 
@@ -141,5 +141,6 @@ class Collocations(object):
         Concepts.saveConcepts(self.conceptsNGramSubject, self.ngramSubjectFile)
 
 if __name__ == "__main__":
-    fc = Collocations("documents.p")
+    #fc = Collocations("documents.p")
+    fc = Collocations("chunks.p")
     fc.find_collocations()
