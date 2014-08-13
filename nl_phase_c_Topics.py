@@ -15,9 +15,9 @@ import time
 
 THREAD = False
 
-num_topics = 10
+num_topics = 20
 num_words  = 5
-similarity = 0.95
+similarity = 0.80
 
 ThreadDepth = 10
 QueueDepth  = 150

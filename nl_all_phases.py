@@ -15,6 +15,8 @@ import time
 
 logger = Logger.setupLogging(__name__)
 
+GRAPH = False
+
 def nl_phases():
     numFilesParsed = 0
 
@@ -50,7 +52,9 @@ def nl_phases():
     #rootDir = "/Users/morrj140/Documents/SolutionEngineering/DigitalAccessManagement"
     #rootDir = "/Users/morrj140/Development/GitRepository/DirCrawler/Examples"
     #rootDir = "/Users/morrj140/Documents/SolutionEngineering/DNX Phase 2/OLCI"
-    rootDir = "/Users/morrj140/Documents/SolutionEngineering/DNX Phase 2"
+    #rootDir = "/Users/morrj140/Documents/SolutionEngineering/DNX Phase 2"
+    rootDir = "/Users/morrj140/Documents/SolutionEngineering/Sudhir"
+    #rootDir = "/Users/morrj140/Documents/SolutionEngineering/MDX"
 
     # Change current directory to enable to save pickles
     p, f = os.path.split(rootDir)
@@ -91,16 +95,17 @@ def nl_phases():
     #logger.info("createTopicCloud for Subjects")
     #createTopicsCloud(conceptsNGramSubject, "NGRAM", numWords=30, scale=1.5)
 
-    # nl_phase_f
-    logger.info("graphConcepts")
-    #listConcepts = list()
-    #graphConcepts(dc.getDocumentsConcepts())
-    #graphConcepts(chunks.getChunkConcepts())
-    #graphConcepts(ct.getChunkTopicsConcepts())
-    graphConcepts(conceptsNGram)
-    #graphConcepts(conceptsNGramScore)
-    #graphConcepts(conceptsNGramSubject)
-    
+    if GRAPH == True:
+        # nl_phase_f
+        logger.info("graphConcepts")
+        #listConcepts = list()
+        #graphConcepts(dc.getDocumentsConcepts())
+        #graphConcepts(chunks.getChunkConcepts())
+        #graphConcepts(ct.getChunkTopicsConcepts())
+        graphConcepts(conceptsNGram)
+        #graphConcepts(conceptsNGramScore)
+        #graphConcepts(conceptsNGramSubject)
+
     # Conclude Batch Run
     # Timer
     logger.info("Documents Parsed = %d" % numFilesParsed)

@@ -29,6 +29,9 @@ if __name__ == "__main__":
     #conceptTopic = "Topic"
     #topic = "SBJ"
 
+    #conceptFile = "archi.p"
+    #topic="name"
+
     conceptFile = "ngramsubject.p"
     topic = "NGRAM"
 

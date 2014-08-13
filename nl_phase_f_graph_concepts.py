@@ -3,12 +3,15 @@
 # Natural Language Processing of PMO Information
 #
 import os
+import logging
 from nl_lib import Logger
 from nl_lib.Concepts import Concepts
 from nl_lib.ConceptGraph import PatternGraph, NetworkXGraph, Neo4JGraph
 from nl_lib.Constants import *
 
 logger = Logger.setupLogging(__name__)
+
+logger.setLevel(logging.INFO)
 
 gdb = "http://localhost:7474/db/data/"
 #gdb = "http://10.92.82.60:7574/db/data/"
@@ -37,12 +40,12 @@ def addGraphEdges(graph, concepts, n=0):
 def graphConcepts(concepts, graph=None):
     
     if graph == None:
-        #graph = Neo4JGraph(gdb)
+        graph = Neo4JGraph(gdb)
 
         #logger.info("Clear the Graph @" + gdb)
         #graph.clearGraphDB()
 
-        graph = NetworkXGraph()
+        #graph = NetworkXGraph()
         #graph = PatternGraph()
 
     logger.info("Adding nodes the graph ...")
@@ -71,11 +74,12 @@ if __name__ == "__main__":
     #conceptFile = "documents.p"
     #conceptFile = "NVPChunks.p"
     #conceptFile = "chunks.p"
-    conceptFile = "topicsDict.p"
+    #conceptFile = "topicsDict.p"
     #conceptFile = "TopicChunks.p"
-    conceptFile = "ngrams.p"
+    #conceptFile = "ngrams.p"
     #conceptFile = "ngramscore.p"
     #conceptFile = "ngramsubject.p"
+    conceptFile = "archi.p"
 
     listHomeDir = list()
     #listHomeDir.append(os.getcwd())
