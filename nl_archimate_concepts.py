@@ -1,4 +1,3 @@
-
 #!/usr/bin/python
 #
 # Archimate to Concepts
@@ -19,6 +18,8 @@ namespaces={'xsi': 'http://www.w3.org/2001/XMLSchema-instance', 'archimate': 'ht
 XML_NS         =  "http://www.w3.org/2001/XMLSchema-instance"
 ARCHIMATE_NS   =  "http://www.archimatetool.com/archimate"
 NS_MAP = {"xsi": XML_NS, "archimate" : ARCHIMATE_NS}
+
+ARCHI_TYPE = "{http://www.w3.org/2001/XMLSchema-instance}type"
 
 def print_xml(el, i=3, n=0):
     if i==0:
@@ -89,8 +90,7 @@ def print_types(tree, a):
             dictTypes[x] = 1
 
     for x in dictTypes:
-        #print("%s=%d" % (x,dictTypes[x]))
-        print("Parent - %s:ID - %s" % (x.getparent().get("name"),x.getparent().get("id")))
+        logger.info("Parent - %s:ID - %s" % (x.getparent().get("name"),x.getparent().get("id")))
 
         p = "//element[@%s=\"%s\"]" % (a, x)
         r = tree.xpath(p, namespaces=namespaces)
@@ -203,6 +203,7 @@ def createArchimateElements(xmlSheet, archi, root, n=1):
             for y in attrib.getConcepts().values():
                 for z in attrib.getConcepts().values():
                     ad[z.name]  = z.typeName
+
             element = etree.SubElement(root, tag, ad)
 
             createArchimateElements(xmlSheet, x, element)
@@ -222,6 +223,9 @@ if __name__ == "__main__":
 
     tree = etree.parse(fileArchimate)
 
+    #print_folder(tree, "Relations")
+    print_types(tree, "type")
+
     #
     # Create Concepts from Arhimate
     #
@@ -231,4 +235,5 @@ if __name__ == "__main__":
     #
     # Generate Archimate from Concepts
     #
-    #  output = createArchimate(fileArchiModel, fileArchiP)
+    #output = createArchimate(fileArchiModel, fileArchiP)
+
