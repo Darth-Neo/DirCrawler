@@ -213,7 +213,9 @@ if __name__ == "__main__":
     fileArchiModel = 'archi.archimate'
 
     #fileArchimate = "/Users/morrj140/Documents/SolutionEngineering/DNX Phase 2/DNX Phase 2 0.8.archimate"
-    fileArchimate = "/Users/morrj140/Documents/SolutionEngineering/Archimate Presentations/Solution Engineering.xml"
+    #fileArchimate = "/Users/morrj140/Documents/SolutionEngineering/Archimate Presentations/Solution Engineering.xml"
+
+    fileArchimate = "/Users/morrj140/Documents/SolutionEngineering/eTools/eTools.archimate"
 
     p, fname = os.path.split(fileArchimate)
 
@@ -223,8 +225,8 @@ if __name__ == "__main__":
 
     tree = etree.parse(fileArchimate)
 
-    #print_folder(tree, "Relations")
-    print_types(tree, "type")
+    print_folder(tree, "Relations")
+    #print_types(tree, "type")
 
     #
     # Create Concepts from Arhimate

@@ -53,8 +53,10 @@ def nl_phases():
     #rootDir = "/Users/morrj140/Development/GitRepository/DirCrawler/Examples"
     #rootDir = "/Users/morrj140/Documents/SolutionEngineering/DNX Phase 2/OLCI"
     #rootDir = "/Users/morrj140/Documents/SolutionEngineering/DNX Phase 2"
-    rootDir = "/Users/morrj140/Documents/SolutionEngineering/Sudhir"
+    #rootDir = "/Users/morrj140/Documents/SolutionEngineering/Sudhir"
     #rootDir = "/Users/morrj140/Documents/SolutionEngineering/MDX"
+
+    rootDir = "/Users/morrj140/Documents/SolutionEngineering/eTools"
 
     # Change current directory to enable to save pickles
     p, f = os.path.split(rootDir)

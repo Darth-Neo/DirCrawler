@@ -17,16 +17,21 @@ if __name__ == "__main__":
     #conceptFile = "topicsDict.p"
     #conceptFile = "documentsSimilarity.p"
     #conceptFile = "NVPChunks.p"
-    #conceptFile = "ngrams.p"
+    conceptFile = "ngrams.p"
     #conceptFile = "ngramscore.p"
-    #conceptFile = "ngramsubject.p"
-    conceptFile = "archi.p"
-    
-    logger.info("Loading :" + os.getcwd() + os.sep + conceptFile)
-    concepts = Concepts.loadConcepts(conceptFile)
+    conceptFile = "ngramsubject.p"
+    #conceptFile = "archi.p"
 
-    concepts.logConcepts()
-    #concepts.printConcepts()
+    dir = "/Users/morrj140/Development/GitRepository/DirCrawler/eTools_20142708_094414"
+    #dir = os.getcwd()
+
+    filePath = dir + os.sep + conceptFile
+
+    logger.info("Loading :" + filePath)
+    concepts = Concepts.loadConcepts(filePath)
+
+    #concepts.logConcepts()
+    concepts.printConcepts()
     
         
 
