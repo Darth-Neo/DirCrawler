@@ -10,7 +10,7 @@ from nl_lib.TopicCloud import TopicCloud
 
 logger = Logger.setupLogging(__name__)
 
-def createTopicsCloud(concepts, topic, numWords=30, scale=1.2):
+def createTopicsCloud(concepts, topic, numWords=60, scale=1.2):
     logger.info("Starting Tag Cloud...")
 
     tc = TopicCloud(concepts, os.getcwd() + os.sep)
@@ -31,6 +31,17 @@ if __name__ == "__main__":
 
     #conceptFile = "archi.p"
     #topic="name"
+
+    #conceptFile = "chunks.p"
+    #topic = "Lemma"
+    #topic = "SBJ"
+    #topic = "OBJ"
+    #topic = "VP"
+    #topic = "NN"
+    #topic = "NNP"
+
+    #conceptFile = "ngrams.p"
+    #topic = "TriGram"
 
     conceptFile = "ngramsubject.p"
     topic = "NGRAM"

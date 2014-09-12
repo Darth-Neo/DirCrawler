@@ -17,13 +17,13 @@ if __name__ == "__main__":
     #conceptFile = "topicsDict.p"
     #conceptFile = "documentsSimilarity.p"
     #conceptFile = "NVPChunks.p"
-    conceptFile = "ngrams.p"
+    #conceptFile = "ngrams.p"
     #conceptFile = "ngramscore.p"
     conceptFile = "ngramsubject.p"
     #conceptFile = "archi.p"
 
-    dir = "/Users/morrj140/Development/GitRepository/DirCrawler/eTools_20142708_094414"
-    #dir = os.getcwd()
+    #dir = "/Users/morrj140/Development/GitRepository/DirCrawler/Research_20140409_105046"
+    dir = os.getcwd()
 
     filePath = dir + os.sep + conceptFile
 

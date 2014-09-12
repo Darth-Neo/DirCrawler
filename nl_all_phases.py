@@ -17,6 +17,8 @@ logger = Logger.setupLogging(__name__)
 
 GRAPH = False
 
+DIRECTORY = False
+
 def nl_phases():
     numFilesParsed = 0
 
@@ -55,17 +57,21 @@ def nl_phases():
     #rootDir = "/Users/morrj140/Documents/SolutionEngineering/DNX Phase 2"
     #rootDir = "/Users/morrj140/Documents/SolutionEngineering/Sudhir"
     #rootDir = "/Users/morrj140/Documents/SolutionEngineering/MDX"
+    #rootDir = "/Users/morrj140/Documents/SolutionEngineering/eTools"
 
-    rootDir = "/Users/morrj140/Documents/SolutionEngineering/eTools"
+    #rootDir = "/Users/morrj140/Documents/SolutionEngineering/DLP Gift Card/Research"
 
-    # Change current directory to enable to save pickles
-    p, f = os.path.split(rootDir)
+    rootDir = "/Users/morrj140/Documents/SolutionEngineering/CodeGen/modules"
 
-    homeDir = os.getcwd() + os.sep + f + "_" + time.strftime("%Y%d%m_%H%M%S")
+    if DIRECTORY == True:
+        # Change current directory to enable to save pickles
+        p, f = os.path.split(rootDir)
 
-    if not os.path.exists(homeDir):
-        os.makedirs(homeDir)
-    os.chdir(homeDir)
+        homeDir = os.getcwd() + os.sep + f + "_" + time.strftime("%Y%d%m_%H%M%S")
+
+        if not os.path.exists(homeDir):
+            os.makedirs(homeDir)
+        os.chdir(homeDir)
 
     # measure process time, wall time
     t0 = time.clock()
@@ -95,7 +101,7 @@ def nl_phases():
 
     # nl_phase_e
     #logger.info("createTopicCloud for Subjects")
-    #createTopicsCloud(conceptsNGramSubject, "NGRAM", numWords=30, scale=1.5)
+    #createTopicsCloud(conceptsNGramSubject, "NGRAM", numWords=50, scale=1.5)
 
     if GRAPH == True:
         # nl_phase_f

@@ -38,15 +38,14 @@ def addGraphEdges(graph, concepts, n=0):
             addGraphEdges(graph, c, n)
 
 def graphConcepts(concepts, graph=None):
-    
-    if graph == None:
-        graph = Neo4JGraph(gdb)
 
-        #logger.info("Clear the Graph @" + gdb)
-        #graph.clearGraphDB()
+    #graph = Neo4JGraph(gdb)
 
-        #graph = NetworkXGraph()
-        #graph = PatternGraph()
+    #logger.info("Clear the Graph @" + gdb)
+    #graph.clearGraphDB()
+
+    #graph = NetworkXGraph()
+    graph = PatternGraph()
 
     logger.info("Adding nodes the graph ...")
     addGraphNodes(graph, concepts)
@@ -76,10 +75,10 @@ if __name__ == "__main__":
     #conceptFile = "chunks.p"
     #conceptFile = "topicsDict.p"
     #conceptFile = "TopicChunks.p"
-    #conceptFile = "ngrams.p"
+    conceptFile = "ngrams.p"
     #conceptFile = "ngramscore.p"
-    #conceptFile = "ngramsubject.p"
-    conceptFile = "archi.p"
+    conceptFile = "ngramsubject.p"
+    #conceptFile = "archi.p"
 
     listHomeDir = list()
     #listHomeDir.append(os.getcwd())

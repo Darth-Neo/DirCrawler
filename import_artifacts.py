@@ -29,34 +29,45 @@ CapabilityColumns = ["Capability Name","Capability Type","Capability Created Dat
 FunctionColumns = ["Function Name","Function Created Date","Function Modified Date","Function Hex ID",
                    "Function Comment","Function Org Unit Name","Function Org Unit Hex ID","Function Project Hex ID"]
 
-keyColumns = { "Artifact" : (0,2), "Capability" : (4, 6), "Function" : (4, 7) }
-nameColumns = { "Artifact" : (2,4), "Capability" : (0, 6), "Function" : (0, 6) }
+keyColumns = { "Artifact" : (0,2), "BusinessFunction" : (4, 6), "Function" : (3, 6), "Stakeholder" : (6, 3) }
+nameColumns = { "Artifact" : (1,3), "BusinessFunction" : (0, 6), "Function" : (0, 5), "Stakeholder" : (5, 0) }
 
 dictNode = dict()
+dictRelation = dict()
 
-def insertRelations(p, row, se, tag="element", type="archimate:AssociationRelationship"):
+def insertRelation(p, row, se, tag="element", eType="archimate:Artifact"):
 
     #<folder name="Relations" id="c1ff528d" type="relations">
     # <element xsi:type="archimate:AssociationRelationship" id="b0341e0e" source="ea7c85c4" target="e38ecb1d"/>
 
     # Generate 8 digit Hex number
     id = str(hex(random.randint(0, 16777215)))[-6:] + str(hex(random.randint(0, 16777215))[-2:])
-    name = row[1]
 
-    if len(row) == 4 and len(row[2].strip()) > 0:
+    #name = row[1]
+    in_id = eType[10:]
+    colnum = nameColumns[in_id][0]
+
+    if len(row[colnum].strip()) > 0:
         attrib = dict()
         attrib["id"] = id
 
         try:
-            colnum = keyColumns["Artifact"][0]
+            colnum = keyColumns[eType[10:]][0]
             NodeID1 = row[colnum].decode(encoding='UTF-8',errors='ignore')
             attrib["source"] = dictNode[NodeID1]
 
-            colnum = keyColumns["Artifact"][1]
+            colnum = keyColumns[eType[10:]][1]
             NodeID2 = row[colnum].decode(encoding='UTF-8',errors='ignore')
             attrib["target"] = dictNode[NodeID2]
 
-            attrib["{http://www.w3.org/2001/XMLSchema-instance}type"] = type
+            attrib["{http://www.w3.org/2001/XMLSchema-instance}type"] = "archimate:AssociationRelationship"
+
+            hash = NodeID1 + NodeID2
+
+            if dictRelation.has_key(hash):
+                return 0
+            else:
+                dictRelation[hash] = NodeID1 + NodeID2
 
             logger.debug("%s::%s" % (row[0], row[1]))
 
@@ -66,12 +77,13 @@ def insertRelations(p, row, se, tag="element", type="archimate:AssociationRelati
             return 1
 
         except:
-            logger.warn("Not Found : %s or %s" % (NodeID1, NodeID2))
+            pass
+            #logger.warn("Not Found : %s or %s" % (NodeID1, NodeID2))
 
     return 0
 
 
-def insertNodes(p, row, se, tag="element", type="archimate:Artifact"):
+def insertNode(p, row, se, tag="element", eType="archimate:Artifact"):
     #<element xsi:type="archimate:Node" id="612a9b73" name="Linux Server"/>
 
     # Generate 8 digit Hex number
@@ -79,26 +91,26 @@ def insertNodes(p, row, se, tag="element", type="archimate:Artifact"):
 
     attrib = dict()
     attrib["id"] = id
-    colnum = keyColumns["Artifact"][1]
+    in_id = eType[10:]
+    colnum = nameColumns[in_id][0]
     attrib["name"] = row[colnum].decode(encoding='UTF-8',errors='ignore')
-    attrib["{http://www.w3.org/2001/XMLSchema-instance}type"] = type
+    attrib["{http://www.w3.org/2001/XMLSchema-instance}type"] = eType
+
+    colnum = keyColumns[in_id][0]
+
+    if dictNode.has_key(row[colnum].decode(encoding='UTF-8',errors='ignore')):
+        return 0
+    else:
+       dictNode[row[colnum].decode(encoding='UTF-8',errors='ignore')] = id
 
     logger.debug("%s::%s" % (row[0], row[1]))
 
     elm = etree.Element(tag, attrib, nsmap=NS_MAP)
     se[0].insert(0, elm)
 
-    if type[:6] == "Artifact""
-        #Columns = ["Artifact ID", "Artifact Name", "Owner Artifact ID", "Owner Artifact Name"]
-        colnum = keyColumns["Artifact"][0]
-        dictNode[row[0].decode(encoding='UTF-8',errors='ignore')] = id
-
-    ##<property key="a" value="b"/>
-    #attrib["ArtifactID"]   =
-
     return 1
 
-def insertIntoFolder(tree, folder, fileMetaEntity):
+def insertIntoFolder(tree, folder, fileMetaEntity, eType):
 
     file = open(fileMetaEntity, "rb")
     reader = csv.reader(file)
@@ -123,9 +135,9 @@ def insertIntoFolder(tree, folder, fileMetaEntity):
             break
 
         if folder == "Relations":
-            count += insertRelations(p, row, se)
+            count += insertRelation(p, row, se, eType=eType)
         else:
-            count += insertNodes(p, row, se)
+            count += insertNode(p, row, se, eType=eType)
 
     logger.info("%d inserted in %s" % (count, folder))
 
@@ -146,19 +158,34 @@ def outputXML(tree, filename="import_artifacts.archimate"):
     output.close()
 
 if __name__ == "__main__":
-    fileArchimate = "/Users/morrj140/Documents/SolutionEngineering/DNX Phase 2/DNX Phase 2 0.8.archimate"
-
-    fileMetaEntity = "/Volumes/user/Artifacts.csv"
-
-    p, fname = os.path.split(fileArchimate)
-    logger.info("Using : %s" % fileArchimate)
-
+    fileArchimate = "/Users/morrj140/Development/GitRepository/DirCrawler/CodeGen_v2.archimate"
     etree.QName(ARCHIMATE_NS, 'model')
-
     tree = etree.parse(fileArchimate)
 
-    insertIntoFolder(tree, "Technology", fileMetaEntity)
+    # Artifacts
+    #fileMetaEntity = "/Volumes/user/Artifacts.csv"
+    #p, fname = os.path.split(fileArchimate)
+    #logger.info("Using : %s" % fileArchimate)
+    #insertIntoFolder(tree, "Technology", fileMetaEntity, eType="archimate:Artifact")
+    #insertIntoFolder(tree, "Relations", fileMetaEntity,  eType="archimate:Artifact")
 
-    insertIntoFolder(tree, "Relations", fileMetaEntity)
+    #Capability
+    #fileMetaEntity = "/Users/morrj140/Development/GitRepository/DirCrawler/Mega/Capability.csv"
+    #p, fname = os.path.split(fileArchimate)
+    #logger.info("Using : %s" % fileArchimate)
+    #insertIntoFolder(tree, "Business", fileMetaEntity, eType="archimate:BusinessFunction")
+    #insertIntoFolder(tree, "Relations", fileMetaEntity, eType="archimate:BusinessFunction")
 
+    #Functions
+    fileMetaEntity = "/Users/morrj140/Development/GitRepository/DirCrawler/Mega/Function.csv"
+    p, fname = os.path.split(fileArchimate)
+    logger.info("Using : %s" % fileArchimate)
+    insertIntoFolder(tree, "Business", fileMetaEntity, eType="archimate:BusinessFunction")
+
+    #Function Organizations
+    fileMetaEntity = "/Users/morrj140/Development/GitRepository/DirCrawler/Mega/Function.csv"
+    p, fname = os.path.split(fileArchimate)
+    logger.info("Using : %s" % fileArchimate)
+    insertIntoFolder(tree, "Motivation", fileMetaEntity, eType="archimate:Stakeholder")
+    insertIntoFolder(tree, "Relations", fileMetaEntity, eType="archimate:BusinessFunction")
     outputXML(tree)
