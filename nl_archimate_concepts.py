@@ -212,10 +212,7 @@ if __name__ == "__main__":
     fileArchiP = "archi.p"
     fileArchiModel = 'archi.archimate'
 
-    #fileArchimate = "/Users/morrj140/Documents/SolutionEngineering/DNX Phase 2/DNX Phase 2 0.8.archimate"
-    #fileArchimate = "/Users/morrj140/Documents/SolutionEngineering/Archimate Presentations/Solution Engineering.xml"
-
-    fileArchimate = "/Users/morrj140/Documents/SolutionEngineering/eTools/eTools.archimate"
+    fileArchimate = "/Users/morrj140/Development/GitRepository/DirCrawler/CodeGen_v2.archimate"
 
     p, fname = os.path.split(fileArchimate)
 

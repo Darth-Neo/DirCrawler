@@ -158,6 +158,7 @@ def outputXML(tree, filename="import_artifacts.archimate"):
     output.close()
 
 if __name__ == "__main__":
+    # Archimate
     fileArchimate = "/Users/morrj140/Development/GitRepository/DirCrawler/CodeGen_v2.archimate"
     etree.QName(ARCHIMATE_NS, 'model')
     tree = etree.parse(fileArchimate)
@@ -169,20 +170,20 @@ if __name__ == "__main__":
     #insertIntoFolder(tree, "Technology", fileMetaEntity, eType="archimate:Artifact")
     #insertIntoFolder(tree, "Relations", fileMetaEntity,  eType="archimate:Artifact")
 
-    #Capability
+    # Capability
     #fileMetaEntity = "/Users/morrj140/Development/GitRepository/DirCrawler/Mega/Capability.csv"
     #p, fname = os.path.split(fileArchimate)
     #logger.info("Using : %s" % fileArchimate)
     #insertIntoFolder(tree, "Business", fileMetaEntity, eType="archimate:BusinessFunction")
     #insertIntoFolder(tree, "Relations", fileMetaEntity, eType="archimate:BusinessFunction")
 
-    #Functions
+    # Functions
     fileMetaEntity = "/Users/morrj140/Development/GitRepository/DirCrawler/Mega/Function.csv"
     p, fname = os.path.split(fileArchimate)
     logger.info("Using : %s" % fileArchimate)
     insertIntoFolder(tree, "Business", fileMetaEntity, eType="archimate:BusinessFunction")
 
-    #Function Organizations
+    # Stakeholders
     fileMetaEntity = "/Users/morrj140/Development/GitRepository/DirCrawler/Mega/Function.csv"
     p, fname = os.path.split(fileArchimate)
     logger.info("Using : %s" % fileArchimate)
