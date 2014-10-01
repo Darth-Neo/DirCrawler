@@ -44,8 +44,8 @@ def graphConcepts(concepts, graph=None):
     #logger.info("Clear the Graph @" + gdb)
     #graph.clearGraphDB()
 
-    #graph = NetworkXGraph()
-    graph = PatternGraph()
+    graph = NetworkXGraph()
+    #graph = PatternGraph()
 
     logger.info("Adding nodes the graph ...")
     addGraphNodes(graph, concepts)
@@ -57,7 +57,7 @@ def graphConcepts(concepts, graph=None):
 
     if isinstance(graph, NetworkXGraph):
         #graph.G.remove_node("ProjectConceptsSimilarity")
-        #graph.drawGraph("concepts.png")
+        graph.drawGraph("concepts.png")
         filename = "concepts.net"
         logger.info("Saving Graph - %s" % filename)
         graph.saveGraphPajek(filename)
@@ -70,14 +70,14 @@ def graphConcepts(concepts, graph=None):
         graph.exportGraph()
    
 if __name__ == "__main__":
-    #conceptFile = "documents.p"
+    conceptFile = "documents.p"
     #conceptFile = "NVPChunks.p"
     #conceptFile = "chunks.p"
     #conceptFile = "topicsDict.p"
     #conceptFile = "TopicChunks.p"
-    conceptFile = "ngrams.p"
+    #conceptFile = "ngrams.p"
     #conceptFile = "ngramscore.p"
-    conceptFile = "ngramsubject.p"
+    #conceptFile = "ngramsubject.p"
     #conceptFile = "archi.p"
 
     listHomeDir = list()
@@ -87,7 +87,9 @@ if __name__ == "__main__":
     #homeDir = "C:\\Users\\morrj140\\Dev\\GitRepository\\DirCrawler\\Requirements_20143004_160216"
     #homeDir = "C:\\Users\\morrj140\\Dev\\GitRepository\\DirCrawler\\ExternalInterfaces_20141205_095115"
     #listHomeDir.append("C:\\Users\\morrj140\\Dev\\GitRepository\\DirCrawler\\Services_20143004_101231")
-    listHomeDir.append("/Users/morrj140/Development/GitRepository/DirCrawler")
+    #listHomeDir.append("/Users/morrj140/Development/GitRepository/DirCrawler")
+
+    listHomeDir.append("/Users/morrj140/Development/GitRepository/DirCrawler/Research_20141709_104529")
 
     c = Concepts("GraphConcepts", "GRAPH")
     

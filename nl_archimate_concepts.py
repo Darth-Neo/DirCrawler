@@ -212,7 +212,9 @@ if __name__ == "__main__":
     fileArchiP = "archi.p"
     fileArchiModel = 'archi.archimate'
 
-    fileArchimate = "/Users/morrj140/Development/GitRepository/DirCrawler/CodeGen_v2.archimate"
+    #fileArchimate = "/Users/morrj140/Development/GitRepository/DirCrawler/DNX Phase 2 0.9.archimate"
+
+    fileArchimate = "/Users/morrj140/Development/GitRepository/DirCrawler/CodeGen_v5.archimate"
 
     p, fname = os.path.split(fileArchimate)
 
@@ -222,17 +224,17 @@ if __name__ == "__main__":
 
     tree = etree.parse(fileArchimate)
 
-    print_folder(tree, "Relations")
+    #print_folder(tree, "Relations")
     #print_types(tree, "type")
 
     #
     # Create Concepts from Arhimate
     #
-    # #folderConcepts(tree, concepts)
-    #Concepts.saveConcepts(concepts, "archi.p")
+    folderConcepts(tree, concepts)
+    Concepts.saveConcepts(concepts, "archi.p")
 
     #
     # Generate Archimate from Concepts
     #
-    #output = createArchimate(fileArchiModel, fileArchiP)
+    output = createArchimate(fileArchiModel, fileArchiP)
 

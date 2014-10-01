@@ -71,6 +71,8 @@ class Collocations(object):
 
         words = list()
 
+        dictWords = dict()
+
         for document in self.concepts.getConcepts().values():
             logger.debug(document.name)
             for concept in document.getConcepts().values():
@@ -81,6 +83,13 @@ class Collocations(object):
                     lemmaWord = lemmatizer.lemmatize(word.lower())
                     logger.debug("Word: " + word + " Lemma: " + lemmaWord)
                     words.append(lemmaWord)
+
+                    if pos[0] == "N":
+                        dictWords[lemmaWord] = word
+
+
+        for x in dictWords.keys():
+            logger.info("noun %s" % x)
 
         bcf = BigramCollocationFinder.from_words(words)
         tcf = TrigramCollocationFinder.from_words(words)

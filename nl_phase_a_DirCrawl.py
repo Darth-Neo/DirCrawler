@@ -19,6 +19,9 @@ from pyPdf import PdfFileReader
 
 from traceback import format_exc
 
+from BeautifulSoup import BeautifulSoup
+
+
 import unicodedata
 
 class DirCrawl(object):
@@ -151,10 +154,27 @@ class DirCrawl(object):
             
         return newparatextlist
 
+    def _getTXT(self, filename):
+        logger.info("filename: %s" % filename)
+
+        listText = list()
+
+        soup = BeautifulSoup(open(filename))
+
+        logger.debug("Soup: %s" % soup)
+
+        st = soup.text
+
+        for line in st.split(os.linesep):
+            logger.debug("TXT : %s" % line)
+            listText.append(line)
+
+        return listText
+
     def _getConcepts(self, fname, d, w):
         listText = list()
 
-        try:
+        if True:
             if fname[-5:] == ".docx":
                 listText = self._getDOCXText(fname)
                 self._getOpenXmlText(fname, d)
@@ -169,18 +189,27 @@ class DirCrawl(object):
                 logger.info("++Parsing = %s" % fname) 
             elif fname[-4:] == ".pdf":
                 listText = self._getPDFText(fname, d)
-                logger.info("++Parsing = %s" % fname) 
-        except:
+                logger.info("++Parsing = %s" % fname)
+            elif fname[-4:] in (".txt", ".xml", ".htm"):
+                listText = self._getTXT(fname)
+                logger.info("++Parsing = %s" % fname)
+            elif fname[-5:] == "html":
+                listText = self._getTXT(fname)
+                logger.info("++Parsing = %s" % fname)
+
+        else:
             em = format_exc().split('\n')[-2]
             logger.warn("Warning: %s" % (em))
             
         for t in listText:
             if t != None:
-                sentence = t.encode('ascii', errors="ignore").strip()
-                logger.debug("%s:Text : %s" % (type(sentence), sentence))
-                d.addConceptKeyType(sentence, "Text")
-                self._addWords(w, sentence)
-        
+                try:
+                    sentence = t.encode('ascii', errors="ignore").strip()
+                    logger.debug("%s:Text : %s" % (type(sentence), sentence))
+                    d.addConceptKeyType(sentence, "Text")
+                    self._addWords(w, sentence)
+                except:
+                    pass
         return listText
 
     def _addWords(self, words, sentence):
@@ -231,9 +260,9 @@ if __name__ == '__main__':
     #rootDir = "C:\\Users\\morrj140\\Documents\\System Architecture\\AccoviaReplacement\\Product"
     #rootDir = "C:\\Users\\morrj140\\Dev\\GitRepository\\DirCrawler\\Issues"
     #rootDir = "C:\\Users\\morrj140\\Dev\\GitRepository\\DirCrawler\\test"
-    rootDir = "/Users/morrj140/Development/GitRepository/DirCrawler/Examples"
+    #rootDir = "/Users/morrj140/Development/GitRepository/DirCrawler/Examples"
 
-    rootDir = "/Users/morrj140/Documents/SolutionEngineering/DNX Phase 2/OLCI"
+    rootDir = "/Users/morrj140/Documents/SolutionEngineering/CodeGen/NLP"
 
     dc = DirCrawl()
     

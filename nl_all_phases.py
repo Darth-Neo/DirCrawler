@@ -17,7 +17,7 @@ logger = Logger.setupLogging(__name__)
 
 GRAPH = False
 
-DIRECTORY = False
+DIRECTORY = True
 
 def nl_phases():
     numFilesParsed = 0
@@ -59,9 +59,9 @@ def nl_phases():
     #rootDir = "/Users/morrj140/Documents/SolutionEngineering/MDX"
     #rootDir = "/Users/morrj140/Documents/SolutionEngineering/eTools"
 
-    #rootDir = "/Users/morrj140/Documents/SolutionEngineering/DLP Gift Card/Research"
+    #rootDir = "/Users/morrj140/Documents/SolutionEngineering/Services"
 
-    rootDir = "/Users/morrj140/Documents/SolutionEngineering/CodeGen/modules"
+    rootDir = "/Users/morrj140/Documents/SolutionEngineering/CodeGen/NLP"
 
     if DIRECTORY == True:
         # Change current directory to enable to save pickles
@@ -112,7 +112,7 @@ def nl_phases():
         #graphConcepts(ct.getChunkTopicsConcepts())
         graphConcepts(conceptsNGram)
         #graphConcepts(conceptsNGramScore)
-        #graphConcepts(conceptsNGramSubject)
+        graphConcepts(conceptsNGramSubject)
 
     # Conclude Batch Run
     # Timer
