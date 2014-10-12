@@ -89,7 +89,7 @@ class Collocations(object):
 
 
         for x in dictWords.keys():
-            logger.info("noun %s" % x)
+            logger.info("noun : %s" % x)
 
         bcf = BigramCollocationFinder.from_words(words)
         tcf = TrigramCollocationFinder.from_words(words)

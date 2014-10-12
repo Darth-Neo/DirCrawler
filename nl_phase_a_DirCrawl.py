@@ -193,7 +193,10 @@ class DirCrawl(object):
             elif fname[-4:] in (".txt", ".xml", ".htm"):
                 listText = self._getTXT(fname)
                 logger.info("++Parsing = %s" % fname)
-            elif fname[-5:] == "html":
+            elif fname[-5:] in (".html", ".WSDL"):
+                listText = self._getTXT(fname)
+                logger.info("++Parsing = %s" % fname)
+            elif fname[-4:] in (".xml"):
                 listText = self._getTXT(fname)
                 logger.info("++Parsing = %s" % fname)
 
@@ -212,12 +215,20 @@ class DirCrawl(object):
                     pass
         return listText
 
+    def checkWordCaps(self, w):
+        s = str()
+
+        for x in w:
+            if
+
     def _addWords(self, words, sentence):
             cleanSentence = ' '.join([word for word in sentence.split() if word not in stop])
 
             logger.debug("cs:%s" % cleanSentence)
 
-            for word, pos in nltk.pos_tag(nltk.wordpunct_tokenize(cleanSentence)):                
+            for word, pos in nltk.pos_tag(nltk.wordpunct_tokenize(cleanSentence)):
+
+
                 logger.debug("Word: " + word + " POS: " + pos)
                 c = words.addConceptKeyType(word, "WORD")
                 c.addConceptKeyType(pos, "POS")
@@ -261,8 +272,9 @@ if __name__ == '__main__':
     #rootDir = "C:\\Users\\morrj140\\Dev\\GitRepository\\DirCrawler\\Issues"
     #rootDir = "C:\\Users\\morrj140\\Dev\\GitRepository\\DirCrawler\\test"
     #rootDir = "/Users/morrj140/Development/GitRepository/DirCrawler/Examples"
+    #rootDir = "/Users/morrj140/Documents/SolutionEngineering/CodeGen/NLP"
 
-    rootDir = "/Users/morrj140/Documents/SolutionEngineering/CodeGen/NLP"
+    rootDir = "/Users/morrj140/Documents/SolutionEngineering/Services/export"
 
     dc = DirCrawl()
     

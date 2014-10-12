@@ -4,6 +4,7 @@
 # Natural Language Processing of PMO Information
 #
 import os
+import logging
 
 from nl_lib import Logger
 from nl_lib.Concepts import Concepts
@@ -15,6 +16,7 @@ from nltk.corpus import wordnet as wn
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer, WordNetLemmatizer
 from nltk.tokenize import RegexpTokenizer
+from itertools import islice
 from pattern.vector import count, words, PORTER, LEMMA
 from pattern.vector import Document, Model, TFIDF, HIERARCHICAL
 from pattern.vector import Vector, distance, NB
@@ -22,6 +24,8 @@ from pattern.db import csv
 from pattern.en import parse, Sentence, parsetree
 
 logger = Logger.setupLogging(__name__)
+
+logger.setLevel(logging.DEBUG)
 
 class Chunks(object):
     
@@ -73,8 +77,13 @@ class Chunks(object):
                     logger.debug("Word: " + word + " POS: " + pos)
 
                     if pos[:1] == "N":
+                    #if True:
                         lemmaWord = lemmatizer.lemmatize(word)
                         logger.debug("Word: " + word + " Lemma: " + lemmaWord)
+
+                        morphWord = wn.morphy(word, wn.NOUN)
+                        if morphWord != None:
+                            logger.debug("Word: " + word + " Morph: " + morphWord)
 
                         synset = wn.synsets(word, pos='n')
                         logger.debug("synset : %s" %  synset)
@@ -84,6 +93,9 @@ class Chunks(object):
 
                             root = syn.root_hypernyms()
                             logger.debug("root : %s" %  root)
+
+                            mh = syn.member_holonyms()
+                            logger.debug("member_holonyms : %s" %  mh)
 
                             hypernyms = syn.hypernyms()
                             logger.debug("hypernyms : %s" %  hypernyms)

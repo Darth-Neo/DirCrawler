@@ -6,7 +6,7 @@ import os
 import logging
 from nl_lib import Logger
 from nl_lib.Concepts import Concepts
-from nl_lib.ConceptGraph import PatternGraph, NetworkXGraph, Neo4JGraph
+from nl_lib.ConceptGraph import PatternGraph, NetworkXGraph, Neo4JGraph, GraphVizGraph
 from nl_lib.Constants import *
 
 logger = Logger.setupLogging(__name__)
@@ -44,13 +44,19 @@ def graphConcepts(concepts, graph=None):
     #logger.info("Clear the Graph @" + gdb)
     #graph.clearGraphDB()
 
-    graph = NetworkXGraph()
+    #graph = NetworkXGraph()
     #graph = PatternGraph()
+    graph = GraphVizGraph()
 
     logger.info("Adding nodes the graph ...")
     addGraphNodes(graph, concepts)
     logger.info("Adding edges the graph ...")
     addGraphEdges(graph, concepts)
+
+    if isinstance(graph, GraphVizGraph):
+        filename="example.png"
+        graph.exportGraph(filename=filename)
+        logger.info("Saved Graph - %s" % filename)
 
     if isinstance(graph, Neo4JGraph):
         graph.setNodeLabels()
@@ -70,14 +76,14 @@ def graphConcepts(concepts, graph=None):
         graph.exportGraph()
    
 if __name__ == "__main__":
-    conceptFile = "documents.p"
+    #conceptFile = "documents.p"
     #conceptFile = "NVPChunks.p"
     #conceptFile = "chunks.p"
     #conceptFile = "topicsDict.p"
     #conceptFile = "TopicChunks.p"
     #conceptFile = "ngrams.p"
     #conceptFile = "ngramscore.p"
-    #conceptFile = "ngramsubject.p"
+    conceptFile = "ngramsubject.p"
     #conceptFile = "archi.p"
 
     listHomeDir = list()

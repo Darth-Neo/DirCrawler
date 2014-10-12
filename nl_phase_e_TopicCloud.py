@@ -10,7 +10,7 @@ from nl_lib.TopicCloud import TopicCloud
 
 logger = Logger.setupLogging(__name__)
 
-def createTopicsCloud(concepts, topic, numWords=30, scale=1.2):
+def createTopicsCloud(concepts, topic, numWords=50, scale=1.0):
     logger.info("Starting Tag Cloud...")
 
     tc = TopicCloud(concepts, os.getcwd() + os.sep)
@@ -25,7 +25,7 @@ def createTopicsCloud(concepts, topic, numWords=30, scale=1.2):
 
 if __name__ == "__main__":
     #conceptFile = "TopicChunks.p"
-    #conceptFile = "topicsDict.p"
+    conceptFile = "topicsDict.p"
     #conceptTopic = "Topic"
     #topic = "SBJ"
 
@@ -41,7 +41,18 @@ if __name__ == "__main__":
     #topic = "NNP"
 
     #conceptFile = "ngrams.p"
+
+    conceptFile = "ngramsubject.p"
+    topic = "NGRAM"
+
+
     #topic = "TriGram"
+
+    dir = "/Users/morrj140/Development/GitRepository/DirCrawler/CodeGen/EAI Models_20140310_170012"
+    #dir = os.getcwd()
+
+    #filePath = dir + os.sep + conceptFile
+    filePath = dir + conceptFile
 
     conceptFile = "ngramsubject.p"
     topic = "NGRAM"

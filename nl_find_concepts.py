@@ -35,7 +35,7 @@ if __name__ == "__main__":
 
     listTopics = list()
 
-    term = "Winter"
+    term = "Product"
 
     findConcepts(term, concepts)
 
