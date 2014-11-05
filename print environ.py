@@ -23,6 +23,7 @@ def enVar(variable):
 
 enVar(variable)
 
-print os.environ['USERNAME']
-print os.environ['USERDOMAIN']
-print os.environ['USERDNSDOMAIN']
+if False:
+    print os.environ['USERNAME']
+    print os.environ['USERDOMAIN']
+    print os.environ['USERDNSDOMAIN']

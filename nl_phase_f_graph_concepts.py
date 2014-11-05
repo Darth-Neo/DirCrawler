@@ -17,9 +17,22 @@ gdb = "http://localhost:7474/db/data/"
 #gdb = "http://10.92.82.60:7574/db/data/"
 
 def addGraphNodes(graph, concepts, n=0):
-    n += 1
+    if n == 0:
+        n += 1
+        addGraphNodes(graph, concepts, n)
+    else:
+        n += 1
+
     for c in concepts.getConcepts().values():
         logger.debug("%d : %d Node c : %s:%s" % (n, len(c.getConcepts()), c.name, c.typeName))
+
+        ct = c.name.split(" ")
+        logger.info("ct : %s" % ct)
+        if len(ct) == 3:
+            if ct[0] == ct[1] or ct[0] == ct[2]:
+                logger.info("skip ct : %s" % ct)
+                continue
+
         graph.addConcept(c)
         if len(c.getConcepts()) != 0:
             addGraphNodes(graph, c, n)
@@ -37,7 +50,7 @@ def addGraphEdges(graph, concepts, n=0):
         if len(c.getConcepts()) != 0:
             addGraphEdges(graph, c, n)
 
-def graphConcepts(concepts, graph=None):
+def graphConcepts(concepts, graph=None, filename="example.png"):
 
     #graph = Neo4JGraph(gdb)
 
@@ -54,7 +67,6 @@ def graphConcepts(concepts, graph=None):
     addGraphEdges(graph, concepts)
 
     if isinstance(graph, GraphVizGraph):
-        filename="example.png"
         graph.exportGraph(filename=filename)
         logger.info("Saved Graph - %s" % filename)
 
@@ -77,11 +89,12 @@ def graphConcepts(concepts, graph=None):
    
 if __name__ == "__main__":
     #conceptFile = "documents.p"
+    #conceptFile = "words.p"
     #conceptFile = "NVPChunks.p"
     #conceptFile = "chunks.p"
-    #conceptFile = "topicsDict.p"
+    conceptFile = "topicsDict.p"
     #conceptFile = "TopicChunks.p"
-    #conceptFile = "ngrams.p"
+    conceptFile = "ngrams.p"
     #conceptFile = "ngramscore.p"
     conceptFile = "ngramsubject.p"
     #conceptFile = "archi.p"
@@ -95,7 +108,9 @@ if __name__ == "__main__":
     #listHomeDir.append("C:\\Users\\morrj140\\Dev\\GitRepository\\DirCrawler\\Services_20143004_101231")
     #listHomeDir.append("/Users/morrj140/Development/GitRepository/DirCrawler")
 
-    listHomeDir.append("/Users/morrj140/Development/GitRepository/DirCrawler/Research_20141709_104529")
+    #listHomeDir.append("/Users/morrj140/Development/GitRepository/DirCrawler/Research_20141709_104529")
+
+    listHomeDir.append("/Users/morrj140/Development/GitRepository/DirCrawler/CodeGen_20142710_153333")
 
     c = Concepts("GraphConcepts", "GRAPH")
     
@@ -107,7 +122,7 @@ if __name__ == "__main__":
 
     # c.logConcepts()
     
-    graphConcepts(c)
+    graphConcepts(c, filename="Recommender.png")
 
     
 

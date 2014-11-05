@@ -63,7 +63,9 @@ def nl_phases():
 
     #rootDir = "/Users/morrj140/Documents/SolutionEngineering/CodeGen/TravelBox"
 
-    rootDir = "/Users/morrj140/Documents/SolutionEngineering/EAI Models"
+    #rootDir = "/Users/morrj140/Documents/SolutionEngineering/EAI Models"
+
+    rootDir = "/Users/morrj140/Documents/SolutionEngineering/CodeGen/TravelBox Overview"
 
     if DIRECTORY == True:
         # Change current directory to enable to save pickles

@@ -26,11 +26,13 @@ def createTopicsCloud(concepts, topic, numWords=50, scale=1.0):
 if __name__ == "__main__":
     #conceptFile = "TopicChunks.p"
     conceptFile = "topicsDict.p"
-    #conceptTopic = "Topic"
-    #topic = "SBJ"
+    topic = "Topic"
 
     #conceptFile = "archi.p"
     #topic="name"
+
+    #conceptFile = "ngramsubject.p"
+    #topic = "NGRAM"
 
     #conceptFile = "chunks.p"
     #topic = "Lemma"
@@ -41,24 +43,27 @@ if __name__ == "__main__":
     #topic = "NNP"
 
     #conceptFile = "ngrams.p"
+    #topic = "NGRAM"
 
-    conceptFile = "ngramsubject.p"
-    topic = "NGRAM"
-
-
+    #conceptFile = "ngramsubject.p"
     #topic = "TriGram"
 
-    dir = "/Users/morrj140/Development/GitRepository/DirCrawler/CodeGen/EAI Models_20140310_170012"
+    dir = "/Users/morrj140/Development/GitRepository/DirCrawler/TravelBox Overview_20142810_115621"
     #dir = os.getcwd()
 
     #filePath = dir + os.sep + conceptFile
-    filePath = dir + conceptFile
+    filePath = dir + os.sep + conceptFile
 
-    conceptFile = "ngramsubject.p"
-    topic = "NGRAM"
+    logger.info("Loading Topics from : " + filePath)
 
-    logger.info("Loading Topics from : " + conceptFile)
+    concepts = Concepts.loadConcepts(filePath)
 
-    concepts = Concepts.loadConcepts(conceptFile)
+    newConcepts = Concepts(concepts.name, concepts.typeName)
+    for c in concepts.getConcepts().values():
+        name = c.name.strip("\"")
+        typeName = c.typeName
+        nc = newConcepts.addConceptKeyType(name, typeName)
+        nc.count = c.count
+        logger.info("name : %s" % name)
 
-    createTopicsCloud(concepts, topic)
+    createTopicsCloud(newConcepts, topic)

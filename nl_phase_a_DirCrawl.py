@@ -48,91 +48,110 @@ class DirCrawl(object):
     def _getOpenXmlText(self, filename, c):
         logger.debug("OpenXmlText: %s" % filename)
 
-        doc = openxmllib.openXmlDocument(path=filename)
+        try:
 
-        logger.debug ("%s\n" % (doc.allProperties))
+            doc = openxmllib.openXmlDocument(path=filename)
 
-        ap = c.addConceptKeyType("allProperties","PROPERTIES")
-        for x in doc.allProperties:
-            logger.debug("cp %s:%s" % (x, doc.allProperties[x]))
-            ap.addConceptKeyType(doc.allProperties[x], x)
+            logger.debug ("%s\n" % (doc.allProperties))
+
+            ap = c.addConceptKeyType("allProperties","PROPERTIES")
+            for x in doc.allProperties:
+                logger.debug("cp %s:%s" % (x, doc.allProperties[x]))
+                ap.addConceptKeyType(doc.allProperties[x], x)
+        except:
+            pass
 
     def _getPDFText(self, filename, d):
         logger.debug("filename: %s" % filename)
-        newparatextlist = []
+        newparatextlist = list()
 
-        pdfDoc = PdfFileReader(file(filename, "rb"))
-        
-        pdfDict = pdfDoc.getDocumentInfo()
+        try:
+            pdfDoc = PdfFileReader(file(filename, "rb"))
 
-        for x in pdfDict.keys():
-            d.addConceptKeyType(x[1:], pdfDict[x])
-        
-        #c.logConcepts()
-        
-        for page in pdfDoc.pages:
-            text = page.extractText()
-            if not isinstance(text, str):
-                unicodedata.normalize('NFKD', text).encode('ascii', 'ignore')
-            
-            logger.debug("PDF : %s" % text)
-                        
-            newparatextlist.append(text + ". ")
+            pdfDict = pdfDoc.getDocumentInfo()
 
-        return newparatextlist
+            for x in pdfDict.keys():
+                d.addConceptKeyType(x[1:], pdfDict[x])
+
+            #c.logConcepts()
+
+            for page in pdfDoc.pages:
+                text = page.extractText()
+                if not isinstance(text, str):
+                    unicodedata.normalize('NFKD', text).encode('ascii', 'ignore')
+
+                logger.debug("PDF : %s" % text)
+
+                newparatextlist.append(text + ". ")
+
+            return newparatextlist
+
+        except:
+            pass
 
     def _getPPTXText(self, filename):
         logger.debug("filename: %s" % filename)
-        
-        prs = Presentation(filename)
 
-        newparatextlist = []
+        newparatextlist = list()
 
-        for slide in prs.slides:
-            for shape in slide.shapes:
-                if not shape.has_textframe:
-                    continue
-                for paragraph in shape.textframe.paragraphs:
-                    for run in paragraph.runs:
-                        logger.debug("PPTX : %s" % run.text)
-                        if run.text != None:
-                            if not isinstance(run.text, str):
-                                unicodedata.normalize('NFKD', run.text).encode('ascii', 'ignore')
-                            newparatextlist.append(run.text + ". ")
+        try:
+
+            prs = Presentation(filename)
+
+            for slide in prs.slides:
+                for shape in slide.shapes:
+                    if not shape.has_text_frame:
+                        continue
+                    for paragraph in shape.textframe.paragraphs:
+                        for run in paragraph.runs:
+                            logger.debug("PPTX : %s" % run.text)
+                            if run.text != None:
+                                if not isinstance(run.text, str):
+                                    unicodedata.normalize('NFKD', run.text).encode('ascii', 'ignore')
+                                newparatextlist.append(run.text + ". ")
+        except:
+            pass
+
         return newparatextlist
 
     def _getXLSText(self, filename):
         logger.debug("filename: %s" % filename)
 
-        newparatextlist = []
-        workbook = xlrd.open_workbook(filename)
+        newparatextlist = list()
 
-        #sheet = "Specific Requirements"
-        #worksheet = workbook.sheet_by_name(sheet)
+        try:
 
-        CellTypes = ["Empty", "Text", "Number", "Date", "Boolean", "Error", "Blank"]
 
-        for worksheet_name in workbook.sheet_names():
-            worksheet = workbook.sheet_by_name(worksheet_name)
-            num_rows = worksheet.nrows - 1
-            num_cells = worksheet.ncols - 1
-            curr_row = -1
+            workbook = xlrd.open_workbook(filename)
 
-            while curr_row < num_rows:
-                curr_row += 1
-                row = worksheet.row(curr_row)
-                logger.debug('Row: %s' % curr_row)
-                curr_cell = -1
-                while curr_cell < num_cells:
-                    curr_cell += 1
-                    # Cell Types: 0=Empty, 1=Text, 2=Number, 3=Date, 4=Boolean, 5=Error, 6=Blank
-                    cell_type = worksheet.cell_type(curr_row, curr_cell)
-                    cell_value = worksheet.cell_value(curr_row, curr_cell)
-                    if cell_type == 1:
-                        if not isinstance(cell_value, str):
-                            unicodedata.normalize('NFKD', cell_value).encode('ascii', 'ignore')
-                        logger.debug("XLXS : %s" % cell_value)
-                        newparatextlist.append(cell_value + ". ")
+            #sheet = "Specific Requirements"
+            #worksheet = workbook.sheet_by_name(sheet)
+
+            CellTypes = ["Empty", "Text", "Number", "Date", "Boolean", "Error", "Blank"]
+
+            for worksheet_name in workbook.sheet_names():
+                worksheet = workbook.sheet_by_name(worksheet_name)
+                num_rows = worksheet.nrows - 1
+                num_cells = worksheet.ncols - 1
+                curr_row = -1
+
+                while curr_row < num_rows:
+                    curr_row += 1
+                    row = worksheet.row(curr_row)
+                    logger.debug('Row: %s' % curr_row)
+                    curr_cell = -1
+                    while curr_cell < num_cells:
+                        curr_cell += 1
+                        # Cell Types: 0=Empty, 1=Text, 2=Number, 3=Date, 4=Boolean, 5=Error, 6=Blank
+                        cell_type = worksheet.cell_type(curr_row, curr_cell)
+                        cell_value = worksheet.cell_value(curr_row, curr_cell)
+                        if cell_type == 1:
+                            if not isinstance(cell_value, str):
+                                unicodedata.normalize('NFKD', cell_value).encode('ascii', 'ignore')
+                            logger.debug("XLXS : %s" % cell_value)
+                            newparatextlist.append(cell_value + ". ")
+        except:
+            pass
 
         return newparatextlist
 
@@ -218,8 +237,7 @@ class DirCrawl(object):
     def checkWordCaps(self, w):
         s = str()
 
-        for x in w:
-            if
+
 
     def _addWords(self, words, sentence):
             cleanSentence = ' '.join([word for word in sentence.split() if word not in stop])
