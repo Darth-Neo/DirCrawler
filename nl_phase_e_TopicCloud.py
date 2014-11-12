@@ -24,15 +24,21 @@ def createTopicsCloud(concepts, topic, numWords=50, scale=1.0):
 
 
 if __name__ == "__main__":
+
     #conceptFile = "TopicChunks.p"
+    #topic = "Chunk"
+
     conceptFile = "topicsDict.p"
-    topic = "Topic"
+    topic="Topic"
 
     #conceptFile = "archi.p"
     #topic="name"
 
     #conceptFile = "ngramsubject.p"
-    #topic = "NGRAM"
+    #topic="NGRAM"
+
+    #conceptFile = "req.p"
+    #topic = "Word"
 
     #conceptFile = "chunks.p"
     #topic = "Lemma"
@@ -45,25 +51,16 @@ if __name__ == "__main__":
     #conceptFile = "ngrams.p"
     #topic = "NGRAM"
 
-    #conceptFile = "ngramsubject.p"
-    #topic = "TriGram"
-
-    dir = "/Users/morrj140/Development/GitRepository/DirCrawler/TravelBox Overview_20142810_115621"
+    directory = "/Users/morrj140/Development/GitRepository/DirCrawler/DVC_20141211_100141"
     #dir = os.getcwd()
 
-    #filePath = dir + os.sep + conceptFile
-    filePath = dir + os.sep + conceptFile
+    os.chdir(directory)
 
+    c = Concepts("GraphConcepts", "GRAPH")
+
+    filePath = directory + os.sep + conceptFile
     logger.info("Loading Topics from : " + filePath)
 
     concepts = Concepts.loadConcepts(filePath)
 
-    newConcepts = Concepts(concepts.name, concepts.typeName)
-    for c in concepts.getConcepts().values():
-        name = c.name.strip("\"")
-        typeName = c.typeName
-        nc = newConcepts.addConceptKeyType(name, typeName)
-        nc.count = c.count
-        logger.info("name : %s" % name)
-
-    createTopicsCloud(newConcepts, topic)
+    createTopicsCloud(concepts, topic)

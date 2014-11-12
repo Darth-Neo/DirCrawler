@@ -92,14 +92,15 @@ if __name__ == "__main__":
     #conceptFile = "words.p"
     #conceptFile = "NVPChunks.p"
     #conceptFile = "chunks.p"
-    conceptFile = "topicsDict.p"
+    #conceptFile = "topicsDict.p"
     #conceptFile = "TopicChunks.p"
-    conceptFile = "ngrams.p"
+    #conceptFile = "ngrams.p"
     #conceptFile = "ngramscore.p"
     conceptFile = "ngramsubject.p"
     #conceptFile = "archi.p"
 
     listHomeDir = list()
+    listHomeDir.append("/Users/morrj140/Development/GitRepository/DirCrawler/DVC_20141211_100141")
     #listHomeDir.append(os.getcwd())
     #listHomeDir.append("C:\Users\morrj140\Dev\GitRepository\DirCrawler\SmartMedia_20140206_120122")
     #listHomeDir.append("C:\\Users\\morrj140\\Dev\\GitRepository\\DirCrawler\\Estimates_20141205_124422")
@@ -110,7 +111,7 @@ if __name__ == "__main__":
 
     #listHomeDir.append("/Users/morrj140/Development/GitRepository/DirCrawler/Research_20141709_104529")
 
-    listHomeDir.append("/Users/morrj140/Development/GitRepository/DirCrawler/CodeGen_20142710_153333")
+    #listHomeDir.append("/Users/morrj140/Development/GitRepository/DirCrawler/CodeGen_20142710_153333")
 
     c = Concepts("GraphConcepts", "GRAPH")
     
@@ -122,7 +123,7 @@ if __name__ == "__main__":
 
     # c.logConcepts()
     
-    graphConcepts(c, filename="Recommender.png")
+    graphConcepts(c, filename="DVC.png")
 
     
 
