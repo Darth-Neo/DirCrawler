@@ -222,22 +222,22 @@ class DirCrawl(object):
         else:
             em = format_exc().split('\n')[-2]
             logger.warn("Warning: %s" % (em))
-            
-        for t in listText:
-            if t != None:
-                try:
-                    sentence = t.encode('ascii', errors="ignore").strip()
-                    logger.debug("%s:Text : %s" % (type(sentence), sentence))
-                    d.addConceptKeyType(sentence, "Text")
-                    self._addWords(w, sentence)
-                except:
-                    pass
+
+        if listText != None:
+            for t in listText:
+                if t != None:
+                    try:
+                        sentence = t.encode('ascii', errors="ignore").strip()
+                        logger.debug("%s:Text : %s" % (type(sentence), sentence))
+                        d.addConceptKeyType(sentence, "Text")
+                        self._addWords(w, sentence)
+                    except:
+                        pass
+
         return listText
 
     def checkWordCaps(self, w):
         s = str()
-
-
 
     def _addWords(self, words, sentence):
             cleanSentence = ' '.join([word for word in sentence.split() if word not in stop])
@@ -259,7 +259,7 @@ class DirCrawl(object):
 
         listText = self._getConcepts(fname, d, w)
 
-        if len(listText) == 0:
+        if listText != None and len(listText) == 0:
             logger.debug("%s has no text" % (fname))
             return 0
         else:

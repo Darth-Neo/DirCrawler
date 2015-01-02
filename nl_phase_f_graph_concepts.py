@@ -26,7 +26,7 @@ def addGraphNodes(graph, concepts, n=0):
     for c in concepts.getConcepts().values():
         logger.debug("%d : %d Node c : %s:%s" % (n, len(c.getConcepts()), c.name, c.typeName))
 
-        ct = c.name.split(" ")
+        ct = c.name.strip("\"").split(" ")
         logger.info("ct : %s" % ct)
         if len(ct) == 3:
             if ct[0] == ct[1] or ct[0] == ct[2]:
@@ -57,9 +57,9 @@ def graphConcepts(concepts, graph=None, filename="example.png"):
     #logger.info("Clear the Graph @" + gdb)
     #graph.clearGraphDB()
 
-    #graph = NetworkXGraph()
+    graph = NetworkXGraph()
     #graph = PatternGraph()
-    graph = GraphVizGraph()
+    #graph = GraphVizGraph()
 
     logger.info("Adding nodes the graph ...")
     addGraphNodes(graph, concepts)
@@ -75,7 +75,7 @@ def graphConcepts(concepts, graph=None, filename="example.png"):
 
     if isinstance(graph, NetworkXGraph):
         #graph.G.remove_node("ProjectConceptsSimilarity")
-        graph.drawGraph("concepts.png")
+        #graph.drawGraph("concepts.png")
         filename = "concepts.net"
         logger.info("Saving Graph - %s" % filename)
         graph.saveGraphPajek(filename)
@@ -100,7 +100,7 @@ if __name__ == "__main__":
     #conceptFile = "archi.p"
 
     listHomeDir = list()
-    listHomeDir.append("/Users/morrj140/Development/GitRepository/DirCrawler/DVC_20141211_100141")
+    listHomeDir.append("/Users/morrj140/Development/GitRepository/DirCrawler/DVC_20150201_102155")
     #listHomeDir.append(os.getcwd())
     #listHomeDir.append("C:\Users\morrj140\Dev\GitRepository\DirCrawler\SmartMedia_20140206_120122")
     #listHomeDir.append("C:\\Users\\morrj140\\Dev\\GitRepository\\DirCrawler\\Estimates_20141205_124422")

@@ -26,41 +26,6 @@ def nl_phases():
     logger.debug("Argument List:" + str(sys.argv))
     
     # Set the directory you want to start from
-    #rootDir = "C:\\Users\\morrj140\\Documents\\System Architecture"
-    #rootDir = "C:\\Users\\morrj140\\Documents\\System Architecture\\\AccoviaReplacement"
-    #rootDir = "C:\\Users\morrj140\\Documents\\System Architecture\\OneSourceDocumentation"
-    #rootDir = "C:\\Users\\morrj140\\Documents\\System Architecture\\AccoviaReplacement\\ProductProgram\\functionality"
-    #rootDir = "C:\\Users\\morrj140\\Dev\\GitRepository\\DirCrawler\\Issues"
-    #rootDir = "C:\\Users\\morrj140\\Dev\\GitRepository\\DirCrawler\\Services"
-    #rootDir = "C:\\Users\\morrj140\\Dev\\GitRepository\\DirCrawler\\Requirements"
-    #rootDir = "C:\\Users\\morrj140\\Dev\\GitRepository\\DirCrawler\\ExternalInterfaces"
-    #rootDir = "C:\\Users\\morrj140\\Dev\\GitRepository\\DirCrawler\\product_types"
-    #rootDir = "C:\\Users\\morrj140\\Documents\\System Architecture\\AccoviaReplacement\\Product"
-    #rootDir = "C:\\Users\\morrj140\\Documents\\System Architecture\\AccoviaReplacement\\Order"
-    #rootDir = "C:\\Users\\morrj140\\Documents\\System Architecture\\AccoviaReplacement\\Estimates"
-    #rootDir = "C:\\Users\\morrj140\\Documents\\System Architecture\\AccoviaReplacement\\HKDL"
-    #rootDir = "C:\\Users\\morrj140\\Documents\\System Architecture\\AccoviaReplacement\\RFP\\Accovia"
-    #rootDir = "C:\\Users\\morrj140\\Documents\\System Architecture\\SmartMedia"
-    #rootDir = "C:\\Users\\morrj140\\Documents\\System Architecture\\AccoviaReplacement\RFP\Requirements"
-    #rootDir = "C:\\Users\\morrj140\\Documents\\System Architecture\\TechnologySegment\\NGE"
-    #rootDir = "C:\\Users\\morrj140\\Documents\\SolutionEngineering\\DigitalAccessManagement"
-    #rootDir = "C:\\Users\\morrj140\\Documents\\SolutionEngineering\\DigitalAccessManagement\\Vendor_Demo_Prep_Package\\OpenText"
-    #rootDir = "C:\\Users\\morrj140\\Documents\\SolutionEngineering\\DigitalAccessManagement\\Vendor_Demo_Prep_Package\\MediaBeacon"
-    #rootDir = "C:\\Users\\morrj140\\Documents\\SolutionEngineering\\DigitalAccessManagement\\Vendor_Demo_Prep_Package\\NorthPlains"
-    #rootDir = "C:\\Users\\morrj140\\Documents\\SolutionEngineering\\DigitalAccessManagement\\Vendor_Demo_Prep_Package\\Adam"
-    #rootDir = "C:\\Users\\morrj140\\Documents\\SolutionEngineering\\DigitalAccessManagement\\Vendor_Demo_Prep_Package\\5thKind"
-    #rootDir = "C:\\Users\\morrj140\\Documents\\SolutionEngineering\\SOAService"
-    #rootDir = "C:\\Users\\morrj140\\Documents\\SolutionEngineering\\DigitalAccessManagement\\MAM"
-    #rootDir = "/Users/morrj140/Documents/SolutionEngineering/DigitalAccessManagement"
-    #rootDir = "/Users/morrj140/Development/GitRepository/DirCrawler/Examples"
-    #rootDir = "/Users/morrj140/Documents/SolutionEngineering/DNX Phase 2/OLCI"
-    #rootDir = "/Users/morrj140/Documents/SolutionEngineering/DNX Phase 2"
-    #rootDir = "/Users/morrj140/Documents/SolutionEngineering/Sudhir"
-    #rootDir = "/Users/morrj140/Documents/SolutionEngineering/MDX"
-    #rootDir = "/Users/morrj140/Documents/SolutionEngineering/eTools"
-    #rootDir = "/Users/morrj140/Documents/SolutionEngineering/Services"
-    #rootDir = "/Users/morrj140/Documents/SolutionEngineering/CodeGen/TravelBox"
-    #rootDir = "/Users/morrj140/Documents/SolutionEngineering/EAI Models"
     rootDir = "/Users/morrj140/Documents/SolutionEngineering/DVC"
 
     if DIRECTORY == True:
@@ -126,8 +91,12 @@ def nl_phases():
     logger.info("Completion time : %s" % localtime)
 
     # measure process time
-    logger.info("Process Time = %4.2f seconds" % (time.clock() - t0))
+    timeTaken = (time.clock() - t0)
+    hours = timeTaken / 60
+    minutes = timeTaken % 60
+    logger.info("Process Time = %4.2f seconds, %d Minutes, %d hours" % (timeTaken, minutes, hours))
 
 if __name__ == "__main__":
     nl_phases()
-    
+
+        

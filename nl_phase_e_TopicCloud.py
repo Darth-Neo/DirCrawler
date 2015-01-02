@@ -28,14 +28,14 @@ if __name__ == "__main__":
     #conceptFile = "TopicChunks.p"
     #topic = "Chunk"
 
-    conceptFile = "topicsDict.p"
-    topic="Topic"
+    #conceptFile = "topicsDict.p"
+    #topic="Topic"
 
     #conceptFile = "archi.p"
     #topic="name"
 
-    #conceptFile = "ngramsubject.p"
-    #topic="NGRAM"
+    conceptFile = "ngramsubject.p"
+    topic="NGRAM"
 
     #conceptFile = "req.p"
     #topic = "Word"
@@ -51,7 +51,7 @@ if __name__ == "__main__":
     #conceptFile = "ngrams.p"
     #topic = "NGRAM"
 
-    directory = "/Users/morrj140/Development/GitRepository/DirCrawler/DVC_20141211_100141"
+    directory = "/Users/morrj140/Development/GitRepository/DirCrawler/DVC_20150201_102155"
     #dir = os.getcwd()
 
     os.chdir(directory)

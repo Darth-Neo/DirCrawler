@@ -81,6 +81,8 @@ class DocumentsSimilarity(object):
 
         self.tm = TopicsModel()
 
+        self.concepts.cleanConcepts()
+
         logger.info("Load Documents from Concepts")
         self.documentsList, self.wordcount = self.tm.loadConceptsWords(self.concepts)
 
@@ -92,7 +94,7 @@ class DocumentsSimilarity(object):
         logger.info("Log Topics")
         self.tm.logTopics(self.topics)
 
-        self.listTopics = [x[0].encode('ascii', errors="ignore").strip() for x in self.topics]
+        self.listTopics = [x[0].encode('ascii', errors="ignore").strip().replace("\"", "") for x in self.topics]
 
         logger.info("Saving Topics")
         self.topicConcepts = self.tm.saveTopics(self.topics)

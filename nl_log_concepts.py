@@ -12,9 +12,9 @@ logger = Logger.setupLogging(__name__)
 if __name__ == "__main__":
     #conceptFile = "documents.p"
     #conceptFile = "words.p"
-    conceptFile = "chunks.p"
+    #conceptFile = "chunks.p"
     #conceptFile = "topicChunks.p"
-    #conceptFile = "topicsDict.p"
+    conceptFile = "topicsDict.p"
     #conceptFile = "documentsSimilarity.p"
     #conceptFile = "NVPChunks.p"
     #conceptFile = "ngrams.p"
@@ -23,8 +23,8 @@ if __name__ == "__main__":
     #conceptFile = "archi.p"
     #conceptFile = "pptx.p"
 
-    dir = "/Users/morrj140/Development/GitRepository/DirCrawler/DVC_20141211_100141"
-    #dir = os.getcwd()
+    #dir = "/Users/morrj140/Development/GitRepository/DirCrawler/DVC_20150201_102155"
+    dir = os.getcwd()
 
     filePath = dir + os.sep + conceptFile
     #filePath = conceptFile
