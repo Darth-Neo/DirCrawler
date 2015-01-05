@@ -9,6 +9,8 @@ logger = Logger.setupLogging(__name__)
 import logging
 logger.setLevel(logging.INFO)
 
+import networkx as nx
+
 from nl_lib.Concepts import Concepts
 from nl_lib.ConceptGraph import PatternGraph, NetworkXGraph, Neo4JGraph, GraphVizGraph
 from nl_lib.Constants import *
@@ -81,12 +83,48 @@ def graphConcepts(concepts, graph=None, filename="example.png"):
         graph.saveGraphPajek(filename)
         graph.saveGraph("concepts.gml")
         logger.info("Saving Graph - %s" % "concepts.gml")
-        
+
+        gl = nx.connected_components(graph.G) # [[1, 2, 3], ['spam']]
+        logGraph(gl, "Connected")
+
+        gl = nx.clustering(graph.G)
+        logGraph(gl, "Cluster")
+
+        gl = nx.closeness_centrality(graph.G)
+        logGraph(gl, "Closeness")
+
+        gl = nx.betweenness_centrality(graph.G)
+        logGraph(gl, "Betweenness_Centrality")
+
+        gl = nx.pagerank(graph.G)
+        logGraph(gl, "Page Rank")
+
+        gl = nx.hits(graph.G)
+        logGraph(gl, "Hits")
+
+        gl = nx.authority_matrix(graph.G)
+        #logGraph(gl, "authority_matrix")
+
+        gl = nx.minimum_spanning_tree(graph.G)
+        logGraph(gl, "minimum_spanning_tree")
+
     if isinstance(graph, PatternGraph):
         #graph.g.remove("ProjectConceptsSimilarity")
         logger.info("Exporting Graph")
         graph.exportGraph()
-   
+
+def logGraph(gl, title, scale=1):
+    logger.info("---%s---" % title)
+    n = 0
+    for x in gl:
+        n += 1
+        if isinstance(gl, dict):
+            logger.info("%s [%d]:%s=%3.4f" % (title, n, x, gl[x]*scale))
+
+        else:
+            logger.info("%s [%d]" % (x, n))
+
+
 if __name__ == "__main__":
     #conceptFile = "documents.p"
     #conceptFile = "words.p"
@@ -100,7 +138,7 @@ if __name__ == "__main__":
     #conceptFile = "archi.p"
 
     listHomeDir = list()
-    listHomeDir.append("/Users/morrj140/Development/GitRepository/DirCrawler/DVC_20150201_102155")
+    listHomeDir.append("/Users/morrj140/Development/GitRepository/DirCrawler/DVC_20150501_143307")
     #listHomeDir.append(os.getcwd())
     #listHomeDir.append("C:\Users\morrj140\Dev\GitRepository\DirCrawler\SmartMedia_20140206_120122")
     #listHomeDir.append("C:\\Users\\morrj140\\Dev\\GitRepository\\DirCrawler\\Estimates_20141205_124422")

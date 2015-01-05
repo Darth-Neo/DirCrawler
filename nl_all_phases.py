@@ -95,8 +95,8 @@ def nl_phases():
 
     # measure process time
     timeTaken = (time.clock() - t0)
-    hours = timeTaken / 60
-    minutes = timeTaken % 60
+    minutes = timeTaken / 60
+    hours = minutes / 60
     logger.info("Process Time = %4.2f seconds, %d Minutes, %d hours" % (timeTaken, minutes, hours))
 
 if __name__ == "__main__":
