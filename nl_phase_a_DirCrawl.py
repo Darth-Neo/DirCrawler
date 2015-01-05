@@ -1,11 +1,12 @@
 #
 # Crawl a directory for documents and pull out the text
 #
-import sys
-import os
 
 from nl_lib import Logger
 logger = Logger.setupLogging(__name__)
+
+import logging
+logger.setLevel(logging.INFO)
 
 from nl_lib.Constants import *
 from nl_lib.Concepts import Concepts
@@ -13,7 +14,7 @@ from nl_lib.Concepts import Concepts
 import nltk
 import openxmllib
 from pptx import Presentation
-from docx import opendocx, getdocumenttext
+from Examples.docx import opendocx, getdocumenttext
 import xlrd
 from pyPdf import PdfFileReader
 
@@ -174,7 +175,7 @@ class DirCrawl(object):
         return newparatextlist
 
     def _getTXT(self, filename):
-        logger.info("filename: %s" % filename)
+        logger.debug("filename: %s" % filename)
 
         listText = list()
 

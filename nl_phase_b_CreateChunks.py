@@ -4,9 +4,12 @@
 # Natural Language Processing of PMO Information
 #
 import os
-import logging
-
 from nl_lib import Logger
+logger = Logger.setupLogging(__name__)
+
+import logging
+logger.setLevel(logging.INFO)
+
 from nl_lib.Concepts import Concepts
 from nl_lib.Constants import *
 
@@ -23,9 +26,7 @@ from pattern.vector import Vector, distance, NB
 from pattern.db import csv
 from pattern.en import parse, Sentence, parsetree
 
-logger = Logger.setupLogging(__name__)
 
-logger.setLevel(logging.DEBUG)
 
 class Chunks(object):
     
@@ -64,7 +65,7 @@ class Chunks(object):
         tokenizer = RegexpTokenizer("[\w]+")
         
         for document in self.concepts.getConcepts().values():
-            logger.info("%s" % document.name)
+            logger.debug("%s" % document.name)
             d = self.chunkConcepts.addConceptKeyType(document.name, "Document")
             
             for sentence in document.getConcepts().values():

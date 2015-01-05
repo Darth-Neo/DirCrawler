@@ -3,15 +3,15 @@
 # Natural Language Processing of PMO Information
 #
 import os
-import logging
 from nl_lib import Logger
+logger = Logger.setupLogging(__name__)
+
+import logging
+logger.setLevel(logging.INFO)
+
 from nl_lib.Concepts import Concepts
 from nl_lib.ConceptGraph import PatternGraph, NetworkXGraph, Neo4JGraph, GraphVizGraph
 from nl_lib.Constants import *
-
-logger = Logger.setupLogging(__name__)
-
-logger.setLevel(logging.INFO)
 
 gdb = "http://localhost:7474/db/data/"
 #gdb = "http://10.92.82.60:7574/db/data/"

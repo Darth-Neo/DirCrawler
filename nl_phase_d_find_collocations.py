@@ -3,8 +3,14 @@
 # Natural Language Processing of PMO Information
 #
 import os
-from nl_lib.Constants import *
+
 from nl_lib import Logger
+logger = Logger.setupLogging(__name__)
+
+import logging
+logger.setLevel(logging.INFO)
+
+from nl_lib.Constants import *
 from nl_lib.Concepts import Concepts
 
 import nltk
@@ -15,8 +21,6 @@ from nltk.metrics import BigramAssocMeasures, TrigramAssocMeasures
 from nltk.corpus import stopwords
 from nltk.corpus import wordnet as wn
 from nltk.stem import PorterStemmer, WordNetLemmatizer
-
-logger = Logger.setupLogging(__name__)
 
 class Collocations(object):
     concepts         = None

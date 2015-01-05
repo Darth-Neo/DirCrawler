@@ -3,12 +3,15 @@
 # Natural Language Processing of Information
 #
 import os
-from nl_lib.Constants import *
 from nl_lib import Logger
+logger = Logger.setupLogging(__name__)
+
+import logging
+logger.setLevel(logging.INFO)
+
+from nl_lib.Constants import *
 from nl_lib.Concepts import Concepts
 
-logger = Logger.setupLogging(__name__)
-   
 if __name__ == "__main__":
     #conceptFile = "documents.p"
     #conceptFile = "words.p"

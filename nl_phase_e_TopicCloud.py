@@ -4,11 +4,14 @@
 #
 import os
 from nl_lib import Logger
+logger = Logger.setupLogging(__name__)
+
+import logging
+logger.setLevel(logging.INFO)
+
 from nl_lib.Constants import *
 from nl_lib.Concepts import Concepts
 from nl_lib.TopicCloud import TopicCloud
-
-logger = Logger.setupLogging(__name__)
 
 def createTopicsCloud(concepts, topic, numWords=50, scale=1.0):
     logger.info("Starting Tag Cloud...")

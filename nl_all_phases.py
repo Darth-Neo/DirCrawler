@@ -5,6 +5,12 @@
 import os
 import sys
 
+from nl_lib import Logger
+logger = Logger.setupLogging(__name__)
+
+import logging
+logger.setLevel(logging.INFO)
+
 from nl_phase_a_DirCrawl import *
 from nl_phase_b_CreateChunks import *
 from nl_phase_c_Topics import *
@@ -13,10 +19,7 @@ from nl_phase_d_find_collocations import *
 from nl_phase_f_graph_concepts import *
 import time
 
-logger = Logger.setupLogging(__name__)
-
 GRAPH = False
-
 DIRECTORY = True
 
 def nl_phases():
