@@ -1,15 +1,13 @@
-import os
-from nl_lib.Constants import *
-from nl_lib import Logger
-from nl_lib.Concepts import Concepts
-
-import openxmllib
-import docx
 import unicodedata
 
+from nl_lib import Logger
+from nl_lib.Concepts import Concepts
+import openxmllib
 import xlrd
 from pptx import Presentation
-from docx import opendocx, getdocumenttext
+
+from Examples import docx
+
 
 logger = Logger.setupLogging(__name__)
 

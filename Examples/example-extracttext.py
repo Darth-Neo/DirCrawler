@@ -11,7 +11,7 @@ See LICENSE for licensing information.
 
 import sys
 
-from docx import opendocx, getdocumenttext
+from Examples.docx import opendocx, getdocumenttext
 
 if __name__ == '__main__':
     try:
