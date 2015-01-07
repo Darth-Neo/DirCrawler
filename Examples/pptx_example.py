@@ -1,6 +1,6 @@
 from pptx import Presentation
 
-path_to_presentation = "C:\\Users\\morrj140\\Dev\\GitRepository\\DirCrawler\\Introduction to GBTS - v1.1.pptx"
+path_to_presentation = "/Users/morrj140/Development/GitRepository/DirCrawler/Business Resource Estimates.pptx"
 prs = Presentation(path_to_presentation)
 
 # text_runs will be populated with a list of strings,

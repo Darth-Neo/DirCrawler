@@ -1,12 +1,10 @@
 #
 # Crawl a directory for documents and pull out the text
 #
-
 from nl_lib import Logger
-logger = Logger.setupLogging(__name__)
 
-import logging
-logger.setLevel(logging.INFO)
+logger = Logger.setupLogging(__name__)
+logger.setLevel(Logger.INFO)
 
 from nl_lib.Constants import *
 from nl_lib.Concepts import Concepts
@@ -22,6 +20,14 @@ from traceback import format_exc
 
 from BeautifulSoup import BeautifulSoup
 
+#import textract
+
+if 'textract' in dir():
+    TEXTRACT = True
+    logger.info("Using textract parser")
+else:
+    TEXTRACT = False
+    logger.info("Using custom parser")
 
 import unicodedata
 
@@ -194,7 +200,11 @@ class DirCrawl(object):
     def _getConcepts(self, fname, d, w):
         listText = list()
 
-        if True:
+        if TEXTRACT == True:
+            text = textract.process(fname)
+            if text != None or len(text) != 0:
+                listText = text
+        else:
             if fname[-5:] == ".docx":
                 listText = self._getDOCXText(fname)
                 self._getOpenXmlText(fname, d)
@@ -210,7 +220,7 @@ class DirCrawl(object):
             elif fname[-4:] == ".pdf":
                 listText = self._getPDFText(fname, d)
                 logger.info("++Parsing = %s" % fname)
-            elif fname[-4:] in (".txt", ".xml", ".htm"):
+            elif fname[-4:] in (".txt", ".xml", ".htm", ".csv"):
                 listText = self._getTXT(fname)
                 logger.info("++Parsing = %s" % fname)
             elif fname[-5:] in (".html", ".WSDL"):
@@ -219,10 +229,9 @@ class DirCrawl(object):
             elif fname[-4:] in (".xml"):
                 listText = self._getTXT(fname)
                 logger.info("++Parsing = %s" % fname)
-
-        else:
-            em = format_exc().split('\n')[-2]
-            logger.warn("Warning: %s" % (em))
+            else:
+                em = format_exc().split('\n')[-2]
+                logger.warn("Warning: %s" % (em))
 
         if listText != None:
             for t in listText:
@@ -261,7 +270,7 @@ class DirCrawl(object):
         listText = self._getConcepts(fname, d, w)
 
         if listText != None and len(listText) == 0:
-            logger.debug("%s has no text" % (fname))
+            logger.warn("%s has no text" % (fname))
             return 0
         else:
             self.documentsConcepts.addConcept(d)
@@ -282,7 +291,10 @@ class DirCrawl(object):
 
 if __name__ == '__main__':
     numFilesParsed = 0
+
     # Set the directory you want to start from
+    rootDir = "/Users/morrj140/Documents/SolutionEngineering/DVC/pmo"
+
     #rootDir = "C:\\Users\\morrj140\\Documents\\System Architecture"
     #rootDir = "C:\\Users\\morrj140\\Documents\\System Architecture\\\AccoviaReplacement"
     #rootDir = "C:\\Users\\morrj140\\Dev\\GitRepository\\DirCrawler\\product_types"
@@ -292,8 +304,7 @@ if __name__ == '__main__':
     #rootDir = "C:\\Users\\morrj140\\Dev\\GitRepository\\DirCrawler\\test"
     #rootDir = "/Users/morrj140/Development/GitRepository/DirCrawler/Examples"
     #rootDir = "/Users/morrj140/Documents/SolutionEngineering/CodeGen/NLP"
-
-    rootDir = "/Users/morrj140/Documents/SolutionEngineering/Services/export"
+    #rootDir = "/Users/morrj140/Documents/SolutionEngineering/Services/export"
 
     dc = DirCrawl()
     

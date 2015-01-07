@@ -7,9 +7,7 @@ import sys
 
 from nl_lib import Logger
 logger = Logger.setupLogging(__name__)
-
-import logging
-logger.setLevel(logging.INFO)
+logger.setLevel(Logger.INFO)
 
 from nl_phase_a_DirCrawl import *
 from nl_phase_b_CreateChunks import *
@@ -22,14 +20,20 @@ import time
 GRAPH = False
 DIRECTORY = True
 
-def nl_phases():
+def nl_phases(rootDir):
+
+    if not os.path.isdir(rootDir):
+        logger.error("Directory does not exist!")
+        return
+
+    if rootDir == None:
+        logger.error("Nothing to work with!")
+        return
+
     numFilesParsed = 0
 
     logger.debug("Number of arguments:" + str(len(sys.argv)) + "arguments.")
     logger.debug("Argument List:" + str(sys.argv))
-    
-    # Set the directory you want to start from
-    rootDir = "/Users/morrj140/Documents/SolutionEngineering/DVC"
 
     if DIRECTORY == True:
         # Change current directory to enable to save pickles
@@ -100,6 +104,10 @@ def nl_phases():
     logger.info("Process Time = %4.2f seconds, %d Minutes, %d hours" % (timeTaken, minutes, hours))
 
 if __name__ == "__main__":
-    nl_phases()
+
+    # Set the directory you want to start from
+    rootDir = "/Users/morrj140/Documents/SolutionEngineering/DVC/pmo"
+
+    nl_phases(rootDir)
 
         

@@ -91,6 +91,10 @@ class DocumentsSimilarity(object):
 
         logger.info("Read " + str(len(self.documentsList)) + " Documents, with " + str(self.wordcount) + " words.")
 
+        if self.wordcount == 0:
+            logger.error("No topics to use!")
+            return None
+
         logger.info("Compute Topics")
         self.topics = self.tm.computeTopics(self.documentsList, nt=num_topics, nw=num_words)
 

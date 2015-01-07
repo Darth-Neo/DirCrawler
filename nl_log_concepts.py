@@ -14,10 +14,10 @@ from nl_lib.Concepts import Concepts
 
 if __name__ == "__main__":
     #conceptFile = "documents.p"
-    #conceptFile = "words.p"
+    conceptFile = "words.p"
     #conceptFile = "chunks.p"
     #conceptFile = "topicChunks.p"
-    conceptFile = "topicsDict.p"
+    #conceptFile = "topicsDict.p"
     #conceptFile = "documentsSimilarity.p"
     #conceptFile = "NVPChunks.p"
     #conceptFile = "ngrams.p"
@@ -25,6 +25,8 @@ if __name__ == "__main__":
     #conceptFile = "ngramsubject.p"
     #conceptFile = "archi.p"
     #conceptFile = "pptx.p"
+    #conceptFile = "req.p"
+    conceptFile = "export.p"
 
     #dir = "/Users/morrj140/Development/GitRepository/DirCrawler/DVC_20150201_102155"
     dir = os.getcwd()

@@ -16,7 +16,6 @@
 *.index
 *.net
 Runs/*
-Examples/*
 *.gml
 *.csv
 

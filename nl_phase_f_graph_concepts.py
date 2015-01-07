@@ -97,7 +97,8 @@ def graphConcepts(concepts, graph=None, filename="example.png"):
         logGraph(gl, "Betweenness_Centrality")
 
         gl = nx.pagerank(graph.G)
-        logGraph(gl, "Page Rank")
+        sgl = sorted(graph.G.nodes(),key=str)
+        logGraph(sgl, "Page Rank")
 
         gl = nx.hits(graph.G)
         logGraph(gl, "Hits")
@@ -107,6 +108,10 @@ def graphConcepts(concepts, graph=None, filename="example.png"):
 
         gl = nx.minimum_spanning_tree(graph.G)
         logGraph(gl, "minimum_spanning_tree")
+
+        gl = nx.degree(graph.G)
+        logGraph(gl, "degree")
+
 
     if isinstance(graph, PatternGraph):
         #graph.g.remove("ProjectConceptsSimilarity")
@@ -127,14 +132,14 @@ def logGraph(gl, title, scale=1):
 
 if __name__ == "__main__":
     #conceptFile = "documents.p"
-    #conceptFile = "words.p"
+    conceptFile = "words.p"
     #conceptFile = "NVPChunks.p"
     #conceptFile = "chunks.p"
     #conceptFile = "topicsDict.p"
     #conceptFile = "TopicChunks.p"
     #conceptFile = "ngrams.p"
     #conceptFile = "ngramscore.p"
-    conceptFile = "ngramsubject.p"
+    #conceptFile = "ngramsubject.p"
     #conceptFile = "archi.p"
 
     listHomeDir = list()

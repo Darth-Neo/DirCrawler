@@ -1,6 +1,9 @@
 import openxmllib
-doc = openxmllib.openXmlDocument(path=‘example.pptx')
+
+doc = openxmllib.openXmlDocument(path="example.pptx")
+
 print ("%s\n" % (doc.coreProperties))
+
 for x in doc.coreProperties:
     print("%s:%s" % (x, doc.coreProperties[x]))
 
