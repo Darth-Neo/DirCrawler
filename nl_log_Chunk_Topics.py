@@ -16,10 +16,10 @@ from nl_lib.Concepts import Concepts
 
 def getChunkTopics():
     #conceptFile = "documents.p"
-    #conceptFile = "chunks.p"
+    conceptFile = "chunks.p"
     #conceptFile = "topicsDict.p"
     #conceptFile = "TopicChunks.p"
-    conceptFile = "ngramsubject.p"
+    #conceptFile = "ngramsubject.p"
 
     logger.info("Loading :" + os.getcwd() + os.sep + conceptFile)
     concepts = Concepts.loadConcepts(conceptFile)

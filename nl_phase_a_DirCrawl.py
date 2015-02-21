@@ -20,6 +20,7 @@ from traceback import format_exc
 
 from BeautifulSoup import BeautifulSoup
 
+# by importing the textract module, you will then enable its use
 #import textract
 
 if 'textract' in dir():
@@ -28,6 +29,9 @@ if 'textract' in dir():
 else:
     TEXTRACT = False
     logger.info("Using custom parser")
+
+stop.append("information")
+stop.append("member")
 
 import unicodedata
 
@@ -109,7 +113,7 @@ class DirCrawl(object):
                 for shape in slide.shapes:
                     if not shape.has_text_frame:
                         continue
-                    for paragraph in shape.textframe.paragraphs:
+                    for paragraph in shape.text_frame.paragraphs:
                         for run in paragraph.runs:
                             logger.debug("PPTX : %s" % run.text)
                             if run.text != None:

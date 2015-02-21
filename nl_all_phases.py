@@ -3,6 +3,7 @@
 # Natural Language Processing of Information
 #
 import os
+from subprocess import call
 import sys
 
 from nl_lib import Logger
@@ -106,8 +107,6 @@ def nl_phases(rootDir):
 if __name__ == "__main__":
 
     # Set the directory you want to start from
-    rootDir = "/Users/morrj140/Documents/SolutionEngineering/DVC/pmo"
+    rootDir = "/Users/morrj140/Documents/SolutionEngineering/DVC"
 
     nl_phases(rootDir)
-
-        

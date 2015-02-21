@@ -26,8 +26,8 @@ def findConcepts(term, concepts, n=0):
 
    
 if __name__ == "__main__":
-    conceptFile = "documents.p"
-    #conceptFile = "chunks.p"
+    #conceptFile = "documents.p"
+    conceptFile = "chunks.p"
     #conceptFile = "topicsDict.p"
     #conceptFile = "TopicChunks.p"
     #conceptFile = "ngrams.p"

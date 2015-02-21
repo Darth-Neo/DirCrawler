@@ -13,10 +13,10 @@ from nl_lib.Constants import *
 from nl_lib.Concepts import Concepts
 from nl_lib.TopicCloud import TopicCloud
 
-def createTopicsCloud(concepts, topic, numWords=100, scale=1.0):
+def createTopicsCloud(concepts, topic, conceptFile, numWords=150, scale=1.75):
     logger.info("Starting Tag Cloud...")
 
-    tc = TopicCloud(concepts, os.getcwd() + os.sep)
+    tc = TopicCloud(concepts, conceptFile=conceptFile+".png")
 
     logger.info("Create Tag Cloud")
 
@@ -28,42 +28,47 @@ def createTopicsCloud(concepts, topic, numWords=100, scale=1.0):
 
 if __name__ == "__main__":
 
-    #conceptFile = "TopicChunks.p"
-    #topic = "Chunk"
+    if False:
+        conceptFile = "TopicChunks.p"
+        topic = "Chunk"
 
-    #conceptFile = "topicsDict.p"
-    #topic="Topic"
+    elif False:
+        conceptFile = "topicsDict.p"
+        topic="Topic"
 
-    #conceptFile = "archi.p"
-    #topic="name"
+    elif False:
+        conceptFile = "archi.p"
+        topic="name"
 
-    #conceptFile = "ngramsubject.p"
-    #topic="NGRAM"
+    elif True:
+        conceptFile = "ngramsubject.p"
+        topic="NGRAM"
 
-    conceptFile = "req.p"
-    topic = "Word"
+    elif False:
+        conceptFile = "req.p"
+        topic = "Word"
 
-    #conceptFile = "chunks.p"
-    #topic = "Lemma"
-    #topic = "SBJ"
-    #topic = "OBJ"
-    #topic = "VP"
-    #topic = "NN"
-    #topic = "NNP"
+    elif False:
+        conceptFile = "chunks.p"
+        topic = "Lemma"
+        topic = "SBJ"
+        topic = "OBJ"
+        topic = "VP"
+        topic = "NN"
+        topic = "NNP"
 
-    #conceptFile = "ngrams.p"
-    #topic = "NGRAM"
+    elif False:
+        conceptFile = "ngrams.p"
+        topic = "NGRAM"
 
-    #directory = "/Users/morrj140/Development/GitRepository/DirCrawler/DVC_20150201_102155"
-    directory = os.getcwd()
-
-    os.chdir(directory)
+    #directory = "./crawl_20151002_123832" #os.getcwd()
+    #os.chdir(directory)
+    #filePath = directory + os.sep + conceptFile
 
     c = Concepts("GraphConcepts", "GRAPH")
 
-    filePath = directory + os.sep + conceptFile
-    logger.info("Loading Topics from : " + filePath)
+    logger.info("Loading Topics from : " + conceptFile)
 
-    concepts = Concepts.loadConcepts(filePath)
+    concepts = Concepts.loadConcepts(conceptFile)
 
-    createTopicsCloud(concepts, topic)
+    createTopicsCloud(concepts, topic, conceptFile[:-2], numWords=30, scale=0.2)

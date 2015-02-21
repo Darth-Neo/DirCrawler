@@ -51,23 +51,6 @@ class Collocations(object):
         return self.conceptsNGram, self.conceptsNGramScore, self.conceptsNGramSubject
         
     def find_collocations(self):
-        stop = stopwords.words('english')
-        stop.append("This")
-        stop.append("The")
-        stop.append(",")
-        stop.append(".")
-        stop.append("..")
-        stop.append("...")
-        stop.append("...).")
-        stop.append("\")..")
-        stop.append(".")
-        stop.append(";")
-        stop.append("/")
-        stop.append(")")
-        stop.append("(")
-        stop.append("must")
-        stop.append("system")
-
         lemmatizer = WordNetLemmatizer()
 
         stopset = set(stop)

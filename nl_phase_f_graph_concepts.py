@@ -18,155 +18,102 @@ from nl_lib.Constants import *
 gdb = "http://localhost:7474/db/data/"
 #gdb = "http://10.92.82.60:7574/db/data/"
 
-def addGraphNodes(graph, concepts, n=0):
-    if n == 0:
-        n += 1
-        addGraphNodes(graph, concepts, n)
-    else:
-        n += 1
+class ConceptsGraph(object):
 
-    for c in concepts.getConcepts().values():
-        logger.debug("%d : %d Node c : %s:%s" % (n, len(c.getConcepts()), c.name, c.typeName))
+    def __init__(self, graph=None, fileImage=None):
+        self.threshold=0.0005
 
-        ct = c.name.strip("\"").split(" ")
-        logger.info("ct : %s" % ct)
-        if len(ct) == 3:
-            if ct[0] == ct[1] or ct[0] == ct[2]:
-                logger.info("skip ct : %s" % ct)
-                continue
-
-        graph.addConcept(c)
-        if len(c.getConcepts()) != 0:
-            addGraphNodes(graph, c, n)
-
-def addGraphEdges(graph, concepts, n=0):
-    n += 1
-    i = 1
-    for c in concepts.getConcepts().values():
-        logger.debug("%d : %d Edge c : %s:%s" % (n, len(c.getConcepts()), c.name, c.typeName))
-        if i == 1:
-            p = c
-            i += 1
+        if graph == None:
+            #self.graph = PatternGraph()
+            self.graph = GraphVizGraph()
         else:
-            graph.addEdge(p, c)
-        if len(c.getConcepts()) != 0:
-            addGraphEdges(graph, c, n)
+            self.graph = graph
 
-def graphConcepts(concepts, graph=None, filename="example.png"):
-
-    #graph = Neo4JGraph(gdb)
-
-    #logger.info("Clear the Graph @" + gdb)
-    #graph.clearGraphDB()
-
-    graph = NetworkXGraph()
-    #graph = PatternGraph()
-    #graph = GraphVizGraph()
-
-    logger.info("Adding nodes the graph ...")
-    addGraphNodes(graph, concepts)
-    logger.info("Adding edges the graph ...")
-    addGraphEdges(graph, concepts)
-
-    if isinstance(graph, GraphVizGraph):
-        graph.exportGraph(filename=filename)
-        logger.info("Saved Graph - %s" % filename)
-
-    if isinstance(graph, Neo4JGraph):
-        graph.setNodeLabels()
-
-    if isinstance(graph, NetworkXGraph):
-        #graph.G.remove_node("ProjectConceptsSimilarity")
-        #graph.drawGraph("concepts.png")
-        filename = "concepts.net"
-        logger.info("Saving Graph - %s" % filename)
-        graph.saveGraphPajek(filename)
-        graph.saveGraph("concepts.gml")
-        logger.info("Saving Graph - %s" % "concepts.gml")
-
-        gl = nx.connected_components(graph.G) # [[1, 2, 3], ['spam']]
-        logGraph(gl, "Connected")
-
-        gl = nx.clustering(graph.G)
-        logGraph(gl, "Cluster")
-
-        gl = nx.closeness_centrality(graph.G)
-        logGraph(gl, "Closeness")
-
-        gl = nx.betweenness_centrality(graph.G)
-        logGraph(gl, "Betweenness_Centrality")
-
-        gl = nx.pagerank(graph.G)
-        sgl = sorted(graph.G.nodes(),key=str)
-        logGraph(sgl, "Page Rank")
-
-        gl = nx.hits(graph.G)
-        logGraph(gl, "Hits")
-
-        gl = nx.authority_matrix(graph.G)
-        #logGraph(gl, "authority_matrix")
-
-        gl = nx.minimum_spanning_tree(graph.G)
-        logGraph(gl, "minimum_spanning_tree")
-
-        gl = nx.degree(graph.G)
-        logGraph(gl, "degree")
-
-
-    if isinstance(graph, PatternGraph):
-        #graph.g.remove("ProjectConceptsSimilarity")
-        logger.info("Exporting Graph")
-        graph.exportGraph()
-
-def logGraph(gl, title, scale=1):
-    logger.info("---%s---" % title)
-    n = 0
-    for x in gl:
-        n += 1
-        if isinstance(gl, dict):
-            logger.info("%s [%d]:%s=%3.4f" % (title, n, x, gl[x]*scale))
-
+        if fileImage == None:
+            self.fileImage = "example.png"
         else:
-            logger.info("%s [%d]" % (x, n))
+            self.fileImage = fileImage
 
+        #
+        # Hack to get GraphViz to work
+        #
+        os.environ['PATH'] = "%s:/opt/local/bin" % os.environ['PATH']
+
+    def addGraphNodes(self, concepts, n=0):
+
+        n += 1
+
+        for c in concepts.getConcepts().values():
+            logger.debug("%d : %d Node c : %s:%s" % (n, len(c.getConcepts()), c.name, c.typeName))
+
+            self.graph.addConcept(c)
+
+            if len(c.getConcepts()) > self.threshold:
+                self.addGraphNodes(c, n)
+
+    def addGraphEdges(self, concepts, n=0):
+        n += 1
+
+        self.graph.addConcept(concepts)
+
+        for c in concepts.getConcepts().values():
+
+            logger.debug("%d : %d %s c : %s:%s" % (n, len(c.getConcepts()), concepts.name, c.name, c.typeName))
+
+            self.graph.addConcept(c)
+
+            self.graph.addEdge(concepts, c)
+
+            if len(c.getConcepts()) != 0:
+                self.addGraphEdges(c, n)
+
+    def conceptsGraph(self, concepts):
+
+        logger.info("Adding %s nodes the graph ..." % type(self.graph))
+        self.addGraphNodes(concepts)
+
+        logger.info("Adding %s edges the graph ..." % type(self.graph))
+        self.addGraphEdges(concepts)
+
+        if isinstance(self.graph, GraphVizGraph):
+            self.graph.exportGraph(filename=self.fileImage)
+            logger.info("Saved Graph - %s" % self.fileImage)
+
+        if isinstance(self.graph, PatternGraph):
+            #graph.g.remove("ProjectConceptsSimilarity")
+            logger.info("Exporting Graph")
+            self.graph.exportGraph()
+
+    def logGraph(self, gl, title, scale=1):
+        logger.info("---%s---" % title)
+        n = 0
+        for x in gl:
+            n += 1
+            if isinstance(gl, dict):
+                logger.info("%s [%d]:%s=%3.4f" % (title, n, x, gl[x]*scale))
+
+            else:
+                logger.info("%s [%d]" % (x, n))
 
 if __name__ == "__main__":
     #conceptFile = "documents.p"
-    conceptFile = "words.p"
+    #conceptFile = "words.p"
     #conceptFile = "NVPChunks.p"
     #conceptFile = "chunks.p"
-    #conceptFile = "topicsDict.p"
+    conceptFile = "topicsDict.p"
     #conceptFile = "TopicChunks.p"
     #conceptFile = "ngrams.p"
     #conceptFile = "ngramscore.p"
     #conceptFile = "ngramsubject.p"
     #conceptFile = "archi.p"
 
-    listHomeDir = list()
-    listHomeDir.append("/Users/morrj140/Development/GitRepository/DirCrawler/DVC_20150501_143307")
-    #listHomeDir.append(os.getcwd())
-    #listHomeDir.append("C:\Users\morrj140\Dev\GitRepository\DirCrawler\SmartMedia_20140206_120122")
-    #listHomeDir.append("C:\\Users\\morrj140\\Dev\\GitRepository\\DirCrawler\\Estimates_20141205_124422")
-    #homeDir = "C:\\Users\\morrj140\\Dev\\GitRepository\\DirCrawler\\Requirements_20143004_160216"
-    #homeDir = "C:\\Users\\morrj140\\Dev\\GitRepository\\DirCrawler\\ExternalInterfaces_20141205_095115"
-    #listHomeDir.append("C:\\Users\\morrj140\\Dev\\GitRepository\\DirCrawler\\Services_20143004_101231")
-    #listHomeDir.append("/Users/morrj140/Development/GitRepository/DirCrawler")
-
-    #listHomeDir.append("/Users/morrj140/Development/GitRepository/DirCrawler/Research_20141709_104529")
-
-    #listHomeDir.append("/Users/morrj140/Development/GitRepository/DirCrawler/CodeGen_20142710_153333")
-
-    c = Concepts("GraphConcepts", "GRAPH")
-    
-    for conceptDir in listHomeDir:
-        # Change current directory to enable to save pickles
-        p, f = os.path.split(conceptDir)
-        logger.info("Loading :" + conceptDir + os.sep + conceptFile)
-        c.addConcept(Concepts.loadConcepts(conceptDir + os.sep + conceptFile))
+    concepts = Concepts.loadConcepts(conceptFile)
 
     # c.logConcepts()
     
-    graphConcepts(c, filename="DVC.png")
+    cg = ConceptsGraph(fileImage=conceptFile+".png")
+
+    cg.conceptsGraph(concepts)
 
     
 
