@@ -3,20 +3,19 @@
 # Natural Language Processing of Information
 #
 import os
-from nl_lib import Logger
-logger = Logger.setupLogging(__name__)
 
-import logging
-logger.setLevel(logging.INFO)
+from nl_lib.Logger import *
+logger = setupLogging(__name__)
+logger.setLevel(INFO)
 
 from nl_lib.Constants import *
 from nl_lib.Concepts import Concepts
 from nl_lib.TopicCloud import TopicCloud
 
-def createTopicsCloud(concepts, topic, conceptFile, numWords=150, scale=1.75):
+def createTopicsCloud(concepts, topic, numWords=150, scale=1.75):
     logger.info("Starting Tag Cloud...")
 
-    tc = TopicCloud(concepts, conceptFile=conceptFile+".png")
+    tc = TopicCloud(concepts, os.getcwd()+os.sep)
 
     logger.info("Create Tag Cloud")
 
@@ -27,6 +26,9 @@ def createTopicsCloud(concepts, topic, conceptFile, numWords=150, scale=1.75):
 
 
 if __name__ == "__main__":
+
+    conceptFile = None
+    topic = None
 
     if False:
         conceptFile = "TopicChunks.p"
@@ -71,4 +73,4 @@ if __name__ == "__main__":
 
     concepts = Concepts.loadConcepts(conceptFile)
 
-    createTopicsCloud(concepts, topic, conceptFile[:-2], numWords=30, scale=0.2)
+    createTopicsCloud(concepts, topic, numWords=30, scale=0.2)

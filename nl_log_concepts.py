@@ -15,7 +15,7 @@ from nl_lib.Concepts import Concepts
 if __name__ == "__main__":
     #conceptFile = "documents.p"
     #conceptFile = "words.p"
-    conceptFile = "chunks.p"
+    #conceptFile = "chunks.p"
 
     #conceptFile = "topicChunks.p"
     #conceptFile = "topicsDict.p"
@@ -24,7 +24,7 @@ if __name__ == "__main__":
     #conceptFile = "NVPChunks.p"
     #conceptFile = "ngrams.p"
     #conceptFile = "ngramscore.p"
-    #conceptFile = "ngramsubject.p"
+    conceptFile = "ngramsubject.p"
     #conceptFile = "archi.p"
     #conceptFile = "pptx.p"
     #conceptFile = "req.p"
