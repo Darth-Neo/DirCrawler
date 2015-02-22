@@ -18,5 +18,11 @@
 Runs/*
 *.gml
 *.csv
-
-
+build/*
+dist/*
+nl_lib.egg-info/
+.idea/*
+.project
+*.pptx
+log.tx*
+ngramsubject

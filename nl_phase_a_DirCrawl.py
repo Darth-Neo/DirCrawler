@@ -293,7 +293,7 @@ class DirCrawl(object):
 
         return numFilesParsed
 
-if __name__ == '__main__':
+def test_dirCrawl():
     numFilesParsed = 0
 
     # Set the directory you want to start from
@@ -311,9 +311,10 @@ if __name__ == '__main__':
     #rootDir = "/Users/morrj140/Documents/SolutionEngineering/Services/export"
 
     dc = DirCrawl()
-    
+
     numFilesParsed = dc.searchSubDir(rootDir)
 
     logger.info("Documents Parsed = %d" % numFilesParsed)
 
-            
+if __name__ == '__main__':
+    test_dirCrawl()

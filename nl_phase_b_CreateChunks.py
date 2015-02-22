@@ -4,11 +4,10 @@
 # Natural Language Processing of PMO Information
 #
 import os
-from nl_lib import Logger
-logger = Logger.setupLogging(__name__)
 
-import logging
-logger.setLevel(logging.INFO)
+from nl_lib.Logger import *
+logger = setupLogging(__name__)
+logger.setLevel(INFO)
 
 from nl_lib.Concepts import Concepts
 from nl_lib.Constants import *
@@ -25,7 +24,6 @@ from pattern.vector import Document, Model, TFIDF, HIERARCHICAL
 from pattern.vector import Vector, distance, NB
 from pattern.db import csv
 from pattern.en import parse, Sentence, parsetree
-
 
 
 class Chunks(object):
