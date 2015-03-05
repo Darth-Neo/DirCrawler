@@ -13,6 +13,7 @@ from nl_lib.Constants import *
 from nl_lib.Concepts import Concepts
 
 if __name__ == "__main__":
+
     #conceptFile = "documents.p"
     #conceptFile = "words.p"
     #conceptFile = "chunks.p"
@@ -30,7 +31,7 @@ if __name__ == "__main__":
     #conceptFile = "req.p"
     #conceptFile = "export.p"
 
-    #dir = "/Users/morrj140/Development/GitRepository/DirCrawler/DVC_20150201_102155"
+    os.chdir("Interviews and Meetings_20150503_134326")
     dir = os.getcwd()
 
     filePath = dir + os.sep + conceptFile

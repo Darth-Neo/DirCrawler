@@ -9,14 +9,9 @@ logger = Logger.setupLogging(__name__)
 import logging
 logger.setLevel(logging.INFO)
 
-import networkx as nx
-
 from nl_lib.Concepts import Concepts
-from nl_lib.ConceptGraph import PatternGraph, NetworkXGraph, Neo4JGraph, GraphVizGraph
+from nl_lib.ConceptGraph import PatternGraph, GraphVizGraph
 from nl_lib.Constants import *
-
-gdb = "http://localhost:7474/db/data/"
-#gdb = "http://10.92.82.60:7574/db/data/"
 
 class ConceptsGraph(object):
 
@@ -24,8 +19,8 @@ class ConceptsGraph(object):
         self.threshold=0.0005
 
         if graph == None:
-            #self.graph = PatternGraph()
-            self.graph = GraphVizGraph()
+            self.graph = PatternGraph()
+            #self.graph = GraphVizGraph()
         else:
             self.graph = graph
 
@@ -100,18 +95,20 @@ if __name__ == "__main__":
     #conceptFile = "words.p"
     #conceptFile = "NVPChunks.p"
     #conceptFile = "chunks.p"
-    conceptFile = "topicsDict.p"
+    #conceptFile = "topicsDict.p"
     #conceptFile = "TopicChunks.p"
     #conceptFile = "ngrams.p"
     #conceptFile = "ngramscore.p"
-    #conceptFile = "ngramsubject.p"
+    conceptFile = "ngramsubject.p"
     #conceptFile = "archi.p"
+
+    os.chdir("Interviews and Meetings_20150503_134326")
 
     concepts = Concepts.loadConcepts(conceptFile)
 
     # c.logConcepts()
     
-    cg = ConceptsGraph(fileImage=conceptFile+".png")
+    cg = ConceptsGraph(fileImage=conceptFile[:-2]+".png")
 
     cg.conceptsGraph(concepts)
 

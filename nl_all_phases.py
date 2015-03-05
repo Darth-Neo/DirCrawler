@@ -107,6 +107,6 @@ def nl_phases(rootDir):
 if __name__ == "__main__":
 
     # Set the directory you want to start from
-    rootDir = "/Users/morrj140/Documents/SolutionEngineering/DVC"
+    rootDir = "/Users/morrj140/Documents/SolutionEngineering/DVC/Interviews and Meetings"
 
     nl_phases(rootDir)

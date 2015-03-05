@@ -12,7 +12,7 @@ from nl_lib.Constants import *
 from nl_lib.Concepts import Concepts
 from nl_lib.TopicCloud import TopicCloud
 
-def createTopicsCloud(concepts, topic, numWords=150, scale=1.75):
+def createTopicsCloud(concepts, topic, numWords=100, scale=1.75):
     logger.info("Starting Tag Cloud...")
 
     tc = TopicCloud(concepts, os.getcwd()+os.sep)
@@ -27,6 +27,8 @@ def createTopicsCloud(concepts, topic, numWords=150, scale=1.75):
 
 if __name__ == "__main__":
 
+    os.chdir("MVR V2_20152602_170438")
+
     conceptFile = None
     topic = None
 
@@ -34,7 +36,7 @@ if __name__ == "__main__":
         conceptFile = "TopicChunks.p"
         topic = "Chunk"
 
-    elif False:
+    elif True:
         conceptFile = "topicsDict.p"
         topic="Topic"
 
@@ -42,7 +44,7 @@ if __name__ == "__main__":
         conceptFile = "archi.p"
         topic="name"
 
-    elif True:
+    elif False:
         conceptFile = "ngramsubject.p"
         topic="NGRAM"
 
