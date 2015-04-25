@@ -76,16 +76,20 @@ def nl_phases(rootDir):
     #logger.info("createTopicCloud for Subjects")
     #createTopicsCloud(conceptsNGramSubject, "NGRAM", numWords=50, scale=1.5)
 
+
     if GRAPH == True:
+        if False:
+            graph = PatternGraph()
+        else:
+            graph = GraphVizGraph()
+
+
         # nl_phase_f
         logger.info("graphConcepts")
-        #listConcepts = list()
-        #graphConcepts(dc.getDocumentsConcepts())
-        #graphConcepts(chunks.getChunkConcepts())
-        #graphConcepts(ct.getChunkTopicsConcepts())
-        graphConcepts(conceptsNGram)
-        #graphConcepts(conceptsNGramScore)
-        graphConcepts(conceptsNGramSubject)
+
+        cg = ConceptsGraph(graph=graph, fileImage="GraphConcetps.png")
+
+        cg.conceptsGraph(conceptsNGramSubject)
 
     # Conclude Batch Run
     # Timer
@@ -107,6 +111,9 @@ def nl_phases(rootDir):
 if __name__ == "__main__":
 
     # Set the directory you want to start from
-    rootDir = "/Users/morrj140/Documents/SolutionEngineering/DVC/Interviews and Meetings"
+    #rootDir = "/Users/morrj140/Documents/SolutionEngineering/DVC"
+    #rootDir = "/Users/morrj140/Documents/SolutionEngineering/Facilities Operation Management"
+    #rootDir = "/Users/morrj140/Documents/SolutionEngineering/Digital Access Management/Merchandise Vision Replacement/REQ2"
+    rootDir = "/Users/morrj140/Documents/SolutionEngineering/DVC/t34"
 
     nl_phases(rootDir)

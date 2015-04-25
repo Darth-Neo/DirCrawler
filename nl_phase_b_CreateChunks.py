@@ -160,7 +160,11 @@ class Chunks(object):
         Concepts.saveConcepts(self.chunkConcepts, self.chunkFile)
 
 if __name__ == "__main__":
+
+    os.chdir("DVC_20152202_153318")
+
     chunks = Chunks()
+    
     chunks.createChunks()
 
             

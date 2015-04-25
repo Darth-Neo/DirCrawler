@@ -19,8 +19,8 @@ class ConceptsGraph(object):
         self.threshold=0.0005
 
         if graph == None:
-            self.graph = PatternGraph()
-            #self.graph = GraphVizGraph()
+            #self.graph = PatternGraph()
+            self.graph = GraphVizGraph()
         else:
             self.graph = graph
 
@@ -32,19 +32,23 @@ class ConceptsGraph(object):
         #
         # Hack to get GraphViz to work
         #
-        os.environ['PATH'] = "%s:/opt/local/bin" % os.environ['PATH']
+        os.environ['PATH'] = "%s:/Users/morrj140/local/homebrew/bin/" % os.environ['PATH']
+
+
 
     def addGraphNodes(self, concepts, n=0):
 
         n += 1
 
         for c in concepts.getConcepts().values():
-            logger.debug("%d : %d Node c : %s:%s" % (n, len(c.getConcepts()), c.name, c.typeName))
+                logger.info("%d : %d Node c : %s:%s" % (n, len(c.getConcepts()), c.name, c.typeName))
 
-            self.graph.addConcept(c)
+                c.name = c.name[:20]
 
-            if len(c.getConcepts()) > self.threshold:
-                self.addGraphNodes(c, n)
+                self.graph.addConcept(c)
+
+                if len(c.getConcepts()) > self.threshold:
+                    self.addGraphNodes(c, n)
 
     def addGraphEdges(self, concepts, n=0):
         n += 1
@@ -102,13 +106,20 @@ if __name__ == "__main__":
     conceptFile = "ngramsubject.p"
     #conceptFile = "archi.p"
 
-    os.chdir("Interviews and Meetings_20150503_134326")
+    logger.info("%s" % os.getcwd())
+
+    os.chdir("." + os.sep + "t34_20151004_151638")
+
+    if False:
+        graph = PatternGraph()
+    else:
+        graph = GraphVizGraph()
 
     concepts = Concepts.loadConcepts(conceptFile)
 
     # c.logConcepts()
     
-    cg = ConceptsGraph(fileImage=conceptFile[:-2]+".png")
+    cg = ConceptsGraph(graph=graph, fileImage=conceptFile[:-2]+".png")
 
     cg.conceptsGraph(concepts)
 

@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#! env python
 #
 # Natural Language Processing of Information
 #
@@ -12,7 +12,7 @@ from nl_lib.Constants import *
 from nl_lib.Concepts import Concepts
 from nl_lib.TopicCloud import TopicCloud
 
-def createTopicsCloud(concepts, topic, numWords=100, scale=1.75):
+def createTopicsCloud(concepts, topic, numWords=30, scale=1):
     logger.info("Starting Tag Cloud...")
 
     tc = TopicCloud(concepts, os.getcwd()+os.sep)
@@ -27,7 +27,7 @@ def createTopicsCloud(concepts, topic, numWords=100, scale=1.75):
 
 if __name__ == "__main__":
 
-    os.chdir("MVR V2_20152602_170438")
+    os.chdir("." + os.sep + "t34_20151004_151638")
 
     conceptFile = None
     topic = None
@@ -54,20 +54,18 @@ if __name__ == "__main__":
 
     elif False:
         conceptFile = "chunks.p"
-        topic = "Lemma"
+        #topic = "Lemma"
         topic = "SBJ"
-        topic = "OBJ"
-        topic = "VP"
-        topic = "NN"
-        topic = "NNP"
+        #topic = "OBJ"
+        #topic = "VP"
+        #topic = "NN"
+        #topic = "NNP"
 
     elif False:
         conceptFile = "ngrams.p"
         topic = "NGRAM"
 
-    #directory = "./crawl_20151002_123832" #os.getcwd()
-    #os.chdir(directory)
-    #filePath = directory + os.sep + conceptFile
+    logger.info("%s" % os.getcwd())
 
     c = Concepts("GraphConcepts", "GRAPH")
 

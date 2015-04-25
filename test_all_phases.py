@@ -20,26 +20,26 @@ import time
 GRAPH = False
 DIRECTORY = True
 
-def nl_phases(rootDir):
+def test_nl_phases(rootDir):
 
     if not os.path.isdir(rootDir):
-        logger.error("Directory does not exist!")
+        logger.error(u"Directory does not exist!")
         return
 
     if rootDir == None:
-        logger.error("Nothing to work with!")
+        logger.error(u"Nothing to work with!")
         return
 
     numFilesParsed = 0
 
-    logger.debug("Number of arguments:" + str(len(sys.argv)) + "arguments.")
-    logger.debug("Argument List:" + str(sys.argv))
+    logger.debug(u"Number of arguments:" + str(len(sys.argv)) + u"arguments.")
+    logger.debug(u"Argument List:" + str(sys.argv))
 
     if DIRECTORY == True:
         # Change current directory to enable to save pickles
         p, f = os.path.split(rootDir)
 
-        homeDir = os.getcwd() + os.sep + f + "_" + time.strftime("%Y%d%m_%H%M%S")
+        homeDir = os.getcwd() + os.sep + f + "_" + time.strftime(u"%Y%d%m_%H%M%S")
 
         if not os.path.exists(homeDir):
             os.makedirs(homeDir)
@@ -50,30 +50,30 @@ def nl_phases(rootDir):
     t1 = time.time()
 
     # nl_phase_a
-    logger.info("Directory Crawl")
-    dc = DirCrawl()
+    logger.info(u"Directory Crawl")
+    dc = test_dirCrawl(rootDir)
     numFilesParsed = dc.searchSubDir(rootDir)
 
     # nl_phase_b
-    logger.info("Create Chunks")
+    logger.info(u"Create Chunks")
     chunks = Chunks(dc.getDocumentsConcepts())
     chunks.createChunks()
 
     # nl_phase_c
-    logger.info("create Topics")
+    logger.info(u"create Topics")
     npbt = DocumentsSimilarity()
-    npbt.createTopics("chunks.p")
+    npbt.createTopics(u"chunks.p")
     #npbt.findSimilarties("documentsSimilarity.p")
 
     # nl_phase_d
-    logger.info("find_collocations")
-    fc = Collocations("chunks.p")
+    logger.info(u"find_collocations")
+    fc = Collocations(u"chunks.p")
     fc.find_collocations()
     conceptsNGram, conceptsNGramScore, conceptsNGramSubject = fc.getCollocationConcepts()
 
     if GRAPH == True:
         # nl_phase_f
-        logger.info("graphConcepts")
+        logger.info(u"graphConcepts")
         #listConcepts = list()
         #graphConcepts(dc.getDocumentsConcepts())
         #graphConcepts(chunks.getChunkConcepts())
@@ -84,24 +84,24 @@ def nl_phases(rootDir):
 
     # Conclude Batch Run
     # Timer
-    logger.info("Documents Parsed = %d" % numFilesParsed)
+    logger.info(u"Documents Parsed = %d" % numFilesParsed)
 
     # measure wall time
     localtime = time.asctime( time.localtime(t1))
-    logger.info("Start      time : %s" % localtime)
+    logger.info(u"Start      time : %s" % localtime)
 
     localtime = time.asctime( time.localtime(time.time()) )
-    logger.info("Completion time : %s" % localtime)
+    logger.info(u"Completion time : %s" % localtime)
 
     # measure process time
     timeTaken = (time.clock() - t0)
     minutes = timeTaken / 60
     hours = minutes / 60
-    logger.info("Process Time = %4.2f seconds, %d Minutes, %d hours" % (timeTaken, minutes, hours))
+    logger.info(u"Process Time = %4.2f seconds, %d Minutes, %d hours" % (timeTaken, minutes, hours))
 
-if __name__ == "__main__":
+if __name__ == u"__main__":
 
     # Set the directory you want to start from
-    rootDir = "/Users/morrj140/Documents/SolutionEngineering/DVC"
+    rootDir = u"./testdata"
 
-    nl_phases(rootDir)
+    test_nl_phases(rootDir)

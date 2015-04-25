@@ -211,9 +211,12 @@ class DocumentsSimilarity(object):
             logger.debug("   similarity below threshold")
 
 if __name__ == "__main__":
+    os.chdir("DVC_20152202_153318")
+
     npbt = DocumentsSimilarity()
     #npbt.createTopics("documents.p")
     npbt.createTopics("chunks.p")
+
     npbt.findSimilarties("documentsSimilarity.p")
 
 

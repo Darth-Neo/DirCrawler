@@ -137,6 +137,8 @@ class Collocations(object):
         Concepts.saveConcepts(self.conceptsNGramSubject, self.ngramSubjectFile)
 
 if __name__ == "__main__":
+    os.chdir("." + os.sep + "t34_20151004_151638")
+    
     #fc = Collocations("documents.p")
     fc = Collocations("chunks.p")
     fc.find_collocations()

@@ -293,9 +293,16 @@ class DirCrawl(object):
 
         return numFilesParsed
 
-def test_dirCrawl():
+def test_dirCrawl(rootDir):
     numFilesParsed = 0
 
+    dc = DirCrawl()
+
+    numFilesParsed = dc.searchSubDir(rootDir)
+
+    logger.info("Documents Parsed = %d" % numFilesParsed)
+
+if __name__ == '__main__':
     # Set the directory you want to start from
     rootDir = "/Users/morrj140/Documents/SolutionEngineering/DVC/pmo"
 
@@ -310,11 +317,4 @@ def test_dirCrawl():
     #rootDir = "/Users/morrj140/Documents/SolutionEngineering/CodeGen/NLP"
     #rootDir = "/Users/morrj140/Documents/SolutionEngineering/Services/export"
 
-    dc = DirCrawl()
-
-    numFilesParsed = dc.searchSubDir(rootDir)
-
-    logger.info("Documents Parsed = %d" % numFilesParsed)
-
-if __name__ == '__main__':
-    test_dirCrawl()
+    test_dirCrawl(rootDir)
