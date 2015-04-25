@@ -14,7 +14,7 @@ from nl_phase_a_DirCrawl import *
 from nl_phase_b_CreateChunks import *
 from nl_phase_c_Topics import *
 from nl_phase_d_find_collocations import *
-#from nl_phase_e_TopicCloud import *
+from nl_phase_e_TopicCloud import *
 from nl_phase_f_graph_concepts import *
 import time
 
@@ -73,8 +73,8 @@ def nl_phases(rootDir):
     conceptsNGram, conceptsNGramScore, conceptsNGramSubject = fc.getCollocationConcepts()
 
     # nl_phase_e
-    #logger.info("createTopicCloud for Subjects")
-    #createTopicsCloud(conceptsNGramSubject, "NGRAM", numWords=50, scale=1.5)
+    logger.info("createTopicCloud for Subjects")
+    createTopicsCloud(conceptsNGramSubject, "NGRAM", numWords=50, scale=1.5)
 
 
     if GRAPH == True:
@@ -114,6 +114,6 @@ if __name__ == "__main__":
     #rootDir = "/Users/morrj140/Documents/SolutionEngineering/DVC"
     #rootDir = "/Users/morrj140/Documents/SolutionEngineering/Facilities Operation Management"
     #rootDir = "/Users/morrj140/Documents/SolutionEngineering/Digital Access Management/Merchandise Vision Replacement/REQ2"
-    rootDir = "/Users/morrj140/Documents/SolutionEngineering/DVC/t34"
+    rootDir = "/Users/morrj140/Documents/SolutionEngineering/DVC"
 
     nl_phases(rootDir)
