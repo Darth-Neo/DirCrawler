@@ -1,10 +1,9 @@
 #
 # Crawl a directory for documents and pull out the text
 #
-from nl_lib import Logger
-
-logger = Logger.setupLogging(__name__)
-logger.setLevel(Logger.INFO)
+from nl_lib.Logger import *
+logger = setupLogging(__name__)
+logger.setLevel(INFO)
 
 from nl_lib.Constants import *
 from nl_lib.Concepts import Concepts
@@ -21,7 +20,11 @@ from traceback import format_exc
 from BeautifulSoup import BeautifulSoup
 
 # by importing the textract module, you will then enable its use
-#import textract
+try:
+    #import textract
+    TEXTRACT = False
+except:
+    pass
 
 if 'textract' in dir():
     TEXTRACT = True
@@ -293,28 +296,22 @@ class DirCrawl(object):
 
         return numFilesParsed
 
-def test_dirCrawl(rootDir):
+
+def test_dirCrawl():
+
+    # Set the directory you want to start from
+    rootDir = os.getcwd() + os.sep + u"testdata"
+
     numFilesParsed = 0
 
     dc = DirCrawl()
 
     numFilesParsed = dc.searchSubDir(rootDir)
 
-    logger.info("Documents Parsed = %d" % numFilesParsed)
+    logger.info(u"Documents Parsed = %d" % numFilesParsed)
+
+    return dc
 
 if __name__ == '__main__':
-    # Set the directory you want to start from
-    rootDir = "/Users/morrj140/Documents/SolutionEngineering/DVC/pmo"
 
-    #rootDir = "C:\\Users\\morrj140\\Documents\\System Architecture"
-    #rootDir = "C:\\Users\\morrj140\\Documents\\System Architecture\\\AccoviaReplacement"
-    #rootDir = "C:\\Users\\morrj140\\Dev\\GitRepository\\DirCrawler\\product_types"
-    #rootDir = "C:\\Users\morrj140\\Documents\\System Architecture\\OneSourceDocumentation"
-    #rootDir = "C:\\Users\\morrj140\\Documents\\System Architecture\\AccoviaReplacement\\Product"
-    #rootDir = "C:\\Users\\morrj140\\Dev\\GitRepository\\DirCrawler\\Issues"
-    #rootDir = "C:\\Users\\morrj140\\Dev\\GitRepository\\DirCrawler\\test"
-    #rootDir = "/Users/morrj140/Development/GitRepository/DirCrawler/Examples"
-    #rootDir = "/Users/morrj140/Documents/SolutionEngineering/CodeGen/NLP"
-    #rootDir = "/Users/morrj140/Documents/SolutionEngineering/Services/export"
-
-    test_dirCrawl(rootDir)
+    test_dirCrawl()

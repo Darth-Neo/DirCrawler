@@ -1,31 +1,45 @@
 __author__ = 'morrj140'
 
-import textract
+from nl_lib.Logger import *
+logger = setupLogging(__name__)
+logger.setLevel(INFO)
 
-print ("PDF ...")
-text = textract.process('./Examples/example.pdf')
-print text[0:20]
+try:
+    import textract
+except:
+    pass
 
-print ("PPTX ...")
-text = textract.process('./Examples/example.pptx')
-print text[0:20]
+if 'textract' in dir():
 
-print ("XLSX ...")
-text = textract.process('./Examples/example.xlsx')
-print text[0:20]
 
-print ("DOCX ...")
-text = textract.process('./Examples/example.docx')
-print text[0:20]
+    TEXTRACT = True
+    logger.info("Using textract parser")
 
-print ("txt ...")
-text = textract.process('./Examples/example.txt')
-print text[0:20]
+    logger.info ("PDF ...")
+    text = textract.process('./Examples/example.pdf')
+    logger.info(text[0:20])
 
-print ("jpg ...")
-text = textract.process('./Examples/example.jpg')
-print text[0:20]
+    logger.info ("PPTX ...")
+    text = textract.process('./Examples/example.pptx')
+    logger.info(text[0:20])
 
-print ("png ...")
-text = textract.process('./Examples/example.png')
-print text[0:20]
+    logger.info ("XLSX ...")
+    text = textract.process('./Examples/example.xlsx')
+    logger.info(text[0:20])
+
+    logger.info ("DOCX ...")
+    text = textract.process('./Examples/example.docx')
+    logger.info(text[0:20])
+
+    logger.info ("txt ...")
+    text = textract.process('./Examples/example.txt')
+    logger.info(text[0:20])
+
+    if False:
+        logger.info ("jpg ...")
+        text = textract.process('./Examples/example.jpg')
+        logger.info(text[0:20])
+
+        logger.info ("png ...")
+        text = textract.process('./Examples/example.png')
+        logger.info(text[0:20])
