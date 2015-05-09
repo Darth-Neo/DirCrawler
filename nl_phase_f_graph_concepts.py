@@ -18,21 +18,21 @@ class ConceptsGraph(object):
     def __init__(self, graph=None, fileImage=None):
         self.threshold=0.0005
 
-        if graph == None:
-            #self.graph = PatternGraph()
+        if graph is None:
+            # self.graph = PatternGraph()
             self.graph = GraphVizGraph()
         else:
             self.graph = graph
 
-        if fileImage == None:
-            self.fileImage = "example.png"
+        if fileImage is None:
+            self.fileImage = u"example.png"
         else:
             self.fileImage = fileImage
 
         #
         # Hack to get GraphViz to work
         #
-        os.environ['PATH'] = "%s:/Users/morrj140/local/homebrew/bin/" % os.environ['PATH']
+        os.environ[u'PATH'] = u"%s:/Users/morrj140/local/homebrew/bin/" % os.environ[u'PATH']
 
 
 
@@ -41,7 +41,7 @@ class ConceptsGraph(object):
         n += 1
 
         for c in concepts.getConcepts().values():
-                logger.info("%d : %d Node c : %s:%s" % (n, len(c.getConcepts()), c.name, c.typeName))
+                logger.info(u"%d : %d Node c : %s:%s" % (n, len(c.getConcepts()), c.name, c.typeName))
 
                 c.name = c.name[:20]
 
@@ -57,7 +57,7 @@ class ConceptsGraph(object):
 
         for c in concepts.getConcepts().values():
 
-            logger.debug("%d : %d %s c : %s:%s" % (n, len(c.getConcepts()), concepts.name, c.name, c.typeName))
+            logger.debug(u"%d : %d %s c : %s:%s" % (n, len(c.getConcepts()), concepts.name, c.name, c.typeName))
 
             self.graph.addConcept(c)
 
@@ -68,47 +68,47 @@ class ConceptsGraph(object):
 
     def conceptsGraph(self, concepts):
 
-        logger.info("Adding %s nodes the graph ..." % type(self.graph))
+        logger.info(u"Adding %s nodes the graph ..." % type(self.graph))
         self.addGraphNodes(concepts)
 
-        logger.info("Adding %s edges the graph ..." % type(self.graph))
+        logger.info(u"Adding %s edges the graph ..." % type(self.graph))
         self.addGraphEdges(concepts)
 
         if isinstance(self.graph, GraphVizGraph):
             self.graph.exportGraph(filename=self.fileImage)
-            logger.info("Saved Graph - %s" % self.fileImage)
+            logger.info(u"Saved Graph - %s" % self.fileImage)
 
         if isinstance(self.graph, PatternGraph):
-            #graph.g.remove("ProjectConceptsSimilarity")
-            logger.info("Exporting Graph")
+            # graph.g.remove("ProjectConceptsSimilarity")
+            logger.info(u"Exporting Graph")
             self.graph.exportGraph()
 
     def logGraph(self, gl, title, scale=1):
-        logger.info("---%s---" % title)
+        logger.info(u"---%s---" % title)
         n = 0
         for x in gl:
             n += 1
             if isinstance(gl, dict):
-                logger.info("%s [%d]:%s=%3.4f" % (title, n, x, gl[x]*scale))
+                logger.info(u"%s [%d]:%s=%3.4f" % (title, n, x, gl[x]*scale))
 
             else:
-                logger.info("%s [%d]" % (x, n))
+                logger.info(u"%s [%d]" % (x, n))
 
-if __name__ == "__main__":
-    #conceptFile = "documents.p"
-    #conceptFile = "words.p"
-    #conceptFile = "NVPChunks.p"
-    #conceptFile = "chunks.p"
-    #conceptFile = "topicsDict.p"
-    #conceptFile = "TopicChunks.p"
-    #conceptFile = "ngrams.p"
-    #conceptFile = "ngramscore.p"
-    conceptFile = "ngramsubject.p"
-    #conceptFile = "archi.p"
+if __name__ == u"__main__":
+    # conceptFile = u"documents.p"
+    # conceptFile = u"words.p"
+    # conceptFile = u"NVPChunks.p"
+    # conceptFile = u"chunks.p"
+    # conceptFile = u"topicsDict.p"
+    # conceptFile = u"TopicChunks.p"
+    # conceptFile = u"ngrams.p"
+    # conceptFile = u"ngramscore.p"
+    conceptFile = u"ngramsubject.p"
+    # conceptFile = u"archi.p"
 
-    logger.info("%s" % os.getcwd())
+    logger.info(u"%s" % os.getcwd())
 
-    os.chdir("." + os.sep + "t34_20151004_151638")
+    os.chdir(u"." + os.sep + u"t34_20151004_151638")
 
     if False:
         graph = PatternGraph()
@@ -119,7 +119,7 @@ if __name__ == "__main__":
 
     # c.logConcepts()
     
-    cg = ConceptsGraph(graph=graph, fileImage=conceptFile[:-2]+".png")
+    cg = ConceptsGraph(graph=graph, fileImage=conceptFile[:-2]+u".png")
 
     cg.conceptsGraph(concepts)
 

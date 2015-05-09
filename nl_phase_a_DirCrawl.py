@@ -20,34 +20,36 @@ from traceback import format_exc
 from BeautifulSoup import BeautifulSoup
 
 # by importing the textract module, you will then enable its use
+
 try:
-    #import textract
+    # import textract
     TEXTRACT = False
 except:
     pass
 
-if 'textract' in dir():
+if u'textract' in dir():
     TEXTRACT = True
-    logger.info("Using textract parser")
+    logger.info(u"Using textract parser")
 else:
     TEXTRACT = False
-    logger.info("Using custom parser")
+    logger.info(u"Using custom parser")
 
-stop.append("information")
-stop.append("member")
+stop.append(u"information")
+stop.append(u"member")
 
 import unicodedata
 
+
 class DirCrawl(object):
-    documentsConceptsFile = "documents.p"
+    documentsConceptsFile = u"documents.p"
     documentsConcepts = None
 
-    wordsConceptsFile = "words.p"
+    wordsConceptsFile = u"words.p"
     wordsConcepts = None
     
     def __init__(self):
-        self.documentsConcepts = Concepts("DocumentConcepts", "Documents")
-        self.wordsConcepts = Concepts("WordConcepts", "Words")
+        self.documentsConcepts = Concepts(u"DocumentConcepts", u"Documents")
+        self.wordsConcepts = Concepts(u"WordConcepts", u"Words")
 
     def getDocumentsConcepts(self):
         return self.documentsConcepts
@@ -60,43 +62,43 @@ class DirCrawl(object):
         Concepts.saveConcepts(self.wordsConcepts, self.wordsConceptsFile)
 
     def _getOpenXmlText(self, filename, c):
-        logger.debug("OpenXmlText: %s" % filename)
+        logger.debug(u"OpenXmlText: %s" % filename)
 
         try:
 
             doc = openxmllib.openXmlDocument(path=filename)
 
-            logger.debug ("%s\n" % (doc.allProperties))
+            logger.debug(u"%s\n" % (doc.allProperties))
 
-            ap = c.addConceptKeyType("allProperties","PROPERTIES")
+            ap = c.addConceptKeyType(u"allProperties", u"PROPERTIES")
             for x in doc.allProperties:
-                logger.debug("cp %s:%s" % (x, doc.allProperties[x]))
+                logger.debug(u"cp %s:%s" % (x, doc.allProperties[x]))
                 ap.addConceptKeyType(doc.allProperties[x], x)
         except:
             pass
 
     def _getPDFText(self, filename, d):
-        logger.debug("filename: %s" % filename)
+        logger.debug(u"filename: %s" % filename)
         newparatextlist = list()
 
         try:
-            pdfDoc = PdfFileReader(file(filename, "rb"))
+            pdfDoc = PdfFileReader(file(filename, u"rb"))
 
             pdfDict = pdfDoc.getDocumentInfo()
 
             for x in pdfDict.keys():
                 d.addConceptKeyType(x[1:], pdfDict[x])
 
-            #c.logConcepts()
+            # c.logConcepts()
 
             for page in pdfDoc.pages:
                 text = page.extractText()
                 if not isinstance(text, str):
-                    unicodedata.normalize('NFKD', text).encode('ascii', 'ignore')
+                    unicodedata.normalize(u'NFKD', text).encode(u'ascii', u'ignore')
 
-                logger.debug("PDF : %s" % text)
+                logger.debug(u"PDF : %s" % text)
 
-                newparatextlist.append(text + ". ")
+                newparatextlist.append(text + u". ")
 
             return newparatextlist
 
@@ -104,7 +106,7 @@ class DirCrawl(object):
             pass
 
     def _getPPTXText(self, filename):
-        logger.debug("filename: %s" % filename)
+        logger.debug(u"filename: %s" % filename)
 
         newparatextlist = list()
 
@@ -118,30 +120,29 @@ class DirCrawl(object):
                         continue
                     for paragraph in shape.text_frame.paragraphs:
                         for run in paragraph.runs:
-                            logger.debug("PPTX : %s" % run.text)
+                            logger.debug(u"PPTX : %s" % run.text)
                             if run.text != None:
                                 if not isinstance(run.text, str):
-                                    unicodedata.normalize('NFKD', run.text).encode('ascii', 'ignore')
-                                newparatextlist.append(run.text + ". ")
+                                    run.text = unicode(run.text)
+                                    # unicodedata.normalize(u'NFKD', run.text).encode(u'ascii', u'ignore')
+                                newparatextlist.append(run.text + u". ")
         except:
             pass
 
         return newparatextlist
 
     def _getXLSText(self, filename):
-        logger.debug("filename: %s" % filename)
+        logger.debug(u"filename: %s" % filename)
 
         newparatextlist = list()
 
         try:
-
-
             workbook = xlrd.open_workbook(filename)
 
-            #sheet = "Specific Requirements"
-            #worksheet = workbook.sheet_by_name(sheet)
+            # sheet = "Specific Requirements"
+            # worksheet = workbook.sheet_by_name(sheet)
 
-            CellTypes = ["Empty", "Text", "Number", "Date", "Boolean", "Error", "Blank"]
+            CellTypes = [u"Empty", u"Text", u"Number", u"Date", u"Boolean", u"Error", u"Blank"]
 
             for worksheet_name in workbook.sheet_names():
                 worksheet = workbook.sheet_by_name(worksheet_name)
@@ -152,7 +153,7 @@ class DirCrawl(object):
                 while curr_row < num_rows:
                     curr_row += 1
                     row = worksheet.row(curr_row)
-                    logger.debug('Row: %s' % curr_row)
+                    logger.debug(u'Row: %s' % curr_row)
                     curr_cell = -1
                     while curr_cell < num_cells:
                         curr_cell += 1
@@ -161,16 +162,17 @@ class DirCrawl(object):
                         cell_value = worksheet.cell_value(curr_row, curr_cell)
                         if cell_type == 1:
                             if not isinstance(cell_value, str):
-                                unicodedata.normalize('NFKD', cell_value).encode('ascii', 'ignore')
-                            logger.debug("XLXS : %s" % cell_value)
-                            newparatextlist.append(cell_value + ". ")
+                                cell_value = unicode(cell_value)
+                                #unicodedata.normalize(u'NFKD', cell_value).encode(u'ascii', 'uignore')
+                            logger.debug(u"XLXS : %s" % cell_value)
+                            newparatextlist.append(cell_value + u". ")
         except:
             pass
 
         return newparatextlist
 
     def _getDOCXText(self, filename):
-        logger.debug("filename: %s" % filename)
+        logger.debug(u"filename: %s" % filename)
 
         document = opendocx(filename)
         # Fetch all the text out of the document we just created
@@ -181,25 +183,26 @@ class DirCrawl(object):
         newparatextlist = []
         for paratext in paratextlist:
             if not isinstance(paratext, str):
-                unicodedata.normalize('NFKD', paratext).encode('ascii', 'ignore')
-            logger.debug("DOCX : %s" % paratext)
-            newparatextlist.append(paratext + ". ")
+                paratext = unicode(paratext)
+                #unicodedata.normalize(u'NFKD', paratext).encode(u'ascii', u'ignore')
+            logger.debug(u"DOCX : %s" % paratext)
+            newparatextlist.append(paratext + u". ")
             
         return newparatextlist
 
     def _getTXT(self, filename):
-        logger.debug("filename: %s" % filename)
+        logger.debug(u"filename: %s" % filename)
 
         listText = list()
 
         soup = BeautifulSoup(open(filename))
 
-        logger.debug("Soup: %s" % soup)
+        logger.debug(u"Soup: %s" % soup)
 
         st = soup.text
 
         for line in st.split(os.linesep):
-            logger.debug("TXT : %s" % line)
+            logger.debug(u"TXT : %s" % line)
             listText.append(line)
 
         return listText
@@ -212,41 +215,42 @@ class DirCrawl(object):
             if text != None or len(text) != 0:
                 listText = text
         else:
-            if fname[-5:] == ".docx":
+            if fname[-5:] == u".docx":
                 listText = self._getDOCXText(fname)
                 self._getOpenXmlText(fname, d)
-                logger.info("++Parsing = %s" % fname)
-            elif fname[-5:] == ".pptx":
+                logger.info(u"++Parsing = %s" % fname)
+            elif fname[-5:] == u".pptx":
                 listText = self._getPPTXText(fname)
                 self._getOpenXmlText(fname, d)
-                logger.info("++Parsing = %s" % fname)
-            elif fname[-5:] == ".xlsx":
+                logger.info(u"++Parsing = %s" % fname)
+            elif fname[-5:] == u".xlsx":
                 listText = self._getXLSText(fname)
                 self._getOpenXmlText(fname, d)
-                logger.info("++Parsing = %s" % fname) 
-            elif fname[-4:] == ".pdf":
+                logger.info(u"++Parsing = %s" % fname)
+            elif fname[-4:] == u".pdf":
                 listText = self._getPDFText(fname, d)
-                logger.info("++Parsing = %s" % fname)
-            elif fname[-4:] in (".txt", ".xml", ".htm", ".csv"):
+                logger.info(u"++Parsing = %s" % fname)
+            elif fname[-4:] in (u".txt", u".xml", u".htm", u".csv"):
                 listText = self._getTXT(fname)
-                logger.info("++Parsing = %s" % fname)
-            elif fname[-5:] in (".html", ".WSDL"):
+                logger.info(u"++Parsing = %s" % fname)
+            elif fname[-5:] in (u".html", u".WSDL"):
                 listText = self._getTXT(fname)
-                logger.info("++Parsing = %s" % fname)
-            elif fname[-4:] in (".xml"):
+                logger.info(u"++Parsing = %s" % fname)
+            elif fname[-4:] in (u".xml"):
                 listText = self._getTXT(fname)
-                logger.info("++Parsing = %s" % fname)
+                logger.info(u"++Parsing = %s" % fname)
             else:
                 em = format_exc().split('\n')[-2]
-                logger.warn("Warning: %s" % (em))
+                logger.warn(u"Warning: %s" % (em))
 
         if listText != None:
             for t in listText:
                 if t != None:
                     try:
-                        sentence = t.encode('ascii', errors="ignore").strip()
-                        logger.debug("%s:Text : %s" % (type(sentence), sentence))
-                        d.addConceptKeyType(sentence, "Text")
+                        sentence = unicode(sentence).strip()
+                        # sentence = t.encode('ascii', errors="ignore").strip()
+                        logger.debug(u"%s:Text : %s" % (type(sentence), sentence))
+                        d.addConceptKeyType(sentence, u"Text")
                         self._addWords(w, sentence)
                     except:
                         pass
@@ -257,27 +261,27 @@ class DirCrawl(object):
         s = str()
 
     def _addWords(self, words, sentence):
-            cleanSentence = ' '.join([word for word in sentence.split() if word not in stop])
+            cleanSentence = u' '.join([word for word in sentence.split() if word not in stop])
 
-            logger.debug("cs:%s" % cleanSentence)
+            logger.debug(u"cs:%s" % cleanSentence)
 
             for word, pos in nltk.pos_tag(nltk.wordpunct_tokenize(cleanSentence)):
 
 
-                logger.debug("Word: " + word + " POS: " + pos)
-                c = words.addConceptKeyType(word, "WORD")
-                c.addConceptKeyType(pos, "POS")
+                logger.debug(u"Word: " + word + u" POS: " + pos)
+                c = words.addConceptKeyType(word, u"WORD")
+                c.addConceptKeyType(pos, u"POS")
 
     def _checkFile(self, fname):
-        logger.debug("filename: %s" % fname)
+        logger.debug(u"filename: %s" % fname)
 
-        d = Concepts(fname, "Document")
-        w = Concepts(fname, "Document")
+        d = Concepts(fname, u"Document")
+        w = Concepts(fname, u"Document")
 
         listText = self._getConcepts(fname, d, w)
 
-        if listText != None and len(listText) == 0:
-            logger.warn("%s has no text" % (fname))
+        if listText is not None and len(listText) == 0:
+            logger.warn(u"%s has no text" % (fname))
             return 0
         else:
             self.documentsConcepts.addConcept(d)
@@ -312,6 +316,6 @@ def test_dirCrawl():
 
     return dc
 
-if __name__ == '__main__':
+if __name__ == u'__main__':
 
     test_dirCrawl()

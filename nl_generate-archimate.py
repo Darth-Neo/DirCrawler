@@ -21,41 +21,41 @@ import hashlib
 
 # VERY much a work in progress
 
-f=open('analysis.json', 'r')
-obj=json.load(f)
+f = open(u'analysis.json', 'r')
+obj = json.load(f)
 
-packages=[]
-functions={}
-services={}
-components={}
-realizes={}
-usedby={}
+packages = []
+functions = {}
+services = {}
+components = {}
+realizes = {}
+usedby = {}
         
 for x in range(0, len(obj)):
-    if "class" in obj[x] and "method" in obj[x]:
+    if u"class" in obj[x] and u"method" in obj[x]:
         # assign some hashes in one place
-        obj[x]["name"]=(obj[x]["class"]+"#"+obj[x]["method"]+"("+obj[x]["args"]+")").replace("<","&lt;").replace(">","&gt;")
-        m=hashlib.md5()
-        m.update(obj[x]["package"]+"."+obj[x]["name"])
-        obj[x]["id"]=m.hexdigest()
+        obj[x][u"name"] = (obj[x][u"class"]+u"#"+obj[x][u"method"]+u"("+obj[x][u"args"]+u")").replace(u"<",u"&lt;").replace(u">",u"&gt;")
+        m = hashlib.md5()
+        m.update(obj[x][u"package"]+u"."+obj[x][u"name"])
+        obj[x][u"id"] = m.hexdigest()
 
-        packages.append(obj[x]["package"])
+        packages.append(obj[x][u"package"])
 
         # service (source) id is from package.class
-        m=hashlib.md5()
-        m.update(obj[x]["package"]+"."+obj[x]["class"])
-        source=m.hexdigest()
+        m = hashlib.md5()
+        m.update(obj[x][u"package"]+u"."+obj[x][u"class"])
+        source = m.hexdigest()
         # handle interface (class with no invoke)
-        if "invoke" not in obj[x]:
-            services.update({source:obj[x]})
+        if u"invoke" not in obj[x]:
+            services.update({source: obj[x]})
             # function (target) id is id on object
-            target=obj[x]["id"]
-            functions.update({target:obj[x]})
+            target = obj[x][u"id"]
+            functions.update({target: obj[x]})
             # realizes id is from sourceId[service]#targetId[function]
-            m=hashlib.md5()
-            m.update(source+"#"+target)
-            rId=m.hexdigest()
-            realizes.update({rId:dict(source=source,target=target,type="service")})
+            m = hashlib.md5()
+            m.update(source + u"#" + target)
+            rId = m.hexdigest()
+            realizes.update({rId: dict(source=source, target=target, type=u"service")})
 
         # handle invoke
         if "invoke" in obj[x]:

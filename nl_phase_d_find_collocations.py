@@ -29,23 +29,23 @@ class Collocations(object):
     conceptNGramScore    = None
     conceptsNGramSubject = None
 
-    conceptFile      = "documents.p"
+    conceptFile      = u"documents.p"
 
-    ngramFile        = "ngrams.p"
-    ngramScoreFile   = "ngramscore.p"
-    ngramSubjectFile = "ngramsubject.p"
+    ngramFile        = u"ngrams.p"
+    ngramScoreFile   = u"ngramscore.p"
+    ngramSubjectFile = u"ngramsubject.p"
     
     def __init__(self, conceptFile=None):
         if conceptFile == None:
-            conceptFile      = "documents.p"
+            conceptFile      = u"documents.p"
 
-        logger.info("Load Concepts from %s " % (conceptFile))
+        logger.info(u"Load Concepts from %s " % (conceptFile))
         self.concepts = Concepts.loadConcepts(conceptFile)
-        logger.info("Loaded Concepts")
+        logger.info(u"Loaded Concepts")
 
-        self.conceptsNGram = Concepts("n-gram", "NGRAM")
-        self.conceptsNGramScore = Concepts("NGram_Score", "Score")
-        self.conceptsNGramSubject = Concepts("Subject", "Subjects")
+        self.conceptsNGram = Concepts(u"n-gram", u"NGRAM")
+        self.conceptsNGramScore = Concepts(u"NGram_Score", u"Score")
+        self.conceptsNGramSubject = Concepts(u"Subject", u"Subjects")
 
     def getCollocationConcepts(self):
         return self.conceptsNGram, self.conceptsNGramScore, self.conceptsNGramSubject
@@ -66,17 +66,17 @@ class Collocations(object):
                logger.debug(concept.name)
 
                for word, pos in nltk.pos_tag(nltk.wordpunct_tokenize(concept.name)):
-                    logger.debug("Word: " + word + " POS: " + pos)
+                    logger.debug(u"Word: " + word + u" POS: " + pos)
                     lemmaWord = lemmatizer.lemmatize(word.lower())
-                    logger.debug("Word: " + word + " Lemma: " + lemmaWord)
+                    logger.debug(u"Word: " + word + u" Lemma: " + lemmaWord)
                     words.append(lemmaWord)
 
-                    if pos[0] == "N":
+                    if pos[0] == u"N":
                         dictWords[lemmaWord] = word
 
 
         for x in dictWords.keys():
-            logger.info("noun : %s" % x)
+            logger.info(u"noun : %s" % x)
 
         bcf = BigramCollocationFinder.from_words(words)
         tcf = TrigramCollocationFinder.from_words(words)
@@ -88,18 +88,18 @@ class Collocations(object):
         listBCF = bcf.nbest(BigramAssocMeasures.likelihood_ratio, 100)
 
         for bigram in listBCF:
-            concept = ' '.join([bg for bg in bigram])
-            e = self.conceptsNGram.addConceptKeyType(concept, "BiGram")
-            logger.info("Bigram  : %s" % concept)
+            concept = u' '.join([bg for bg in bigram])
+            e = self.conceptsNGram.addConceptKeyType(concept, u"BiGram")
+            logger.info(u"Bigram  : %s" % concept)
             for word, pos in nltk.pos_tag(nltk.wordpunct_tokenize(concept)):
                 e.addConceptKeyType(word, pos)
 
         listTCF = tcf.nbest(TrigramAssocMeasures.likelihood_ratio, 100)
 
         for trigram in listTCF:
-            concept = ' '.join([bg for bg in trigram])
-            e = self.conceptsNGram.addConceptKeyType(concept, "TriGram")
-            logger.info("Trigram : %s" % concept)
+            concept = u' '.join([bg for bg in trigram])
+            e = self.conceptsNGram.addConceptKeyType(concept, u"TriGram")
+            logger.info(u"Trigram : %s" % concept)
             for word, pos in nltk.pos_tag(nltk.wordpunct_tokenize(concept)):
                 e.addConceptKeyType(word, pos)
             
@@ -108,37 +108,37 @@ class Collocations(object):
         for score in lt:
             name = ' '.join([w for w in score[0]])
             count = float(score[1])
-            e = self.conceptsNGramScore.addConceptKeyType(name, "BiGram")
+            e = self.conceptsNGramScore.addConceptKeyType(name, u"BiGram")
             for x in score[0]:
-                e.addConceptKeyType(x, "BWord")
+                e.addConceptKeyType(x, u"BWord")
             e.count = count
-            logger.debug("bcfscored: %s=%s" % (name, count))
+            logger.debug(u"bcfscored: %s=%s" % (name, count))
 
         tcfscored = tcf.score_ngrams(TrigramAssocMeasures.likelihood_ratio)
         lt = sorted(tcfscored, key=lambda c: c[1], reverse=True)
         for score in lt:
             name = ' '.join([w for w in score[0]])
             count = float(score[1])
-            e = self.conceptsNGramScore.addConceptKeyType(name, "TriGram")
+            e = self.conceptsNGramScore.addConceptKeyType(name, u"TriGram")
             for x in score[0]:
-                e.addConceptKeyType(x, "TWord")
+                e.addConceptKeyType(x, u"TWord")
             e.count = count
-            logger.debug("tcfscored: %s = %s" % (name, count))
+            logger.debug(u"tcfscored: %s = %s" % (name, count))
 
         Concepts.saveConcepts(self.conceptsNGramScore, self.ngramScoreFile)
         Concepts.saveConcepts(self.conceptsNGram, self.ngramFile)
 
         for concept in self.conceptsNGram.getConcepts().values():
             for word, pos in nltk.pos_tag(nltk.wordpunct_tokenize(concept.name)):
-                if pos[0] == "N":
+                if pos[0] == u"N":
                     e = self.conceptsNGramSubject.addConceptKeyType(word, pos)
-                    e.addConceptKeyType(concept.name, "NGRAM")
+                    e.addConceptKeyType(concept.name, u"NGRAM")
 
         Concepts.saveConcepts(self.conceptsNGramSubject, self.ngramSubjectFile)
 
-if __name__ == "__main__":
-    os.chdir("." + os.sep + "t34_20151004_151638")
+if __name__ == u"__main__":
+    os.chdir(u"." + os.sep + u"t34_20151004_151638")
     
-    #fc = Collocations("documents.p")
-    fc = Collocations("chunks.p")
+    # fc = Collocations("documents.p")
+    fc = Collocations(u"chunks.p")
     fc.find_collocations()

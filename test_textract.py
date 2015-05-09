@@ -9,37 +9,37 @@ try:
 except:
     pass
 
-if 'textract' in dir():
+if u'textract' in dir():
 
 
     TEXTRACT = True
-    logger.info("Using textract parser")
+    logger.info(u"Using textract parser")
 
-    logger.info ("PDF ...")
-    text = textract.process('./Examples/example.pdf')
+    logger.info(u"PDF ...")
+    text = textract.process(u'./Examples/example.pdf')
     logger.info(text[0:20])
 
-    logger.info ("PPTX ...")
-    text = textract.process('./Examples/example.pptx')
+    logger.info(u"PPTX ...")
+    text = textract.process(u'./Examples/example.pptx')
     logger.info(text[0:20])
 
-    logger.info ("XLSX ...")
-    text = textract.process('./Examples/example.xlsx')
+    logger.info(u"XLSX ...")
+    text = textract.process(u'./Examples/example.xlsx')
     logger.info(text[0:20])
 
-    logger.info ("DOCX ...")
-    text = textract.process('./Examples/example.docx')
+    logger.info(u"DOCX ...")
+    text = textract.process(u'./Examples/example.docx')
     logger.info(text[0:20])
 
-    logger.info ("txt ...")
-    text = textract.process('./Examples/example.txt')
+    logger.info(u"txt ...")
+    text = textract.process(u'./Examples/example.txt')
     logger.info(text[0:20])
 
     if False:
-        logger.info ("jpg ...")
-        text = textract.process('./Examples/example.jpg')
+        logger.info(u"jpg ...")
+        text = textract.process(u'./Examples/example.jpg')
         logger.info(text[0:20])
 
-        logger.info ("png ...")
-        text = textract.process('./Examples/example.png')
+        logger.info(u"png ...")
+        text = textract.process(u'./Examples/example.png')
         logger.info(text[0:20])

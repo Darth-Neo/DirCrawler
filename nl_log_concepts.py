@@ -12,36 +12,36 @@ logger.setLevel(logging.INFO)
 from nl_lib.Constants import *
 from nl_lib.Concepts import Concepts
 
-if __name__ == "__main__":
+if __name__ == u"__main__":
 
-    #conceptFile = "documents.p"
-    conceptFile = "words.p"
-    #conceptFile = "chunks.p"
+    # conceptFile = u"documents.p"
+    conceptFile = u"words.p"
+    # conceptFile = u"chunks.p"
 
-    #conceptFile = "topicChunks.p"
-    #conceptFile = "topicsDict.p"
+    # conceptFile = u"topicChunks.p"
+    # conceptFile = u"topicsDict.p"
 
-    #conceptFile = "documentsSimilarity.p"
-    #conceptFile = "NVPChunks.p"
-    #conceptFile = "ngrams.p"
-    #conceptFile = "ngramscore.p"
-    #conceptFile = "ngramsubject.p"
-    #conceptFile = "archi.p"
-    #conceptFile = "pptx.p"
-    #conceptFile = "req.p"
-    #conceptFile = "export.p"
+    # conceptFile = u"documentsSimilarity.p"
+    # conceptFile = u"NVPChunks.p"
+    # conceptFile = u"ngrams.p"
+    # conceptFile = u"ngramscore.p"
+    # conceptFile = u"ngramsubject.p"
+    # conceptFile = u"archi.p"
+    # conceptFile = u"pptx.p"
+    # conceptFile = u"req.p"
+    # conceptFile = u"export.p"
 
-    #os.chdir(".")
+    # os.chdir(".")
     dir = os.getcwd()
 
     filePath = dir + os.sep + conceptFile
-    #filePath = conceptFile
+    # filePath = conceptFile
 
-    logger.info("Loading :" + filePath)
+    logger.info(u"Loading :" + filePath)
     concepts = Concepts.loadConcepts(filePath)
 
     concepts.logConcepts()
-    #concepts.printConcepts()
+    # concepts.printConcepts()
     
         
 

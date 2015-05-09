@@ -13,63 +13,63 @@ from nl_lib.Concepts import Concepts
 from nl_lib.TopicCloud import TopicCloud
 
 def createTopicsCloud(concepts, topic, numWords=30, scale=1):
-    logger.info("Starting Tag Cloud...")
+    logger.info(u"Starting Tag Cloud...")
 
     tc = TopicCloud(concepts, os.getcwd()+os.sep)
 
-    logger.info("Create Tag Cloud")
+    logger.info(u"Create Tag Cloud")
 
     # Note: the first parameter must match for a topic cloud image to be created!
     tc.createCloudImage(topic, size_x=1200, size_y=900, numWords=numWords, scale=scale)
 
-    logger.info("Complete createTopicsCloud")
+    logger.info(u"Complete createTopicsCloud")
 
 
-if __name__ == "__main__":
+if __name__ == u"__main__":
 
-    os.chdir("." + os.sep + "t34_20151004_151638")
+    os.chdir(u"." + os.sep + u"t34_20151004_151638")
 
     conceptFile = None
     topic = None
 
     if False:
-        conceptFile = "TopicChunks.p"
-        topic = "Chunk"
+        conceptFile = u"TopicChunks.p"
+        topic = u"Chunk"
 
     elif True:
-        conceptFile = "topicsDict.p"
-        topic="Topic"
+        conceptFile = u"topicsDict.p"
+        topic = u"Topic"
 
     elif False:
-        conceptFile = "archi.p"
-        topic="name"
+        conceptFile = u"archi.p"
+        topic = u"name"
 
     elif False:
-        conceptFile = "ngramsubject.p"
-        topic="NGRAM"
+        conceptFile = u"ngramsubject.p"
+        topic = u"NGRAM"
 
     elif False:
-        conceptFile = "req.p"
-        topic = "Word"
+        conceptFile = u"req.p"
+        topic = u"Word"
 
     elif False:
-        conceptFile = "chunks.p"
-        #topic = "Lemma"
-        topic = "SBJ"
-        #topic = "OBJ"
-        #topic = "VP"
-        #topic = "NN"
-        #topic = "NNP"
+        conceptFile = u"chunks.p"
+        # topic = u"Lemma"
+        topic = u"SBJ"
+        # topic = u"OBJ"
+        # topic = u"VP"
+        # topic = u"NN"
+        # topic = u"NNP"
 
     elif False:
-        conceptFile = "ngrams.p"
-        topic = "NGRAM"
+        conceptFile = u"ngrams.p"
+        topic = u"NGRAM"
 
-    logger.info("%s" % os.getcwd())
+    logger.info(u"%s" % os.getcwd())
 
-    c = Concepts("GraphConcepts", "GRAPH")
+    c = Concepts(u"GraphConcepts", u"GRAPH")
 
-    logger.info("Loading Topics from : " + conceptFile)
+    logger.info(u"Loading Topics from : " + conceptFile)
 
     concepts = Concepts.loadConcepts(conceptFile)
 

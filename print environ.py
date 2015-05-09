@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 
-import os, sys
+import os
+import sys
 
-variable =  sys.argv
+variable = sys.argv
+
 
 def enVar(variable):
     """
@@ -17,13 +19,13 @@ def enVar(variable):
         for x in range(nVar):
             x+=1
             if os.environ.get(variable[x].upper()): # convertes to upper if user mistakenly enters lowecase
-                print "%s : %s" %  (variable[x].upper(), os.environ.get(variable[x].upper()))
+                print u"%s : %s" %  (variable[x].upper(), os.environ.get(variable[x].upper()))
             else:
-                print 'Make sure the Environment variable "%s" exists or spelled correctly.' % variable[x]
+                print u'Make sure the Environment variable "%s" exists or spelled correctly.' % variable[x]
 
 enVar(variable)
 
 if False:
-    print os.environ['USERNAME']
-    print os.environ['USERDOMAIN']
-    print os.environ['USERDNSDOMAIN']
+    print os.environ[u'USERNAME']
+    print os.environ[u'USERDOMAIN']
+    print os.environ[u'USERDNSDOMAIN']

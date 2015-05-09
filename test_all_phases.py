@@ -20,6 +20,7 @@ import time
 GRAPH = False
 DIRECTORY = True
 
+
 def test_nl_phases():
 
     # Set the directory you want to start from
@@ -38,11 +39,11 @@ def test_nl_phases():
     logger.debug(u"Number of arguments:" + str(len(sys.argv)) + u"arguments.")
     logger.debug(u"Argument List:" + str(sys.argv))
 
-    if DIRECTORY == True:
+    if DIRECTORY:
         # Change current directory to enable to save pickles
         p, f = os.path.split(rootDir)
 
-        homeDir = os.getcwd() + os.sep + f + "_" + time.strftime(u"%Y%d%m_%H%M%S")
+        homeDir = os.getcwd() + os.sep + f + u"_" + time.strftime(u"%Y%d%m_%H%M%S")
 
         if not os.path.exists(homeDir):
             os.makedirs(homeDir)
@@ -66,7 +67,7 @@ def test_nl_phases():
     logger.info(u"create Topics")
     npbt = DocumentsSimilarity()
     npbt.createTopics(u"chunks.p")
-    #npbt.findSimilarties("documentsSimilarity.p")
+    # npbt.findSimilarties("documentsSimilarity.p")
 
     # nl_phase_d
     logger.info(u"find_collocations")
@@ -74,16 +75,16 @@ def test_nl_phases():
     fc.find_collocations()
     conceptsNGram, conceptsNGramScore, conceptsNGramSubject = fc.getCollocationConcepts()
 
-    if GRAPH == True:
+    if GRAPH:
         # nl_phase_f
         gc = ConceptsGraph()
         logger.info(u"graphConcepts")
-        #listConcepts = list()
-        #conceptsGraph(dc.getDocumentsConcepts())
-        #conceptsGraph(chunks.getChunkConcepts())
-        #conceptsGraph(ct.getChunkTopicsConcepts())
+        # listConcepts = list()
+        # conceptsGraph(dc.getDocumentsConcepts())
+        # conceptsGraph(chunks.getChunkConcepts())
+        # conceptsGraph(ct.getChunkTopicsConcepts())
         gc.conceptsGraph(conceptsNGram)
-        #conceptsGraph(conceptsNGramScore)
+        # conceptsGraph(conceptsNGramScore)
         gc.conceptsGraph(conceptsNGramSubject)
 
     # Conclude Batch Run
@@ -91,10 +92,10 @@ def test_nl_phases():
     logger.info(u"Documents Parsed = %d" % numFilesParsed)
 
     # measure wall time
-    localtime = time.asctime( time.localtime(t1))
+    localtime = time.asctime(time.localtime(t1))
     logger.info(u"Start      time : %s" % localtime)
 
-    localtime = time.asctime( time.localtime(time.time()) )
+    localtime = time.asctime(time.localtime(time.time()) )
     logger.info(u"Completion time : %s" % localtime)
 
     # measure process time

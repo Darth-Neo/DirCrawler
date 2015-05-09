@@ -15,41 +15,41 @@ from nl_lib.Concepts import Concepts
 
 
 def getChunkTopics():
-    #conceptFile = "documents.p"
-    conceptFile = "chunks.p"
-    #conceptFile = "topicsDict.p"
-    #conceptFile = "TopicChunks.p"
-    #conceptFile = "ngramsubject.p"
+    # conceptFile = u"documents.p"
+    conceptFile = u"chunks.p"
+    # conceptFile = u"topicsDict.p"
+    # conceptFile = u"TopicChunks.p"
+    # conceptFile = u"ngramsubject.p"
 
-    logger.info("Loading :" + os.getcwd() + os.sep + conceptFile)
+    logger.info(u"Loading :" + os.getcwd() + os.sep + conceptFile)
     concepts = Concepts.loadConcepts(conceptFile)
 
     listTopics = list()
 
-    cf = open(conceptFile[:-2] + ".txt", "wb")
+    cf = open(conceptFile[:-2] + u".txt", u"wb")
 
     for conceptDoc in concepts.getConcepts().values():
-        logger.debug("len %d" % len(conceptDoc.getConcepts()))
+        logger.debug(u"len %d" % len(conceptDoc.getConcepts()))
         if len(conceptDoc.getConcepts()) > 1:
-            logger.debug("%d:%s" % (len(conceptDoc.getConcepts()), conceptDoc.name))
+            logger.debug(u"%d:%s" % (len(conceptDoc.getConcepts()), conceptDoc.name))
             listTopics.append((len(conceptDoc.getConcepts()), conceptDoc))
             for concept in conceptDoc.getConcepts().values():
-                logger.debug("--->" + concept.name)
+                logger.debug(u"--->" + concept.name)
 
-    logger.info("---- Sorted Topics ----")
-    cf.write("---- Sorted Topics ----" + os.linesep)
+    logger.info(u"---- Sorted Topics ----")
+    cf.write(u"---- Sorted Topics ----" + os.linesep)
     
     lt = sorted(listTopics, key=lambda c: c[0], reverse=True)
 
     for x in lt:
-        logger.info("%s" % x[1].name)
+        logger.info(u"%s" % x[1].name)
         cf.write(x[1].name + os.linesep)
         for concept in x[1].getConcepts().values():
-            logger.info("--->%s" % concept.name)
-            cf.write("--->" + concept.name + os.linesep)
+            logger.info(u"--->%s" % concept.name)
+            cf.write(u"--->" + concept.name + os.linesep)
     
     cf.close()
 
-if __name__ == "__main__":
+if __name__ == u"__main__":
     getChunkTopics()
 

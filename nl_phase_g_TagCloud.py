@@ -16,19 +16,20 @@ from nl_lib.Concepts import Concepts
 from pytagcloud import create_tag_image, make_tags
 from pytagcloud.lang.counter import get_tag_counts
 
+
 def getText(concepts):
 
-    text = ""
+    text = u""
 
     for k, v in concepts.getConcepts().items():
-        text = text + " " + v.name
+        text = text + u" " + v.name
 
     return text
 
-if __name__ == "__main__":
-    conceptFile = "words.p"
+if __name__ == u"__main__":
+    conceptFile = u"words.p"
 
-    os.chdir("." + os.sep + "DVC_20151204_140520")
+    os.chdir(u"." + os.sep + u"DVC_20151204_140520")
 
     concepts = Concepts.loadConcepts(conceptFile)
 
@@ -36,7 +37,7 @@ if __name__ == "__main__":
         d = path.dirname(__file__)
 
         # Read the whole text.
-        text = open(path.join(d, 'log.txt')).read()
+        text = open(path.join(d, u'log.txt')).read()
     else:
         text = getText(concepts)
 
@@ -46,7 +47,7 @@ if __name__ == "__main__":
     # Yanone Kaffeesatz, Cardo, Neuton, Inconsolata, Crimson Text, Josefin Sans, Droid Sans, Lobster, IM Fell DW Pica,
     # Vollkorn, Tangerine, Coustard, PT Sans Regular
 
-    create_tag_image(tags, 'cloud_large.png', size=(900, 600)) # fontname='Arial')
+    create_tag_image(tags, u'cloud_large.png', size=(900, 600)) # fontname='Arial')
 
     # Separate into a list of (word, frequency).
     #words = wordcloud.process_text(text)
