@@ -694,7 +694,7 @@ def AdvSearch(document, search, bs=3):
     If the matching group has more than one block, blocks other than first
     are cleared and all the replacement text is put on first block.
 
-    Examples:
+    examples:
     original text blocks : [ 'Hel', 'lo,', ' world!' ]
     search : 'Hello,'
     output blocks : [ 'Hello,' ]
@@ -774,7 +774,7 @@ def advReplace(document, search, replace, bs=3):
     If the matching group has more than one block, blocks other than first
     are cleared and all the replacement text is put on first block.
 
-    Examples:
+    examples:
     original text blocks : [ 'Hel', 'lo,', ' world!' ]
     search / replace: 'Hello,' / 'Hi!'
     output blocks : [ 'Hi!', '', ' world!' ]
@@ -952,9 +952,9 @@ def coreproperties(title, subject, creator, keywords, lastmodifiedby=None):
                      nsprefix='cp'))
     coreprops.append(makeelement('revision', tagtext='1', nsprefix='cp'))
     coreprops.append(
-        makeelement('category', tagtext='Examples', nsprefix='cp'))
+        makeelement('category', tagtext='examples', nsprefix='cp'))
     coreprops.append(
-        makeelement('description', tagtext='Examples', nsprefix='dc'))
+        makeelement('description', tagtext='examples', nsprefix='dc'))
     currenttime = time.strftime('%Y-%m-%dT%H:%M:%SZ')
     # Document creation and modify times
     # Prob here: we have an attribute who name uses one namespace, and that

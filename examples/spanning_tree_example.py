@@ -45,7 +45,7 @@ def prim_mst_edges(G, weight = 'weight', data = True):
        A generator that produces edges in the minimum spanning tree.
        The edges are three-tuples (u,v,w) where w is the weight.
 
-    Examples
+    examples
     --------
     >>> G=nx.cycle_graph(4)
     >>> G.add_edge(0,3,weight=2) # assign weight 2 to edge 0-3
@@ -112,7 +112,7 @@ def prim_mst(G, weight = 'weight'):
     G : NetworkX Graph
        A minimum spanning tree or forest.
 
-    Examples
+    examples
     --------
     >>> G=nx.cycle_graph(4)
     >>> G.add_edge(0,3,weight=2) # assign weight 2 to edge 0-3

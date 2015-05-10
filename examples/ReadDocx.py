@@ -6,7 +6,7 @@ import openxmllib
 import xlrd
 from pptx import Presentation
 
-from Examples import docx
+from examples import docx
 
 
 logger = Logger.setupLogging(__name__)
