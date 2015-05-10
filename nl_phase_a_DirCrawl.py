@@ -11,7 +11,7 @@ from nl_lib.Concepts import Concepts
 import nltk
 import openxmllib
 from pptx import Presentation
-from examples.docx import opendocx, getdocumenttext
+from docx import opendocx, getdocumenttext
 import xlrd
 from pyPdf import PdfFileReader
 
