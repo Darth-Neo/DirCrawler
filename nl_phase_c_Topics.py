@@ -84,8 +84,6 @@ class DocumentsSimilarity(object):
 
         self.tm = TopicsModel()
 
-        self.concepts.cleanConcepts()
-
         logger.info(u"Load Documents from Concepts")
         self.documentsList, self.wordcount = self.tm.loadConceptsWords(self.concepts)
 
