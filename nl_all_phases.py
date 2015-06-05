@@ -2,8 +2,7 @@
 #
 # Natural Language Processing of Information
 #
-import os
-from subprocess import call
+
 import sys
 
 from nl_lib import Logger
@@ -20,7 +19,6 @@ import time
 
 GRAPH = False
 DIRECTORY = True
-
 
 def nl_phases(rootDir):
 
@@ -109,10 +107,6 @@ def nl_phases(rootDir):
 
 if __name__ == u"__main__":
 
-    # Set the directory you want to start from
-    # rootDir = "/Users/morrj140/Documents/SolutionEngineering/DVC"
-    # rootDir = "/Users/morrj140/Documents/SolutionEngineering/Facilities Operation Management"
-    # rootDir = "/Users/morrj140/Documents/SolutionEngineering/Digital Access Management/Merchandise Vision Replacement/REQ2"
-    rootDir = "/Users/morrj140/Documents/SolutionEngineering/DVC"
+    rootDir = u"/home/james.morris/Documents"
 
     nl_phases(rootDir)

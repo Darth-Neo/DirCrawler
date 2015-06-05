@@ -29,7 +29,7 @@ def getText(concepts):
 if __name__ == u"__main__":
     conceptFile = u"words.p"
 
-    os.chdir(u"." + os.sep + u"DVC_20151204_140520")
+    os.chdir(u"." + os.sep + u"run")
 
     concepts = Concepts.loadConcepts(conceptFile)
 

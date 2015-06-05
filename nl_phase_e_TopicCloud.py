@@ -20,14 +20,14 @@ def createTopicsCloud(concepts, topic, numWords=30, scale=1):
     logger.info(u"Create Tag Cloud")
 
     # Note: the first parameter must match for a topic cloud image to be created!
-    tc.createCloudImage(topic, size_x=1200, size_y=900, numWords=numWords, scale=scale)
+    tc.createTagCloud(topic, size_x=1200, size_y=900, numWords=numWords, scale=scale)
 
     logger.info(u"Complete createTopicsCloud")
 
 
 if __name__ == u"__main__":
 
-    os.chdir(u"." + os.sep + u"t34_20151004_151638")
+    os.chdir(u"." + os.sep + u"run")
 
     conceptFile = None
     topic = None

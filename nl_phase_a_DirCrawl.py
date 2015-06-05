@@ -1,6 +1,7 @@
 #
 # Crawl a directory for documents and pull out the text
 #
+
 from nl_lib.Logger import *
 logger = setupLogging(__name__)
 logger.setLevel(INFO)
@@ -16,7 +17,7 @@ import xlrd
 from pyPdf import PdfFileReader
 
 from traceback import format_exc
-
+from unidecode import unidecode
 from BeautifulSoup import BeautifulSoup
 
 # by importing the textract module, you will then enable its use
@@ -24,7 +25,7 @@ from BeautifulSoup import BeautifulSoup
 try:
     # import textract
     TEXTRACT = False
-except:
+except ImportError:
     pass
 
 if u'textract' in dir():
@@ -38,7 +39,6 @@ stop.append(u"information")
 stop.append(u"member")
 
 import unicodedata
-
 
 class DirCrawl(object):
     documentsConceptsFile = u"documents.p"
@@ -65,17 +65,15 @@ class DirCrawl(object):
         logger.debug(u"OpenXmlText: %s" % filename)
 
         try:
-
             doc = openxmllib.openXmlDocument(path=filename)
-
-            logger.debug(u"%s\n" % (doc.allProperties))
+            logger.debug(u"%s\n" % doc.allProperties)
 
             ap = c.addConceptKeyType(u"allProperties", u"PROPERTIES")
             for x in doc.allProperties:
                 logger.debug(u"cp %s:%s" % (x, doc.allProperties[x]))
                 ap.addConceptKeyType(doc.allProperties[x], x)
-        except:
-            pass
+        except Exception, msg:
+            logger.error(u"%s" % msg)
 
     def _getPDFText(self, filename, d):
         logger.debug(u"filename: %s" % filename)
@@ -102,8 +100,8 @@ class DirCrawl(object):
 
             return newparatextlist
 
-        except:
-            pass
+        except Exception, msg:
+            logger.error(u"%s" % msg)
 
     def _getPPTXText(self, filename):
         logger.debug(u"filename: %s" % filename)
@@ -111,7 +109,6 @@ class DirCrawl(object):
         newparatextlist = list()
 
         try:
-
             prs = Presentation(filename)
 
             for slide in prs.slides:
@@ -121,13 +118,13 @@ class DirCrawl(object):
                     for paragraph in shape.text_frame.paragraphs:
                         for run in paragraph.runs:
                             logger.debug(u"PPTX : %s" % run.text)
-                            if run.text != None:
+                            if run.text is not None:
                                 if not isinstance(run.text, str):
                                     run.text = unicode(run.text)
-                                    # unicodedata.normalize(u'NFKD', run.text).encode(u'ascii', u'ignore')
+
                                 newparatextlist.append(run.text + u". ")
-        except:
-            pass
+        except Exception, msg:
+            logger.error(u"%s" % msg)
 
         return newparatextlist
 
@@ -163,11 +160,10 @@ class DirCrawl(object):
                         if cell_type == 1:
                             if not isinstance(cell_value, str):
                                 cell_value = unicode(cell_value)
-                                #unicodedata.normalize(u'NFKD', cell_value).encode(u'ascii', 'uignore')
                             logger.debug(u"XLXS : %s" % cell_value)
                             newparatextlist.append(cell_value + u". ")
-        except:
-            pass
+        except Exception, msg:
+            logger.error(u"%s" % msg)
 
         return newparatextlist
 
@@ -184,7 +180,6 @@ class DirCrawl(object):
         for paratext in paratextlist:
             if not isinstance(paratext, str):
                 paratext = unicode(paratext)
-                #unicodedata.normalize(u'NFKD', paratext).encode(u'ascii', u'ignore')
             logger.debug(u"DOCX : %s" % paratext)
             newparatextlist.append(paratext + u". ")
             
@@ -195,7 +190,11 @@ class DirCrawl(object):
 
         listText = list()
 
-        soup = BeautifulSoup(open(filename))
+        try:
+            soup = BeautifulSoup(open(filename))
+        except Exception, msg:
+            logger.warn(u"%s" % msg)
+            return None
 
         logger.debug(u"Soup: %s" % soup)
 
@@ -266,8 +265,6 @@ class DirCrawl(object):
             logger.debug(u"cs:%s" % cleanSentence)
 
             for word, pos in nltk.pos_tag(nltk.wordpunct_tokenize(cleanSentence)):
-
-
                 logger.debug(u"Word: " + word + u" POS: " + pos)
                 c = words.addConceptKeyType(word, u"WORD")
                 c.addConceptKeyType(pos, u"POS")
@@ -275,13 +272,16 @@ class DirCrawl(object):
     def _checkFile(self, fname):
         logger.debug(u"filename: %s" % fname)
 
-        d = Concepts(fname, u"Document")
-        w = Concepts(fname, u"Document")
+        fna = unidecode(fname)
+        # fna = fn.encode("ascii", errors="ignore")
 
-        listText = self._getConcepts(fname, d, w)
+        d = Concepts(fna, u"Document")
+        w = Concepts(fna, u"Document")
+
+        listText = self._getConcepts(fna, d, w)
 
         if listText is not None and len(listText) == 0:
-            logger.warn(u"%s has no text" % (fname))
+            logger.warn(u"%s has no text" % fna)
             return 0
         else:
             self.documentsConcepts.addConcept(d)
