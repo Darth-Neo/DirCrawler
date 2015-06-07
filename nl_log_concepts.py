@@ -14,8 +14,8 @@ from nl_lib.Concepts import Concepts
 
 if __name__ == u"__main__":
 
-    # conceptFile = u"documents.p"
-    conceptFile = u"words.p"
+    conceptFile = u"documents.p"
+    # conceptFile = u"words.p"
     # conceptFile = u"chunks.p"
 
     # conceptFile = u"topicChunks.p"
@@ -42,8 +42,7 @@ if __name__ == u"__main__":
 
     concepts.logConcepts()
     # concepts.printConcepts()
-    
-        
+
 
 
 

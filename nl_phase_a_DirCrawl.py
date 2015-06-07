@@ -4,36 +4,33 @@
 
 from nl_lib.Logger import *
 logger = setupLogging(__name__)
-logger.setLevel(INFO)
+logger.setLevel(DEBUG)
 
 from nl_lib.Constants import *
 from nl_lib.Concepts import Concepts
 
 import nltk
+
+# by importing the textract module, you will then enable its use
+
+try:
+    from textract import *
+    TEXTRACT = True
+    logger.info(u"Using textract parser")
+
+except ImportError, msg:
+    TEXTRACT = False
+    logger.info(u"Using custom parser : %s" % msg)
+
 import openxmllib
 from pptx import Presentation
-from docx import opendocx, getdocumenttext
+from n_docx import opendocx, getdocumenttext
 import xlrd
 from pyPdf import PdfFileReader
 
 from traceback import format_exc
 from unidecode import unidecode
 from BeautifulSoup import BeautifulSoup
-
-# by importing the textract module, you will then enable its use
-
-try:
-    # import textract
-    TEXTRACT = False
-except ImportError:
-    pass
-
-if u'textract' in dir():
-    TEXTRACT = True
-    logger.info(u"Using textract parser")
-else:
-    TEXTRACT = False
-    logger.info(u"Using custom parser")
 
 stop.append(u"information")
 stop.append(u"member")
@@ -208,16 +205,22 @@ class DirCrawl(object):
 
     def _getConcepts(self, fname, d, w):
         listText = list()
+        text = None
 
-        if TEXTRACT == True:
-            text = textract.process(fname)
-            if text != None or len(text) != 0:
-                listText = text
+        if TEXTRACT is True:
+            try:
+                txt = process(str(fname)).decode(u"ascii", errors=u"replace")
+                text = unidecode(txt)
+                if text is not None or len(text) != 0:
+                    listText = text
+            except Exception, msg:
+                logger.error(u"%s" % msg)
+            logger.info(u"++parsing : %s[%d]" % (fname, len(listText)))
         else:
             if fname[-5:] == u".docx":
                 listText = self._getDOCXText(fname)
                 self._getOpenXmlText(fname, d)
-                logger.info(u"++Parsing = %s" % fname)
+                logger.info(u"+c %s" % fname)
             elif fname[-5:] == u".pptx":
                 listText = self._getPPTXText(fname)
                 self._getOpenXmlText(fname, d)
@@ -242,17 +245,21 @@ class DirCrawl(object):
                 em = format_exc().split('\n')[-2]
                 logger.warn(u"Warning: %s" % (em))
 
-        if listText != None:
-            for t in listText:
-                if t != None:
-                    try:
-                        sentence = unicode(sentence).strip()
-                        # sentence = t.encode('ascii', errors="ignore").strip()
-                        logger.debug(u"%s:Text : %s" % (type(sentence), sentence))
-                        d.addConceptKeyType(sentence, u"Text")
-                        self._addWords(w, sentence)
-                    except:
-                        pass
+        if listText is not None:
+            if isinstance(listText, list):
+                for t in listText:
+                    if t is not None:
+                        try:
+                            # c = unicode(t).strip()
+                            # sentence = t.encode('ascii', errors="ignore").strip()
+                            logger.debug(u"%s:Text : %s" % (type(t), t))
+                            w = d.addConceptKeyType(t, u"Text")
+                            self._addWords(w, t)
+                        except Exception, msg:
+                            logger.error(u"%s" % msg)
+            else:
+                w = d.addConceptKeyType(listText, u"Text")
+                self._addWords(w, listText)
 
         return listText
 
