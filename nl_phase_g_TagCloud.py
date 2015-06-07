@@ -16,6 +16,7 @@ from nl_lib.Concepts import Concepts
 from pytagcloud import create_tag_image, make_tags
 from pytagcloud.lang.counter import get_tag_counts
 
+from wordcloud.wordcloud import *
 
 def getText(concepts):
 
@@ -49,11 +50,14 @@ if __name__ == u"__main__":
 
     create_tag_image(tags, u'cloud_large.png', size=(900, 600)) # fontname='Arial')
 
+    wc = WordCloud()
     # Separate into a list of (word, frequency).
-    #words = wordcloud.process_text(text)
+    words = wc.process_text(text)
 
     # Compute the position of the words.
-    #elements = wordcloud.fit_words(words)
+    elements = wc.fit_words(words)
+
+    wc.generate(text)
 
     # Draw the positioned words to a PNG file.
-    #wordcloud.draw(elements, path.join(d, 'log.png'))
+    wc.to_file('log.png')
