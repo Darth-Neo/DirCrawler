@@ -1,4 +1,5 @@
 *.p
+.coverage
 *.pyc
 *.mm
 *.projection
