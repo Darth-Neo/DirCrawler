@@ -14,8 +14,8 @@ from nl_lib.Concepts import Concepts
 
 if __name__ == u"__main__":
 
-    conceptFile = u"documents.p"
-    # conceptFile = u"words.p"
+    # conceptFile = u"documents.p"
+    conceptFile = u"words.p"
     # conceptFile = u"chunks.p"
 
     # conceptFile = u"topicChunks.p"
@@ -26,15 +26,11 @@ if __name__ == u"__main__":
     # conceptFile = u"ngrams.p"
     # conceptFile = u"ngramscore.p"
     # conceptFile = u"ngramsubject.p"
-    # conceptFile = u"archi.p"
-    # conceptFile = u"pptx.p"
-    # conceptFile = u"req.p"
-    # conceptFile = u"export.p"
 
-    # os.chdir(".")
-    dir = os.getcwd()
+    logger.info(u"%s" % os.getcwd())
+    os.chdir(u"." + os.sep + u"run")
 
-    filePath = dir + os.sep + conceptFile
+    filePath = conceptFile
     # filePath = conceptFile
 
     logger.info(u"Loading :" + filePath)
