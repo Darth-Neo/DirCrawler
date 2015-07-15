@@ -4,7 +4,7 @@
 
 from nl_lib.Logger import *
 logger = setupLogging(__name__)
-logger.setLevel(DEBUG)
+logger.setLevel(INFO)
 
 from nl_lib.Constants import *
 from nl_lib.Concepts import Concepts
@@ -12,15 +12,14 @@ from nl_lib.Concepts import Concepts
 import nltk
 
 # by importing the textract module, you will then enable its use
-
-try:
+if False:
     from textract import *
     TEXTRACT = True
     logger.info(u"Using textract parser")
 
-except ImportError, msg:
+else: # ImportError, msg:
     TEXTRACT = False
-    logger.info(u"Using custom parser : %s" % msg)
+    logger.info(u"Using custom parser : ") # %s" % msg)
 
 import openxmllib
 from pptx import Presentation
@@ -242,8 +241,7 @@ class DirCrawl(object):
                 listText = self._getTXT(fname)
                 logger.info(u"++Parsing = %s" % fname)
             else:
-                em = format_exc().split('\n')[-2]
-                logger.warn(u"Warning: %s" % (em))
+                logger.warn(u"Unsupported file type: %s" % (fname))
 
         if listText is not None:
             if isinstance(listText, list):

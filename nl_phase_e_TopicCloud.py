@@ -12,19 +12,6 @@ from nl_lib.Constants import *
 from nl_lib.Concepts import Concepts
 from nl_lib.TopicCloud import TopicCloud
 
-def createTopicsCloud(concepts, topic, numWords=30, scale=1):
-    logger.info(u"Starting Tag Cloud...")
-
-    tc = TopicCloud(concepts, os.getcwd()+os.sep)
-
-    logger.info(u"Create Tag Cloud")
-
-    # Note: the first parameter must match for a topic cloud image to be created!
-    tc.createTagCloud(topic, size_x=1200, size_y=900, numWords=numWords, scale=scale)
-
-    logger.info(u"Complete createTopicsCloud")
-
-
 if __name__ == u"__main__":
 
     os.chdir(u"." + os.sep + u"run")
@@ -65,12 +52,10 @@ if __name__ == u"__main__":
         conceptFile = u"ngrams.p"
         topic = u"NGRAM"
 
-    logger.info(u"%s" % os.getcwd())
-
     c = Concepts(u"GraphConcepts", u"GRAPH")
 
     logger.info(u"Loading Topics from : " + conceptFile)
 
     concepts = Concepts.loadConcepts(conceptFile)
-
-    createTopicsCloud(concepts, topic, numWords=30, scale=0.2)
+    tc = TopicCloud(concepts, os.getcwd()+os.sep)
+    tc.createTagCloud(topic)

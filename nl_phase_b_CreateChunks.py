@@ -119,7 +119,9 @@ class Chunks(object):
                         f.addConceptKeyType(word[1], u"Lemma")
                 
                 logger.debug(u"%s = %s" % (cleanSentence, type(cleanSentence)))
-                cleanSentence = cleanSentence.decode(u"utf-8", errors=u"ignore")
+                cleanSentence = cleanSentence.encode(u"utf-8", errors=u"ignore")
+                cleanSentence = cleanSentence.decode(u"ascii", errors=u"ignore")
+
                 pt = parsetree(cleanSentence, relations=True, lemmata=True)
 
                 for sentence in pt:
@@ -161,7 +163,7 @@ class Chunks(object):
 
 if __name__ == u"__main__":
 
-    os.chdir("DVC_20152202_153318")
+    os.chdir(u"run")
 
     chunks = Chunks()
     

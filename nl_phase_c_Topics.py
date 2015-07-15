@@ -209,7 +209,7 @@ class DocumentsSimilarity(object):
             logger.debug(u"   similarity below threshold")
 
 if __name__ == u"__main__":
-    os.chdir(u"DVC_20152202_153318")
+    os.chdir(u"run")
 
     npbt = DocumentsSimilarity()
     # npbt.createTopics("documents.p")

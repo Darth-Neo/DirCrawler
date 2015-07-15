@@ -18,7 +18,7 @@ from nl_phase_f_graph_concepts import *
 import time
 
 GRAPH = False
-DIRECTORY = True
+DIRECTORY = False
 
 def nl_phases(rootDir):
 
@@ -39,11 +39,14 @@ def nl_phases(rootDir):
         # Change current directory to enable to save pickles
         p, f = os.path.split(rootDir)
 
-        homeDir = os.getcwd() + os.sep + f + u"_" + time.strftime(u"%Y%d%m_%H%M%S")
+        homeDir = os.getcwd() + os.sep + f + u"_" + time.strftime(u"%Y%d%m_%H%M%S") + os.sep
+    else:
+        homeDir = os.getcwd() + os.sep + u"run" + os.sep
 
-        if not os.path.exists(homeDir):
-            os.makedirs(homeDir)
-        os.chdir(homeDir)
+    if not os.path.exists(homeDir):
+        os.makedirs(homeDir)
+
+    os.chdir(homeDir)
 
     # measure process time, wall time
     t0 = time.clock()
@@ -73,7 +76,14 @@ def nl_phases(rootDir):
 
     # nl_phase_e
     logger.info(u"createTopicCloud for Subjects")
-    createTopicsCloud(conceptsNGramSubject, u"NGRAM", numWords=50, scale=1.5)
+    # createTopicsCloud(conceptsNGramSubject, u"NGRAM", numWords=50, scale=1.5)
+    conceptFile = u"topicsDict.p"
+    topic = u"Topic"
+    concepts = Concepts.loadConcepts(conceptFile)
+
+    tc = TopicCloud(concepts, homeDir=homeDir, font_path=u"../DroidSans.ttf")
+
+    tc.createTagCloud(topic)
 
     if GRAPH:
         if False:
@@ -84,9 +94,8 @@ def nl_phases(rootDir):
         # nl_phase_f
         logger.info(u"graphConcepts")
 
-        cg = ConceptsGraph(graph=graph, fileImage=u"GraphConcetps.png")
-
-        cg.conceptsGraph(conceptsNGramSubject)
+        graph.addConcepts(conceptsNGramSubject)
+        graph.exportGraph(u"export.png")
 
     # Conclude Batch Run
     # Timer
@@ -107,6 +116,6 @@ def nl_phases(rootDir):
 
 if __name__ == u"__main__":
 
-    rootDir = u"/home/james.morris/Documents"
+    rootDir = u"/Users/morrj140/Documents/SolutionEngineering/Digital Lead"
 
     nl_phases(rootDir)
