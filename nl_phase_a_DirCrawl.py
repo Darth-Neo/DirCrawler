@@ -202,44 +202,49 @@ class DirCrawl(object):
 
         return listText
 
-    def _getConcepts(self, fname, d, w):
+    def _getConcepts(self, fname, d, w, DOCX=True, XLSX=True, PDF=True, PPTX=True, MISC=True):
         listText = list()
         text = None
 
         if TEXTRACT is True:
             try:
-                txt = process(str(fname)).decode(u"ascii", errors=u"replace")
-                text = unidecode(txt)
+                txt = process(str(fname)).encode(u"utf8", errors=u"replace")
+                text = txt.decode(u"ascii", errors=u"replace")
+                #text = unidecode(txt)
                 if text is not None or len(text) != 0:
                     listText = text
             except Exception, msg:
                 logger.error(u"%s" % msg)
             logger.info(u"++parsing : %s[%d]" % (fname, len(listText)))
         else:
-            if fname[-5:] == u".docx":
+            txt = process(str(fname)).encode(u"utf8", errors=u"replace")
+            text = txt.decode(u"ascii", errors=u"replace")
+
+            if fname[-5:] == u".docx" and DOCX is True:
                 listText = self._getDOCXText(fname)
                 self._getOpenXmlText(fname, d)
                 logger.info(u"+c %s" % fname)
-            elif fname[-5:] == u".pptx":
+            elif fname[-5:] == u".pptx" and PPTX is True:
                 listText = self._getPPTXText(fname)
                 self._getOpenXmlText(fname, d)
                 logger.info(u"++Parsing = %s" % fname)
-            elif fname[-5:] == u".xlsx":
+            elif fname[-5:] == u" .xlsx" and XLSX is True:
                 listText = self._getXLSText(fname)
                 self._getOpenXmlText(fname, d)
                 logger.info(u"++Parsing = %s" % fname)
-            elif fname[-4:] == u".pdf":
+            elif fname[-4:] == u".pdf" and PDF is True:
                 listText = self._getPDFText(fname, d)
                 logger.info(u"++Parsing = %s" % fname)
-            elif fname[-4:] in (u".txt", u".xml", u".htm", u".csv"):
-                listText = self._getTXT(fname)
-                logger.info(u"++Parsing = %s" % fname)
-            elif fname[-5:] in (u".html", u".WSDL"):
-                listText = self._getTXT(fname)
-                logger.info(u"++Parsing = %s" % fname)
-            elif fname[-4:] in (u".xml"):
-                listText = self._getTXT(fname)
-                logger.info(u"++Parsing = %s" % fname)
+            elif MISC is True:
+                if fname[-4:] in (u".txt", u".xml", u".htm", u".csv"):
+                    listText = self._getTXT(fname)
+                    logger.info(u"++Parsing = %s" % fname)
+                elif fname[-5:] in (u".html", u".WSDL"):
+                    listText = self._getTXT(fname)
+                    logger.info(u"++Parsing = %s" % fname)
+                elif fname[-4:] in (u".xml"):
+                    listText = self._getTXT(fname)
+                    logger.info(u"++Parsing = %s" % fname)
             else:
                 logger.warn(u"Unsupported file type: %s" % (fname))
 

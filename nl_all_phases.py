@@ -22,6 +22,8 @@ DIRECTORY = False
 
 def nl_phases(rootDir):
 
+    imageFile = u"topicCloud.png"
+
     if not os.path.isdir(rootDir):
         logger.error(u"Directory does not exist!")
         return
@@ -81,7 +83,7 @@ def nl_phases(rootDir):
     topic = u"Topic"
     concepts = Concepts.loadConcepts(conceptFile)
 
-    tc = TopicCloud(concepts, homeDir=homeDir, font_path=u"../DroidSans.ttf")
+    tc = TopicCloud(concepts, homeDir=homeDir, font_path=u"../DroidSans.ttf", imageFile=imageFile)
 
     tc.createTagCloud(topic)
 
@@ -116,6 +118,6 @@ def nl_phases(rootDir):
 
 if __name__ == u"__main__":
 
-    rootDir = u"/Users/morrj140/Documents/SolutionEngineering/Digital Lead"
+    rootDir = u"/Users/morrj140/Documents/SolutionEngineering/RTP"
 
     nl_phases(rootDir)
