@@ -210,14 +210,14 @@ class DirCrawl(object):
             try:
                 txt = process(str(fname)).encode(u"utf8", errors=u"replace")
                 text = txt.decode(u"ascii", errors=u"replace")
-                #text = unidecode(txt)
+                text = unidecode(txt)
                 if text is not None or len(text) != 0:
                     listText = text
             except Exception, msg:
                 logger.error(u"%s" % msg)
             logger.info(u"++parsing : %s[%d]" % (fname, len(listText)))
         else:
-            txt = process(str(fname)).encode(u"utf8", errors=u"replace")
+            txt = str(fname).encode(u"utf8", errors=u"replace")
             text = txt.decode(u"ascii", errors=u"replace")
 
             if fname[-5:] == u".docx" and DOCX is True:

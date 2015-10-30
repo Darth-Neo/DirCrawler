@@ -20,10 +20,6 @@ if __name__ == u"__main__":
     topic = None
 
     if False:
-        conceptFile = u"TopicChunks.p"
-        topic = u"Chunk"
-
-    elif True:
         conceptFile = u"topicsDict.p"
         topic = u"Topic"
 
@@ -39,11 +35,11 @@ if __name__ == u"__main__":
         conceptFile = u"req.p"
         topic = u"Word"
 
-    elif False:
+    elif True:
         conceptFile = u"chunks.p"
         # topic = u"Lemma"
-        topic = u"SBJ"
-        # topic = u"OBJ"
+        # topic = u"SBJ"
+        topic = u"OBJ"
         # topic = u"VP"
         # topic = u"NN"
         # topic = u"NNP"
