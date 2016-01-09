@@ -18,15 +18,15 @@ if __name__ == u"__main__":
 
     logger.info(u"%s" % os.getcwd())
 
-    # conceptFile = u"documents.p"
+    conceptFile = u"documents.p"
     # conceptFile = u"words.p"
     # conceptFile = u"chunks.p"
 
     # conceptFile = u"topicChunks.p"
     # conceptFile = u"topicsDict.p"
 
-    conceptFile = u"documentsSimilarity.p"
-    # conceptFile = u"NVPChunks.p"
+    # conceptFile = u"documentsSimilarity.p"
+    # conceptFile = u"NVPChunks.p"`
     # conceptFile = u"ngrams.p"
     # conceptFile = u"ngramscore.p"
 

@@ -67,9 +67,9 @@ def nl_phases(rootDir):
     # nl_phase_c
     logger.info(u"create Topics")
     npbt = DocumentsSimilarity()
-    npbt.createTopics(u"chunks.p")
-    # npbt.findSimilarties("documentsSimilarity.p")
-    
+    npbt.createTopics(u"documents.p")
+    npbt.findSimilarties(u"documentsSimilarity.p")
+
     # nl_phase_d
     logger.info(u"find_collocations")
     fc = Collocations(u"chunks.p")

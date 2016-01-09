@@ -20,7 +20,7 @@ THREAD = False
 
 num_topics = 50
 num_words  = 25
-similarity = 0.60
+similarity = 0.75
 
 ThreadDepth = 10
 QueueDepth  = 150
@@ -156,7 +156,7 @@ class DocumentsSimilarity(object):
 
             if THREAD is False:
 
-                self.doComputation(document, similarityThreshold, pj, CommonTopic=True)
+                self.doComputation(document, similarityThreshold, pj, Topics=False)
 
             else:
                 logger.debug(u"npbtAquire  Queue Lock")
@@ -191,12 +191,16 @@ class DocumentsSimilarity(object):
 
         Concepts.saveConcepts(self.conceptsSimilarity, conceptsSimilarityFile)
 
+        # Concepts.outputConceptsToCSV(self.conceptsSimilarity, fileExport=u"BusinessRequirements.csv")
+
         logger.info(u"Complete - findSimilarties")
 
         return self.conceptsSimilarity
 
-    def doComputation(self, j, similarityThreshold, pj, CommonTopic=False):
-        
+    def doComputation(self, j, similarityThreshold, pj, Topics=False):
+
+        pt = None
+
         pl = self.tm.computeSimilar(self.documentsList.index(j), self.documentsList, similarityThreshold)
 
         if len(pl) != 0:
@@ -212,12 +216,10 @@ class DocumentsSimilarity(object):
 
                     dfni = unicode(self.df[ni])
 
-                    logger.info(u"    Similar Document : %s[%s]" % (dfni, mdl))
+                    logger.info(u"    Similar Document : %s" % (dfni))
 
                     ps = pj.addConceptKeyType(dfni, u"SimilarDocument")
-                    pt = ps.addConceptKeyType(mdl, u"DocumentTopics")
-
-                    ps.count = TopicsModel.convertMetric(l[0])
+                    # ps.count = TopicsModel.convertMetric(l[0])
 
                     common = set(l[1]) & set(l[2])
                     lc = [x for x in common]
@@ -226,7 +228,10 @@ class DocumentsSimilarity(object):
                     logger.debug(u"  l[2] : %s" % (l[2]))
                     logger.debug(u"  Common : %s" % (lc))
 
-                    if CommonTopic is True:
+                    if Topics is True:
+
+                        pt = ps.addConceptKeyType(mdl, u"DocumentTopics")
+
                         for x in common:
                             pc = pt.addConceptKeyType(x, u"CommonTopic")
                             pc.count = len(lc)
@@ -240,15 +245,16 @@ if __name__ == u"__main__":
     # os.chdir(u"dvc")
     os.chdir(u"run")
 
-    conceptsFile = u"documents.p"
-
     npbt = DocumentsSimilarity()
 
-    concepts = npbt.createTopics(conceptsFile)
+    concepts = npbt.createTopics(u"documents.p")
 
-    conceptsSimilarity = npbt.findSimilarties(u"documentsSimilarity.p")
+    npbt.findSimilarties(u"documentsSimilarity.p")
 
-    # conceptsSimilarity.logConcepts()
+    # npbt.conceptsSimilarity.logConcepts()
+
+    for k, v in npbt.conceptsSimilarity.getConcepts().items():
+        pass
 
 
 
