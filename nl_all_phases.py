@@ -118,6 +118,9 @@ def nl_phases(rootDir):
 
 if __name__ == u"__main__":
 
-    # rootDir = u"/Users/morrj140/Development/GitRepository/WebSpider/aggregate"
-    rootDir = os.getcwd() + os.sep + u"MOB"
+    # rootDir = u"/Users/morrj140/Documents/SolutionEngineering/Billing/Transition"
+    # rootDir = os.getcwd() + os.sep + u"MOB"
+    # rootDir = u"/Users/morrj140/Documents/SolutionEngineering/Accounting Engine/Dreams"
+    rootDir = os.getcwd() + os.sep + u"dvc"
+
     nl_phases(rootDir)

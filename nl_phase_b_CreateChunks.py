@@ -163,7 +163,7 @@ class Chunks(object):
 
 if __name__ == u"__main__":
 
-    os.chdir(u"run")
+    os.chdir(u"test")
 
     chunks = Chunks()
     

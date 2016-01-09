@@ -54,8 +54,14 @@ class DirCrawl(object):
         return self.wordsConcepts
 
     def _saveConcepts(self):
+        logger.info(u"Saving %s" % self.documentsConceptsFile)
         Concepts.saveConcepts(self.documentsConcepts, self.documentsConceptsFile)
+        logger.info(u"Saving %s" % self.wordsConceptsFile)
         Concepts.saveConcepts(self.wordsConcepts, self.wordsConceptsFile)
+
+        logger.info(u"Saving Documents %s" % os.getcwd() + os.sep + self.documentsConceptsFile)
+        logger.info(u"Saving Words%s" % os.getcwd() + os.sep + self.wordsConceptsFile)
+
 
     def _getOpenXmlText(self, filename, c):
         logger.debug(u"OpenXmlText: %s" % filename)
@@ -224,17 +230,21 @@ class DirCrawl(object):
                 listText = self._getDOCXText(fname)
                 self._getOpenXmlText(fname, d)
                 logger.info(u"+c %s" % fname)
+
             elif fname[-5:] == u".pptx" and PPTX is True:
                 listText = self._getPPTXText(fname)
                 self._getOpenXmlText(fname, d)
+
                 logger.info(u"++Parsing = %s" % fname)
             elif fname[-5:] == u" .xlsx" and XLSX is True:
                 listText = self._getXLSText(fname)
                 self._getOpenXmlText(fname, d)
                 logger.info(u"++Parsing = %s" % fname)
+
             elif fname[-4:] == u".pdf" and PDF is True:
                 listText = self._getPDFText(fname, d)
                 logger.info(u"++Parsing = %s" % fname)
+
             elif MISC is True:
                 if fname[-4:] in (u".txt", u".xml", u".htm", u".csv"):
                     listText = self._getTXT(fname)
@@ -321,6 +331,10 @@ def test_dirCrawl():
     dc = DirCrawl()
 
     numFilesParsed = dc.searchSubDir(rootDir)
+
+    os.chdir(u"test")
+
+    dc._saveConcepts()
 
     logger.info(u"Documents Parsed = %d" % numFilesParsed)
 

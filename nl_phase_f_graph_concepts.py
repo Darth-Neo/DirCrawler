@@ -26,12 +26,12 @@ if __name__ == u"__main__":
     # conceptFile = u"documents.p"
     # conceptFile = u"words.p"
     # conceptFile = u"NVPChunks.p"
-    # conceptFile = u"chunks.p"
+    conceptFile = u"chunks.p"
     # conceptFile = u"topicsDict.p"
     # conceptFile = u"TopicChunks.p"
     # conceptFile = u"ngrams.p"
     # conceptFile = u"ngramscore.p"
-    conceptFile = u"ngramsubject.p"
+    # conceptFile = u"ngramsubject.p"
 
     logger.info(u"%s" % os.getcwd())
     os.chdir(u"." + os.sep + u"run")

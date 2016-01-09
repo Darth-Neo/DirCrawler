@@ -21,8 +21,10 @@ def getChunkTopics():
     # conceptFile = u"TopicChunks.p"
     # conceptFile = u"ngramsubject.p"
 
-    logger.info(u"Loading :" + os.getcwd() + os.sep + conceptFile)
-    concepts = Concepts.loadConcepts(conceptFile)
+    conceptPathFile = os.getcwd() + os.sep + u"run" + os.sep + conceptFile
+
+    logger.info(u"Loading :" + os.getcwd() + os.sep + u"run" + os.sep + conceptFile)
+    concepts = Concepts.loadConcepts(conceptPathFile)
 
     listTopics = list()
 

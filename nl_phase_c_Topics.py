@@ -18,9 +18,9 @@ import time
 
 THREAD = False
 
-num_topics = 100
-num_words  = 100
-similarity = 0.80
+num_topics = 50
+num_words  = 25
+similarity = 0.60
 
 ThreadDepth = 10
 QueueDepth  = 150
@@ -72,20 +72,31 @@ class DocumentsSimilarity(object):
     threads = None
     topics = None
     topicConcepts = None
+    mapDocumentList = None
+    df = None
+    mapDocuments = None
     
     def __init__(self):
         self.threads = list()
     
-    def createTopics(self, conceptsFile):
-    
-        logger.info(u"Load Concepts from " + conceptsFile)
-        self.concepts = Concepts.loadConcepts(conceptsFile)
-        logger.info(u"Loaded Concepts")
+    def createTopics(self, conceptsFile, concepts=None):
+
+        if concepts is None:
+            logger.info(u"Load Concepts from " + conceptsFile)
+            self.concepts = Concepts.loadConcepts(conceptsFile)
+            logger.info(u"Loaded Concepts")
+        else:
+            self.concepts = concepts
 
         self.tm = TopicsModel()
 
         logger.info(u"Load Documents from Concepts")
+
         self.documentsList, self.wordcount = self.tm.loadConceptsWords(self.concepts)
+
+        self.mapDocuments = { self.documentsList.index(x) : x for x in self.documentsList}
+
+        self.df = self.concepts.getConcepts().keys()
 
         logger.info(u"Read " + str(len(self.documentsList)) + u" Documents, with " + str(self.wordcount) + u" words.")
 
@@ -103,6 +114,10 @@ class DocumentsSimilarity(object):
 
         logger.info(u"Saving Topics")
         self.topicConcepts = self.tm.saveTopics(self.topics)
+
+        logger.info(u"Complete createTopics")
+
+        return self.concepts
 
     def findSimilarties(self, conceptsSimilarityFile):
 
@@ -123,11 +138,11 @@ class DocumentsSimilarity(object):
         for document in self.documentsList:
             indexNum = self.documentsList.index(document)
 
-            df = self.concepts.getConcepts().keys()
+            logger.info(u"Document %s" % (self.df[indexNum]))
 
-            logger.info(u"Document %s" % (df[indexNum]))
+            pj = self.conceptsSimilarity.addConceptKeyType(self.df[indexNum], u"Document")
 
-            logger.info(u"  documentsList[" + str(indexNum) + u"]=" + str(document))
+            logger.debug(u"  documentsList[%d] = %s" % (indexNum, str(document)))
 
             # Show common topics
             d = [unicode(x).strip().replace(u"'", u"") for x in document]
@@ -137,10 +152,11 @@ class DocumentsSimilarity(object):
             s2 = set(d)
             common = s1 & s2
             lc = [x for x in common]
-            logger.info(u"  Common Topics : %s" % (lc))
+            logger.debug(u"  Common Topics : %s" % (lc))
 
             if THREAD is False:
-                self.doComputation(document, similarityThreshold)
+
+                self.doComputation(document, similarityThreshold, pj, CommonTopic=True)
 
             else:
                 logger.debug(u"npbtAquire  Queue Lock")
@@ -175,9 +191,11 @@ class DocumentsSimilarity(object):
 
         Concepts.saveConcepts(self.conceptsSimilarity, conceptsSimilarityFile)
 
-        logger.info(u"Complete createTopics")
+        logger.info(u"Complete - findSimilarties")
 
-    def doComputation(self, j, similarityThreshold):
+        return self.conceptsSimilarity
+
+    def doComputation(self, j, similarityThreshold, pj, CommonTopic=False):
         
         pl = self.tm.computeSimilar(self.documentsList.index(j), self.documentsList, similarityThreshold)
 
@@ -187,34 +205,54 @@ class DocumentsSimilarity(object):
 
             for l in pl:
                 if l[1] != l[2]:
-                    logger.debug(u"  l:" + str(l))
-                    ps = self.conceptsSimilarity.addConceptKeyType(l[1], u"Similar")
+                    logger.debug(u"   l:" + str(l))
+
+                    ni = self.documentsList.index(l[2])
+                    mdl = u",".join([ q for q in self.mapDocuments[ni]])
+
+                    dfni = unicode(self.df[ni])
+
+                    logger.info(u"    Similar Document : %s[%s]" % (dfni, mdl))
+
+                    ps = pj.addConceptKeyType(dfni, u"SimilarDocument")
+                    pt = ps.addConceptKeyType(mdl, u"DocumentTopics")
+
                     ps.count = TopicsModel.convertMetric(l[0])
-                    # rt1 = ps.addConceptKeyType(str(l[3]), "SimilarTopics")
-                    # rt1 = len(l[3])
-                    pt = ps.addConceptKeyType(l[2], u"Concept")
-                    # rt2 = pt.addConceptKeyType(str(l[4]), "ProjectTopics")
-                    # rt2.count = len(l[4])
+
                     common = set(l[1]) & set(l[2])
                     lc = [x for x in common]
 
                     logger.debug(u"  l[1] : %s" % (l[1]))
                     logger.debug(u"  l[2] : %s" % (l[2]))
                     logger.debug(u"  Common : %s" % (lc))
-                    for x in common:
-                        pc = pt.addConceptKeyType(x, u"CommonTopic")
-                        pc.count = len(lc)
+
+                    if CommonTopic is True:
+                        for x in common:
+                            pc = pt.addConceptKeyType(x, u"CommonTopic")
+                            pc.count = len(lc)
                 
         else:
             logger.debug(u"   similarity below threshold")
 
 if __name__ == u"__main__":
+
+    # os.chdir(u"test")
+    # os.chdir(u"dvc")
     os.chdir(u"run")
 
-    npbt = DocumentsSimilarity()
-    # npbt.createTopics("documents.p")
-    npbt.createTopics(u"chunks.p")
+    conceptsFile = u"documents.p"
 
-    npbt.findSimilarties(u"documentsSimilarity.p")
+    npbt = DocumentsSimilarity()
+
+    concepts = npbt.createTopics(conceptsFile)
+
+    conceptsSimilarity = npbt.findSimilarties(u"documentsSimilarity.p")
+
+    # conceptsSimilarity.logConcepts()
+
+
+
+
+
 
 
