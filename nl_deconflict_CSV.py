@@ -48,6 +48,8 @@ def breakoutCSV(csvFile):
 def findTextClusters():
     os.chdir(u"run")
 
+    outputLines = list()
+
     docConceptFile = u"documents.p"
     logger.info(u"Loading :" + docConceptFile)
     docConcepts = Concepts.loadConcepts(docConceptFile)
@@ -63,9 +65,9 @@ def findTextClusters():
         dcvfilename = dc[rdoc.name]
         dcvn = dcvfilename.getConcepts().values()[0]
 
-        logger.info(u"%s - %s     " % (simTail[:-4].split(u"_")[0], dcvn.name.strip(u"\"")))
-        logger.debug(u"%s[%s]" % (simTail, dcvn.name))
-        logger.debug(u"%s[%s]" % (dcvfilename.name, dcvn.name))
+        output = u"%s - %s     " % (simTail[:-4].split(u"_")[0], dcvn.name.strip(u"\""))
+        logger.info(output)
+        outputLines.append(output)
 
         for v in rdoc.getConcepts().values():
             vHead, vTail = os.path.split(v.name)
@@ -73,16 +75,21 @@ def findTextClusters():
 
             sdcvn = sdc.getConcepts().values()[0].name
 
-            logger.info(u"    %s - %s" % (vTail[:-4].split(u"_")[0], sdcvn))
+            output = u"    %s - %s" % (vTail[:-4].split(u"_")[0], sdcvn)
+            logger.info(output)
+            outputLines.append(output)
 
-
-
+    return outputLines
 if __name__ == u"__main__":
 
     # os.chdir(u"dvc")
     # csvFile = u"DVC.csv"
     # breakoutCSV(csvFile)
 
-    findTextClusters()
+    ol = findTextClusters()
+
+    with open(u"text_clusters.txt", u"w") as f:
+        for line in ol:
+            f.write("%s%s" % (line, os.linesep))
 
 
