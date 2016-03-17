@@ -13,7 +13,7 @@ from docx.text.paragraph import Paragraph
 
 from nl_lib.Logger import *
 logger = setupLogging(__name__)
-logger.setLevel(INFO)
+logger.setLevel(DEBUG)
 
 
 def docxText(df, of):
@@ -59,13 +59,12 @@ def docxText(df, of):
                 for row in table.rows:
                     nr += 1
 
-                    rs = u""
+                    rs = u","
                     try:
                         cl = list()
 
                         for n in range(0, nc):
                             try:
-
                                 txt = u"%s" % row.cells[n].paragraphs[0].text
                                 rs += txt + u","
 
@@ -92,6 +91,7 @@ def docxText(df, of):
 
 if __name__ == u'__main__':
     # Set the directory you want to start from
-    df = os.getcwd() + os.sep + u"designoverview.docx"
-    of = u"tables3.csv"
+    # df = os.getcwd() + os.sep + u"designoverview.docx"
+    df = os.getcwd() + os.sep + u"batchspecificationv13.docx"
+    of = u"tables4.csv"
     docxText(df, of)
