@@ -120,7 +120,9 @@ if __name__ == u"__main__":
 
     # rootDir = u"/Users/morrj140/Documents/SolutionEngineering/Billing/Transition"
     # rootDir = os.getcwd() + os.sep + u"MOB"
-    # rootDir = u"/Users/morrj140/Documents/SolutionEngineering/Accounting Engine/Dreams"
-    rootDir = os.getcwd() + os.sep + u"dvc"
+    # rootDir = u"/Users/morrj140/Documents/SolutionEngineering/DVC"
+    # rootDir = os.getcwd() + os.sep + u"dvc"
 
+    # rootDir = u"/Users/morrj140/Documents/SolutionEngineering/DALE-RTP/rtp-master/db/loader_files"
+    rootDir = u"/Users/morrj140/Documents/SolutionEngineering/DALE-RTP/rtp-master/server"
     nl_phases(rootDir)

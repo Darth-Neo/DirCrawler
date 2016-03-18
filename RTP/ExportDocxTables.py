@@ -99,6 +99,6 @@ def docxText(df, of):
 
 if __name__ == u'__main__':
     # Set the directory you want to start from
-    df = os.getcwd() + os.sep + u"designoverview.docx"
-    of = "tables3.csv"
+    df = os.getcwd() + os.sep + u"batchspecificationv14.docx"
+    of = "tables_14.csv"
     docxText(df, of)

@@ -284,7 +284,10 @@ class DirCrawl(object):
                 logger.info(u"++Parsing = %s" % fname)
 
             elif MISC is True:
-                if fname[-4:] in (u".txt", u".xml", u".htm", u".csv"):
+                if fname[-3:] in (u".pl", u".py", u".cs"):
+                    listText = self._getTXT(fname)
+                    logger.info(u"++Parsing = %s" % fname)
+                if fname[-4:] in (u".txt", u".xml", u".htm", u".csv", u".sql", u".ctl", u".ini", u".awk"):
                     listText = self._getTXT(fname)
                     logger.info(u"++Parsing = %s" % fname)
                 elif fname[-5:] in (u".html", u".WSDL"):

@@ -3,68 +3,88 @@ import re
 
 from nl_lib import Logger
 logger = Logger.setupLogging(__name__)
-logger.setLevel(Logger.DEBUG)
+logger.setLevel(Logger.INFO)
+
+
+def addList(s, vb, t):
+    tl = list()
+    tl.append(s)
+    tl.append(len(vb))
+    t.append(tl)
+
+    return tl
 
 
 def process_equation(s):
 
     logger.debug(u"Input %s" % s)
+
     count = 0
-    td = dict()
+    t = list()
 
-    vb0 = re.findall(r"[A-Za-z_]+", s)
-    td["Vars"] = len(vb0)
+    vb = re.findall(r"[A-Za-z_]+", s)
+    st = "Vars"
+    addList(st, vb, t)
 
-    vb1 = re.findall(r"\[[A-Za-z_]+\]", s)
-    td["["] = len(vb1)
+    vb = re.findall(r"\[[A-Za-z_]+\]", s)
+    st = "["
+    addList(st, vb, t)
 
-    vb2 = re.findall(r"\{[A-Za-z_]+\}", s)
-    td["{"] = len(vb2)
+    vb = re.findall(r"\{[A-Za-z_]+\}", s)
+    st = "{"
+    addList(st, vb, t)
 
-    vb3 = re.findall(r"\([A-Za-z_]+\)", s)
-    td["("] = len(vb3)
+    vb = re.findall(r"\([A-Za-z_]+\)", s)
+    st = "("
+    addList(st, vb, t)
 
-    vb4 = re.findall(r".+[-]+.+", s)
-    td["minus"] = len(vb3)
+    vb = re.findall(r".+[-]+.+", s)
+    st = "minus"
+    addList(st, vb, t)
 
-    vb5 = re.findall(r".+[+]+.+", s)
-    td["plus"] = len(vb3)
+    vb = re.findall(r".+[+]+.+", s)
+    st = "plus"
+    addList(st, vb, t)
 
-    vb6 = re.findall(r".+[/]+.+", s)
-    td["div"] = len(vb3)
+    vb = re.findall(r".+[/]+.+", s)
+    st = "div"
+    addList(st, vb, t)
 
-    vb7 = re.findall(r".+[*]+.+", s)
-    td["mult"] = len(vb3)
+    vb = re.findall(r".+[*]+.+", s)
+    st = "mult"
+    addList(st, vb, t)
 
     sc = u""
-    for k, v in td.items():
-        logger.debug(u"'%s' ['%s']" % (k, v))
-        count += v
-        sc += u"'%s', %d, " % (k, v)
 
-    return count, td, sc
+    for x in t:
+        sc += "%s," % x[1]
+        count += x[1]
+
+    sc = sc[:-1]
+
+    return count, t, sc
 
 
 def test_process_equation():
     s = "[AMOUNT] < 0 || [AUTH_CODE] == 'CREDIT' + {JS} || [AUTH_CODE] == ' CREDIT' * (js)|| [AUTH_CODE] == '  CREDIT' - [js] || [AUTH_CODE] == 'REDIT' \ [js]"
 
-    count, td, sc = process_equation(s)
+    count, t, sc = process_equation(s)
 
-    assert(td["Vars"] == 13)
+    assert(t[0][1] == 13)
 
-    assert(td["["] == 7)
+    assert(t[1][1] == 7)
 
-    assert(td["{"] == 1)
+    assert(t[2][1] == 1)
 
-    assert(td["("] == 1)
+    assert(t[3][1] == 1)
 
-    assert(td["minus"] == 1)
+    assert(t[4][1] == 1)
 
-    assert(td["plus"] == 1)
+    assert(t[5][1] == 1)
 
-    assert(td["div"] == 1)
+    assert(t[6][1] == 0)
 
-    assert(td["mult"] == 1)
+    assert(t[7][1] == 1)
 
     logger.debug(u"Count : %d" % count)
 

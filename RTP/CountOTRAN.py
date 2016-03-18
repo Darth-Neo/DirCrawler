@@ -20,7 +20,14 @@ def process(infFile, outfile):
     rl = list()
     pt = list()
     PC = "~"
+
     error_count = 0
+    ocon_count = 0
+    otrn_count = 0
+    rec_count = 0
+    field_count = 0
+    error_count = 0
+    ogrp_count = 0
 
     start_time = time.time()
     strStartTime = time.asctime(time.localtime(start_time))
@@ -28,8 +35,19 @@ def process(infFile, outfile):
 
     nrt = u""
 
+    # st = "Vars"
+    # st = "["
+    # st = "{"
+    # st = "("
+    # st = "minus"
+    # st = "plus"
+    # st = "div"
+    # st = "mult"
+
+
+
     with open(outfile, u"w") as g:
-        g.write("TRN,RT,RY,I|P,Count,Entry,EntryCount,Paren,ParenCount,Minus,MinusCount,Plus,PlusCount,Div,DivCount,LP,LPCount,CLP,CLPCount,Mult,MultCount,Entry_INI,Type,Len,Logic,Flag,INI_Line%s" % os.linesep)
+        g.write("TRN,RT,RY,I|P,Count,Var,SBR,CBR,PRN,Minus,Plus,Div,Mult,Type,Len,Logic,Line%s" % os.linesep)
 
         with open(infFile, u"r") as f:
             n = 0
@@ -44,6 +62,11 @@ def process(infFile, outfile):
                 r = r.replace("\n", "")
                 r = r.replace("\r", "")
 
+                if False:
+                    endl = "%s%s" % (r, os.linesep)
+                else:
+                    endl = "%s" % os.linesep
+
                 n += 1
 
                 if r == u"":
@@ -54,6 +77,8 @@ def process(infFile, outfile):
 
                 # OTran
                 elif re.search(r"^OTRN.+", r, re.M|re.I):
+
+                    otrn_count += 1
 
                     ot = r[7:9]
                     rt = r[10:13]
@@ -67,7 +92,7 @@ def process(infFile, outfile):
 
                     nrt = ot
 
-                    l = u"OTRN,%s,%s,%s,%4d,%s,,,,,%s%s" % (ot, rt, it, count, sc, r, os.linesep)
+                    l = u"OTRN,%s,%s,%s,%4d,%s,,,,%s" % (ot, rt, it, count, sc, endl)
                     logger.info(u"%s" % l)
                     g.write(l)
 
@@ -76,13 +101,15 @@ def process(infFile, outfile):
                 # OREC
                 elif re.search(r"^OREC.+", r, re.M|re.I):
 
+                    rec_count += 1
+
                     ot = r[7:9]
-                    rf = r.split("~")[3]
+                    rf = r.split(PC)[3]
 
                     count, td, sc = process_equation(r[5:])
 
                     rt = r[10:13]
-                    l = u"OREC,%s,%s,%s,%4d,%s,,,,,%s%s" % (ot, rt, rf, count, sc, r, os.linesep)
+                    l = u"OREC,%s,%s,%s,%4d,%s,,,,%s" % (ot, rt, rf, count, sc, endl)
 
                     logger.info(u"%s" % l)
                     g.write(l)
@@ -90,19 +117,24 @@ def process(infFile, outfile):
                 # OGRP
                 elif re.search(r"^OGRP.+", r, re.M|re.I):
 
+                    ogrp_count += 1
+
                     count, td, sc = process_equation(r[5:])
 
-                    l = u"OGRP,%s,%s,,%4d,%s,,,,,%s%s" % (nrt, rt, count, sc, r, os.linesep)
+                    l = u"OGRP,%s,%s,,%4d,%s,,,,%s" % (nrt, rt, count, sc, endl)
 
-                    logger.info(u"%s" % l)
+                    logger.debug(u"%s" % l)
                     g.write(l)
 
                 # OFLD
                 elif re.search(r"^OFLD.+", r, re.M|re.I):
 
+                    field_count += 1
+
+                    fnl = u""
                     fn = u""
                     ft = u""
-                    cv =u""
+                    cv = u""
                     eq = u""
                     try:
                         rl = r.split(PC)
@@ -110,7 +142,7 @@ def process(infFile, outfile):
                         ft = rl[3]
                         fnl = r[5]
                         cv = rl[6]
-                        eq = rl[7]
+                        eq = r.split("=")[1]
 
                     except Exception, msg:
                         logger.error(u"%s" % msg)
@@ -118,14 +150,16 @@ def process(infFile, outfile):
 
                     count, td, sc = process_equation(r[5:])
 
-                    l = u"OFLD,%s,%s,,%4d,%s,%s,%s,%s,%s,%s%s" % (nrt, fn, count, sc, ft, fnl, cv, eq, r, os.linesep)
+                    l = u"OFLD,%s,%s,,%4d,%s,%s,%s,%s,%s" % (nrt, fn, count, sc, ft, fnl, r[5:], endl)
 
-                    logger.info(u"%s" % l)
+                    logger.debug(u"%s" % l)
                     g.write(l)
 
 
                 # OCON
                 elif re.search(r"^OCON.+", r, re.M|re.I):
+
+                    ocon_count += 1
 
                     if nrt == u"":
                         nrt = u"begin"
@@ -139,9 +173,9 @@ def process(infFile, outfile):
 
                     rt = r[:4]
 
-                    l = u"%s,%s,,,%4d,%s,,,,,%s%s" % (rt, nrt, count, sc, r, os.linesep)
+                    l = u"%s,%s,,,%4d,%s,,,,%s" % (rt, nrt, count, sc, endl)
 
-                    logger.info(u"%s" % l)
+                    logger.debug(u"%s" % l)
                     g.write(l)
 
                 # Default
@@ -154,15 +188,21 @@ def process(infFile, outfile):
 
                     rt = r[:4]
 
-                    l = u"%s,%s,,,%4d,%s,,,,,%s%s" % (rt, nrt, count, sc, r, os.linesep)
+                    l = u"%s,%s,,,%4d,%s,,,,%s" % (rt, nrt, count, sc, endl)
 
-                    logger.info(u"%s" % l)
+                    logger.debug(u"%s" % l)
                     g.write(l)
 
                 else:
                     logger.debug(u"=====Skipped===== - %s" % r)
 
-        logger.info("Error Count %d" % error_count)
+        logger.info(u"Error Count %d" % error_count)
+        logger.info(u"OTRN  Count %d" % otrn_count)
+        logger.info(u"REC   Count %d" % rec_count)
+        logger.info(u"FLD   Count %d" % field_count)
+        logger.info(u"ORGP  Count %d" % ogrp_count)
+
+        ogrp_count
 
     return
 

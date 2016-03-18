@@ -18,7 +18,7 @@ if __name__ == u"__main__":
 
     logger.info(u"%s" % os.getcwd())
 
-    conceptFile = u"documents.p"
+    # conceptFile = u"documents.p"
     # conceptFile = u"words.p"
     # conceptFile = u"chunks.p"
 
@@ -30,11 +30,13 @@ if __name__ == u"__main__":
     # conceptFile = u"ngrams.p"
     # conceptFile = u"ngramscore.p"
 
-    # conceptFile = u"ngramsubject.p"
+    conceptFile = u"ngramsubject.p"
 
     logger.info(u"Loading :" + conceptFile)
     concepts = Concepts.loadConcepts(conceptFile)
 
-    concepts.logConcepts()
-    # concepts.printConcepts()
+    if False:
+        concepts.logConcepts()
+    else:
+        concepts.printConcepts()
 
