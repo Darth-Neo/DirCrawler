@@ -20,6 +20,7 @@ def process_equation(s):
     logger.debug(u"Input %s" % s)
 
     count = 0
+    operation = 0
     t = list()
 
     vb = re.findall(r"[A-Za-z_]+", s)
@@ -35,40 +36,48 @@ def process_equation(s):
     addList(st, vb, t)
 
     vb = re.findall(r"\([A-Za-z_]+\)", s)
+    operation = len(vb)
     st = "("
     addList(st, vb, t)
 
-    vb = re.findall(r".+[-]+.+", s)
-    st = "minus"
+    vb = re.findall(r".+[-]{1}.+", s)
+    operation += len(vb)
+    st = "-"
     addList(st, vb, t)
 
     vb = re.findall(r".+[+]+.+", s)
-    st = "plus"
+    operation += len(vb)
+    st = "+"
     addList(st, vb, t)
 
     vb = re.findall(r".+[/]+.+", s)
-    st = "div"
+    operation += len(vb)
+    st = "/"
     addList(st, vb, t)
 
     vb = re.findall(r".+[*]+.+", s)
-    st = "mult"
+    operation += len(vb)
+    st = "*"
     addList(st, vb, t)
 
-    sc = u""
+    terms = u"%s," % "Op"
+    sc = u"%d," % operation
 
     for x in t:
+        terms += "%s," % x[0]
         sc += "%s," % x[1]
         count += x[1]
 
+    terms = terms[:-1]
     sc = sc[:-1]
 
-    return count, t, sc
+    return count, t, sc, terms
 
 
 def test_process_equation():
     s = "[AMOUNT] < 0 || [AUTH_CODE] == 'CREDIT' + {JS} || [AUTH_CODE] == ' CREDIT' * (js)|| [AUTH_CODE] == '  CREDIT' - [js] || [AUTH_CODE] == 'REDIT' \ [js]"
 
-    count, t, sc = process_equation(s)
+    count, t, sc, terms = process_equation(s)
 
     assert(t[0][1] == 13)
 

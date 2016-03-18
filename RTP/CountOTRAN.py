@@ -35,19 +35,13 @@ def process(infFile, outfile):
 
     nrt = u""
 
-    # st = "Vars"
-    # st = "["
-    # st = "{"
-    # st = "("
-    # st = "minus"
-    # st = "plus"
-    # st = "div"
-    # st = "mult"
-
-
+    s = u"([{+-/*ABC"
+    count, td, sc, terms = process_equation(s)
 
     with open(outfile, u"w") as g:
-        g.write("TRN,RT,RY,I|P,Count,Var,SBR,CBR,PRN,Minus,Plus,Div,Mult,Type,Len,Logic,Line%s" % os.linesep)
+        g.write("TRN,RT,RY,I|P,Count,%s,Type,Len,Logic,Line%s" % (terms, os.linesep))
+
+        Show_OFLD_Only = True
 
         with open(infFile, u"r") as f:
             n = 0
@@ -88,13 +82,14 @@ def process(infFile, outfile):
                         pt = list()
                         pt.append(ot)
 
-                    count, td, sc = process_equation(r[5:])
+                    count, td, sc, terms = process_equation(r[5:])
 
                     nrt = ot
 
                     l = u"OTRN,%s,%s,%s,%4d,%s,,,,%s" % (ot, rt, it, count, sc, endl)
                     logger.info(u"%s" % l)
-                    g.write(l)
+                    if Show_OFLD_Only is not True:
+                        g.write(l)
 
                     count_otrn += 1
 
@@ -106,25 +101,27 @@ def process(infFile, outfile):
                     ot = r[7:9]
                     rf = r.split(PC)[3]
 
-                    count, td, sc = process_equation(r[5:])
+                    count, td, sc, terms = process_equation(r[5:])
 
                     rt = r[10:13]
                     l = u"OREC,%s,%s,%s,%4d,%s,,,,%s" % (ot, rt, rf, count, sc, endl)
 
                     logger.info(u"%s" % l)
-                    g.write(l)
+                    if Show_OFLD_Only is not True:
+                        g.write(l)
 
                 # OGRP
                 elif re.search(r"^OGRP.+", r, re.M|re.I):
 
                     ogrp_count += 1
 
-                    count, td, sc = process_equation(r[5:])
+                    count, td, sc, terms = process_equation(r[5:])
 
                     l = u"OGRP,%s,%s,,%4d,%s,,,,%s" % (nrt, rt, count, sc, endl)
 
                     logger.debug(u"%s" % l)
-                    g.write(l)
+                    if Show_OFLD_Only is not True:
+                        g.write(l)
 
                 # OFLD
                 elif re.search(r"^OFLD.+", r, re.M|re.I):
@@ -148,12 +145,13 @@ def process(infFile, outfile):
                         logger.error(u"%s" % msg)
                         error_count += 1
 
-                    count, td, sc = process_equation(r[5:])
+                    count, td, sc, terms = process_equation(r[5:])
 
                     l = u"OFLD,%s,%s,,%4d,%s,%s,%s,%s,%s" % (nrt, fn, count, sc, ft, fnl, r[5:], endl)
 
                     logger.debug(u"%s" % l)
-                    g.write(l)
+                    if Show_OFLD_Only is True:
+                        g.write(l)
 
 
                 # OCON
@@ -169,14 +167,15 @@ def process(infFile, outfile):
                     rl = r.split(PC)
                     st = rl[1]
 
-                    count, td, sc = process_equation(r[5:])
+                    count, td, sc, terms = process_equation(r[5:])
 
                     rt = r[:4]
 
                     l = u"%s,%s,,,%4d,%s,,,,%s" % (rt, nrt, count, sc, endl)
 
                     logger.debug(u"%s" % l)
-                    g.write(l)
+                    if Show_OFLD_Only is not True:
+                        g.write(l)
 
                 # Default
                 elif re.search(r"^[A-Z=]{5}.+", r, re.M|re.I):
@@ -184,14 +183,15 @@ def process(infFile, outfile):
                     if nrt == u"":
                         nrt = u"begin"
 
-                    count, td, sc = process_equation(r[5:])
+                    count, td, sc, terms = process_equation(r[5:])
 
                     rt = r[:4]
 
                     l = u"%s,%s,,,%4d,%s,,,,%s" % (rt, nrt, count, sc, endl)
 
                     logger.debug(u"%s" % l)
-                    g.write(l)
+                    if Show_OFLD_Only is not True:
+                        g.write(l)
 
                 else:
                     logger.debug(u"=====Skipped===== - %s" % r)
