@@ -28,6 +28,7 @@ def process(infFile, outfile):
     field_count = 0
     error_count = 0
     ogrp_count = 0
+    line_count = 0
 
     start_time = time.time()
     strStartTime = time.asctime(time.localtime(start_time))
@@ -48,6 +49,7 @@ def process(infFile, outfile):
             otrn = ""
 
             while True:
+
                 r = unicode(f.readline().decode(u'ascii', u'ignore'))
 
                 r = r.replace(",", PC)
@@ -89,7 +91,8 @@ def process(infFile, outfile):
                     l = u"OTRN,%s,%s,%s,%4d,%s,,,,%s" % (ot, rt, it, count, sc, endl)
                     logger.info(u"%s" % l)
                     if Show_OFLD_Only is not True:
-                        g.write(l)
+                        line_count += 1
+                        g.write("%d,%s" % (line_count, l))
 
                     count_otrn += 1
 
@@ -108,7 +111,8 @@ def process(infFile, outfile):
 
                     logger.info(u"%s" % l)
                     if Show_OFLD_Only is not True:
-                        g.write(l)
+                        line_count += 1
+                        g.write("%d,%s" % (line_count, l))
 
                 # OGRP
                 elif re.search(r"^OGRP.+", r, re.M|re.I):
@@ -121,7 +125,8 @@ def process(infFile, outfile):
 
                     logger.debug(u"%s" % l)
                     if Show_OFLD_Only is not True:
-                        g.write(l)
+                        line_count += 1
+                        g.write("%d,%s" % (line_count, l))
 
                 # OFLD
                 elif re.search(r"^OFLD.+", r, re.M|re.I):
@@ -133,25 +138,26 @@ def process(infFile, outfile):
                     ft = u""
                     cv = u""
                     eq = u""
+
                     try:
                         rl = r.split(PC)
                         fn = rl[2]
                         ft = rl[3]
                         fnl = r[5]
                         cv = rl[6]
-                        eq = r.split("=")[1]
 
                     except Exception, msg:
                         logger.error(u"%s" % msg)
                         error_count += 1
 
-                    count, td, sc, terms = process_equation(r[5:])
+                    count, td, sc, terms = process_equation(cv)
 
-                    l = u"OFLD,%s,%s,,%4d,%s,%s,%s,%s,%s" % (nrt, fn, count, sc, ft, fnl, r[5:], endl)
+                    l = u"OFLD,%s,%s,,%4d,%s,%s,%s,%s,%s" % (nrt, fn, count, sc, ft, fnl, cv, endl)
 
                     logger.debug(u"%s" % l)
                     if Show_OFLD_Only is True:
-                        g.write(l)
+                        line_count += 1
+                        g.write("%d,%s" % (line_count, l))
 
 
                 # OCON
@@ -175,7 +181,8 @@ def process(infFile, outfile):
 
                     logger.debug(u"%s" % l)
                     if Show_OFLD_Only is not True:
-                        g.write(l)
+                        line_count += 1
+                        g.write("%d,%s" % (line_count, l))
 
                 # Default
                 elif re.search(r"^[A-Z=]{5}.+", r, re.M|re.I):
@@ -191,11 +198,13 @@ def process(infFile, outfile):
 
                     logger.debug(u"%s" % l)
                     if Show_OFLD_Only is not True:
-                        g.write(l)
+                        line_count += 1
+                        g.write("%d,%s" % (line_count, l))
 
                 else:
                     logger.debug(u"=====Skipped===== - %s" % r)
 
+        logger.info(u"Line Count %d" % line_count)
         logger.info(u"Error Count %d" % error_count)
         logger.info(u"OTRN  Count %d" % otrn_count)
         logger.info(u"REC   Count %d" % rec_count)
@@ -221,7 +230,7 @@ if __name__ == u"__main__":
     else:
         cwd = os.getcwd()
 
-        infile = cwd + os.sep + u"T_outver.ini"
+        infile = cwd + os.sep + u"OPVER.ini"
         outFile = cwd + os.sep + u"extraxt.csv"
 
         process(infile, outFile)

@@ -93,5 +93,5 @@ if __name__ == u'__main__':
     # Set the directory you want to start from
     # df = os.getcwd() + os.sep + u"designoverview.docx"
     df = os.getcwd() + os.sep + u"batchspecificationv14.docx"
-    of = u"tables4.csv"
+    of = u"%s.csv" % df
     docxText(df, of)
