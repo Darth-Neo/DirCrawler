@@ -20,14 +20,13 @@ def process_equation(s):
     logger.debug(u"Input %s" % s)
 
     count = 0
-    operation = 0
     t = list()
 
-    vb = re.findall(r"[A-Za-z_]+", s)
+    vb = re.findall(r"[$A-Za-z_]+", s)
     st = "Vars"
     addList(st, vb, t)
 
-    vb = re.findall(r"\[[A-Za-z_]+\]", s)
+    vb = re.findall(r"\[[$A-Za-z_:-]+\]", s)
     st = "["
     addList(st, vb, t)
 
@@ -40,7 +39,7 @@ def process_equation(s):
     st = "("
     addList(st, vb, t)
 
-    vb = re.findall(r".+[-]{1}.+", s)
+    vb = re.findall(r".+[-].+", s)
     operation += len(vb)
     st = "-"
     addList(st, vb, t)
@@ -75,13 +74,13 @@ def process_equation(s):
 
 
 def test_process_equation():
-    s = "[AMOUNT] < 0 || [AUTH_CODE] == 'CREDIT' + {JS} || [AUTH_CODE] == ' CREDIT' * (js)|| [AUTH_CODE] == '  CREDIT' - [js] || [AUTH_CODE] == 'REDIT' \ [js]"
+    s = "[--:NEW]+[AMOUNT] < 0 || [AUTH_CODE] == 'CREDIT' + {JS} || [AUTH_CODE] == ' CREDIT' * (js)|| [AUTH_CODE] == '  CREDIT' - [js] || [AUTH_CODE] == 'REDIT' \ [js]"
 
     count, t, sc, terms = process_equation(s)
 
-    assert(t[0][1] == 13)
+    assert(t[0][1] == 14)
 
-    assert(t[1][1] == 7)
+    assert(t[1][1] == 8)
 
     assert(t[2][1] == 1)
 
@@ -95,7 +94,7 @@ def test_process_equation():
 
     assert(t[7][1] == 1)
 
-    logger.debug(u"Count : %d" % count)
+    logger.info(u"Count : %d" % count)
 
 if __name__ == u"__main__":
     test_process_equation()

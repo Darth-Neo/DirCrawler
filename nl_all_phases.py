@@ -2,12 +2,8 @@
 #
 # Natural Language Processing of Information
 #
-
+import os
 import sys
-
-from nl_lib import Logger
-logger = Logger.setupLogging(__name__)
-logger.setLevel(Logger.INFO)
 
 from nl_phase_a_DirCrawl import *
 from nl_phase_b_CreateChunks import *
@@ -17,8 +13,13 @@ from nl_phase_e_TopicCloud import *
 from nl_phase_f_graph_concepts import *
 import time
 
+from nl_lib import Logger
+logger = Logger.setupLogging(__name__)
+logger.setLevel(Logger.INFO)
+
 GRAPH = False
 DIRECTORY = False
+
 
 def nl_phases(rootDir):
 
@@ -122,7 +123,8 @@ if __name__ == u"__main__":
     # rootDir = os.getcwd() + os.sep + u"MOB"
     # rootDir = u"/Users/morrj140/Documents/SolutionEngineering/DVC"
     # rootDir = os.getcwd() + os.sep + u"dvc"
-
     # rootDir = u"/Users/morrj140/Documents/SolutionEngineering/DALE-RTP/rtp-master/db/loader_files"
-    rootDir = u"/Users/morrj140/Documents/SolutionEngineering/DALE-RTP/rtp-master/server"
+    # rootDir = u"/Users/morrj140/Documents/SolutionEngineering/DALE-RTP/rtp-master/server"
+
+    rootDir = os.getcwd() + os.sep + u"RTP" + os.sep + u"Similarity" + os.sep + u"req"
     nl_phases(rootDir)

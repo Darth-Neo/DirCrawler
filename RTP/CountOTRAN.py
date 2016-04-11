@@ -9,25 +9,39 @@ from nl_lib import Logger
 logger = Logger.setupLogging(__name__)
 logger.setLevel(Logger.INFO)
 
+listOREQ = list()
+
+
+def addCountToDict(type, d):
+    if type in d:
+        d[type] += 1
+    else:
+        d[type] = 1
+
+    return d
+
+
+def checkRecord(st):
+
+    global listOREQ
+
+    os = u","
+    l = st.split(u"=")
+    cv = l[1]
+
+    for a, b, c, d in listOREQ:
+        if d == cv:
+            os = a + u"," + c
+            break
+
+    return os
+
 
 def process(infFile, outfile):
-    count_other = 0
-    count_otrn = 0
-    d = None
-
-    pr = None
-
-    rl = list()
-    pt = list()
-    PC = "~"
+    PC = ","
 
     error_count = 0
-    ocon_count = 0
-    otrn_count = 0
-    rec_count = 0
-    field_count = 0
-    error_count = 0
-    ogrp_count = 0
+    dCount = dict()
     line_count = 0
 
     start_time = time.time()
@@ -40,9 +54,12 @@ def process(infFile, outfile):
     count, td, sc, terms = process_equation(s)
 
     with open(outfile, u"w") as g:
-        g.write("TRN,RT,RY,I|P,Count,%s,Type,Len,Logic,Line%s" % (terms, os.linesep))
+        g.write("Line,RT,RY,HT,Field,Count,%s,Type,Len,Logic,Line%s" % (terms, os.linesep))
 
         Show_OFLD_Only = True
+        Show_OTRN = False
+        Show_OREC = False
+        Show_Line = False
 
         with open(infFile, u"r") as f:
             n = 0
@@ -52,78 +69,87 @@ def process(infFile, outfile):
 
                 r = unicode(f.readline().decode(u'ascii', u'ignore'))
 
-                r = r.replace(",", PC)
                 r = r.replace(os.linesep, ".")
                 r = r.replace("\"", "'")
+                r = r.replace("\\", "")
                 r = r.replace("\n", "")
                 r = r.replace("\r", "")
 
-                if False:
+                rl = r.split(PC)
+
+                if Show_Line:
                     endl = "%s%s" % (r, os.linesep)
                 else:
                     endl = "%s" % os.linesep
 
-                n += 1
-
                 if r == u"":
                     break
 
+                n += 1
+
+                # Comment
                 if re.search(r"^#.*", r, re.M|re.I):
                     logger.debug(u"Comment - %s" % r)
 
                 # OTran
                 elif re.search(r"^OTRN.+", r, re.M|re.I):
 
-                    otrn_count += 1
+                    addCountToDict(r[:4], dCount)
 
-                    ot = r[7:9]
-                    rt = r[10:13]
-                    it = r[14:15]
+                    ot = rl[2]
+                    rt = rl[1]
+                    it = rl[3]
 
-                    if len(pt) == 0:
-                        pt = list()
-                        pt.append(ot)
+                    if it[0] == u"I":
+                        continue
 
                     count, td, sc, terms = process_equation(r[5:])
 
                     nrt = ot
 
-                    l = u"OTRN,%s,%s,%s,%4d,%s,,,,%s" % (ot, rt, it, count, sc, endl)
+                    l = u"OTRN,%s,%s,,,%4d,%s,,,,%s" % (ot, rt, count, sc, endl)
                     logger.info(u"%s" % l)
-                    if Show_OFLD_Only is not True:
+
+                    if Show_OFLD_Only is not True or Show_OTRN is True:
                         line_count += 1
                         g.write("%d,%s" % (line_count, l))
-
-                    count_otrn += 1
 
                 # OREC
                 elif re.search(r"^OREC.+", r, re.M|re.I):
 
-                    rec_count += 1
+                    addCountToDict(r[:4], dCount)
 
-                    ot = r[7:9]
-                    rf = r.split(PC)[3]
+                    ot = rl[2]
+                    rf = rl[1]
+                    rv = rl[3]
+                    rt = rl[7]
+
+                    nl = list()
+                    nl.append(ot)
+                    nl.append(rf)
+                    nl.append(rv)
+                    nl.append(rt)
+                    listOREQ.append(nl)
 
                     count, td, sc, terms = process_equation(r[5:])
 
-                    rt = r[10:13]
-                    l = u"OREC,%s,%s,%s,%4d,%s,,,,%s" % (ot, rt, rf, count, sc, endl)
-
+                    l = u"OREC,%s,%s,%s,%4d,%s,,,,%s" % (ot, rf, rt, count, sc, endl)
                     logger.info(u"%s" % l)
-                    if Show_OFLD_Only is not True:
+
+                    if Show_OFLD_Only is not True or Show_OREC is True:
                         line_count += 1
                         g.write("%d,%s" % (line_count, l))
 
                 # OGRP
                 elif re.search(r"^OGRP.+", r, re.M|re.I):
 
-                    ogrp_count += 1
+                    addCountToDict(r[:4], dCount)
 
                     count, td, sc, terms = process_equation(r[5:])
 
                     l = u"OGRP,%s,%s,,%4d,%s,,,,%s" % (nrt, rt, count, sc, endl)
-
                     logger.debug(u"%s" % l)
+
                     if Show_OFLD_Only is not True:
                         line_count += 1
                         g.write("%d,%s" % (line_count, l))
@@ -131,19 +157,15 @@ def process(infFile, outfile):
                 # OFLD
                 elif re.search(r"^OFLD.+", r, re.M|re.I):
 
-                    field_count += 1
+                    ft = fn = fl = fd = cv = ""
 
-                    fnl = u""
-                    fn = u""
-                    ft = u""
-                    cv = u""
-                    eq = u""
+                    addCountToDict(r[:4], dCount)
 
                     try:
-                        rl = r.split(PC)
+                        fd = rl[0]
                         fn = rl[2]
                         ft = rl[3]
-                        fnl = r[5]
+                        fl = rl[4]
                         cv = rl[6]
 
                     except Exception, msg:
@@ -152,18 +174,25 @@ def process(infFile, outfile):
 
                     count, td, sc, terms = process_equation(cv)
 
-                    l = u"OFLD,%s,%s,,%4d,%s,%s,%s,%s,%s" % (nrt, fn, count, sc, ft, fnl, cv, endl)
+                    v = checkRecord(fd)
 
-                    logger.debug(u"%s" % l)
+                    if len(v) == 1:
+                        continue
+
+                    if not fl.isdigit():
+                        fl = "G"
+
+                    l = u"%s,%s,%s,%4d,%s,%s,%s,%s,,%s" % (v, rf, fn, count, sc, ft, fl, cv, endl)
+                    logger.info(u"%s" % l)
+
                     if Show_OFLD_Only is True:
                         line_count += 1
                         g.write("%d,%s" % (line_count, l))
 
-
                 # OCON
                 elif re.search(r"^OCON.+", r, re.M|re.I):
 
-                    ocon_count += 1
+                    addCountToDict(r[:4], dCount)
 
                     if nrt == u"":
                         nrt = u"begin"
@@ -178,40 +207,21 @@ def process(infFile, outfile):
                     rt = r[:4]
 
                     l = u"%s,%s,,,%4d,%s,,,,%s" % (rt, nrt, count, sc, endl)
-
                     logger.debug(u"%s" % l)
-                    if Show_OFLD_Only is not True:
-                        line_count += 1
-                        g.write("%d,%s" % (line_count, l))
 
-                # Default
-                elif re.search(r"^[A-Z=]{5}.+", r, re.M|re.I):
-
-                    if nrt == u"":
-                        nrt = u"begin"
-
-                    count, td, sc, terms = process_equation(r[5:])
-
-                    rt = r[:4]
-
-                    l = u"%s,%s,,,%4d,%s,,,,%s" % (rt, nrt, count, sc, endl)
-
-                    logger.debug(u"%s" % l)
                     if Show_OFLD_Only is not True:
                         line_count += 1
                         g.write("%d,%s" % (line_count, l))
 
                 else:
+                    addCountToDict(r[:4], dCount)
                     logger.debug(u"=====Skipped===== - %s" % r)
 
-        logger.info(u"Line Count %d" % line_count)
+        logger.info(u"Line  Count %d" % line_count)
         logger.info(u"Error Count %d" % error_count)
-        logger.info(u"OTRN  Count %d" % otrn_count)
-        logger.info(u"REC   Count %d" % rec_count)
-        logger.info(u"FLD   Count %d" % field_count)
-        logger.info(u"ORGP  Count %d" % ogrp_count)
 
-        ogrp_count
+        for k, v in dCount.items():
+            logger.info(u"%s Count = %d" % (k, v))
 
     return
 
@@ -227,11 +237,12 @@ if __name__ == u"__main__":
 
     if False:
         test_process()
+
     else:
         cwd = os.getcwd()
 
         infile = cwd + os.sep + u"OPVER.ini"
-        outFile = cwd + os.sep + u"extraxt.csv"
+        outFile = cwd + os.sep + u"extract.csv"
 
         process(infile, outFile)
 

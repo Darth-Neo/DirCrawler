@@ -2,25 +2,24 @@
 #
 # Natural Language Processing of PMO Information
 #
-from nl_lib import Logger
-logger = Logger.setupLogging(__name__)
-
-import logging
-logger.setLevel(logging.INFO)
-
-from nl_lib.Constants import *
-from nl_lib.Concepts import Concepts
-from nl_lib.TopicsModel import TopicsModel
 
 import Queue
 import threading
 import time
 
+from nl_lib.Constants import *
+from nl_lib.Concepts import Concepts
+from nl_lib.TopicsModel import TopicsModel
+
+from nl_lib import Logger
+logger = Logger.setupLogging(__name__)
+logger.setLevel(Logger.DEBUG)
+
 THREAD = False
 
-num_topics = 50
-num_words  = 25
-similarity = 0.75
+num_topics = 25
+num_words  = 15
+similarity = 0.80
 
 ThreadDepth = 10
 QueueDepth  = 150
@@ -29,6 +28,7 @@ exitFlag    = 0
 
 queueLock = threading.Lock()
 workQueue = Queue.Queue(QueueDepth)
+
 
 class myThread (threading.Thread):
     threadID = None
@@ -62,6 +62,7 @@ class myThread (threading.Thread):
             time.sleep(1)
             
         logger.info(u"Exiting %s" % self.threadID)
+
 
 class DocumentsSimilarity(object):
     concepts = None
@@ -145,6 +146,7 @@ class DocumentsSimilarity(object):
             logger.debug(u"  documentsList[%d] = %s" % (indexNum, str(document)))
 
             # Show common topics
+
             d = [unicode(x).strip().replace(u"'", u"") for x in document]
             e = [unicode(y).strip().replace(u"\"", u"") for y in self.listTopics]
 
@@ -156,15 +158,17 @@ class DocumentsSimilarity(object):
 
             if THREAD is False:
 
-                self.doComputation(document, similarityThreshold, pj, Topics=False)
+                self.doComputation(document, similarityThreshold, pj, Topics=True)
 
             else:
                 logger.debug(u"npbtAquire  Queue Lock")
                 queueLock.acquire()
                 logger.debug(u"npbtPut     Queue     ")
                 rl = [document, similarityThreshold]
+
                 while workQueue.qsize() == QueueDepth:
                     time.sleep(1)
+
                 workQueue.put(rl)
                 queueLock.release()
                 logger.debug(u"npbtRelease Queue Lock")
@@ -228,13 +232,11 @@ class DocumentsSimilarity(object):
                     logger.debug(u"  l[2] : %s" % (l[2]))
                     logger.debug(u"  Common : %s" % (lc))
 
-                    if Topics is True:
+                    pt = ps.addConceptKeyType(mdl, u"DocumentTopics")
 
-                        pt = ps.addConceptKeyType(mdl, u"DocumentTopics")
-
-                        for x in common:
-                            pc = pt.addConceptKeyType(x, u"CommonTopic")
-                            pc.count = len(lc)
+                    for x in common:
+                        pc = pt.addConceptKeyType(x, u"CommonTopic")
+                        pc.count = len(lc)
                 
         else:
             logger.debug(u"   similarity below threshold")
@@ -251,10 +253,10 @@ if __name__ == u"__main__":
 
     npbt.findSimilarties(u"documentsSimilarity.p")
 
-    # npbt.conceptsSimilarity.logConcepts()
+    npbt.conceptsSimilarity.logConcepts()
 
     for k, v in npbt.conceptsSimilarity.getConcepts().items():
-        pass
+        logger.info(u"%s == %s" % (k, v))
 
 
 

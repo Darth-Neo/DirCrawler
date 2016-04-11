@@ -4,6 +4,8 @@
 #
 import os
 import sys
+import pickle
+
 from nl_lib.Constants import *
 from nl_lib.Concepts import Concepts
 
@@ -12,31 +14,50 @@ logger = setupLogging(__name__)
 logger.setLevel(INFO)
 
 
-def split(filename,des):
-    r = list()
+def split(filename, des, d):
 
     with open(filename, "rb") as f:
         r = f.readlines()
 
-    s = r[0].split("\r")
+        n = 0
+        for x in r:
 
-    n = 0
-    for x in s:
-        of = "%s%d.csv" % (des, n)
-        logger.info(u"%s ===> %s" % (of, x.decode("utf8", errors="replace")))
+            try:
+                of = "%s%d.csv" % (des, n)
 
-        with open(of, "wb") as h:
-            h.write(x)
+                if x is None:
+                    continue
 
-        n += 1
+                # sx = x.decode("ascii", errors="replace")
+                sx = ''.join([i if ord(i) < 128 else ' ' for i in x])
 
-    return r
+                logger.info(u"%s ===> %s" % (of, sx))
+
+                with open(of, "wb") as h:
+                    h.write(sx)
+
+                d[of] = x
+                n += 1
+
+            except Exception, msg:
+                logger.error(u"%s" % msg)
+
+    return d
+
 
 if __name__ == u"__main__":
 
-    os.chdir(u"RTP/BR_TR")
+
+    os.chdir(u"/Users/morrj140/Development/GitRepository/DirCrawler/RTP/Similarity")
+
+    sbd = u"./req/"
 
     try:
+        for root, dirs, files in os.walk(sbd, topdown=True):
+            for name in files:
+                name = sbd + name
+                os.remove(name)
+
         os.rmdir(u"req")
 
     except Exception, msg:
@@ -47,6 +68,11 @@ if __name__ == u"__main__":
 
     logger.info(u"%s" % os.getcwd())
 
-    split(u"../BR_201603251241.csv", u"br_")
-    split(u"../TR_201603251241.csv", u"tr_")
+    d = dict()
+
+    d = split(u"../RTP_REQ.csv", u"br_", d)
+    # d = split(u"../TR_201603251241.csv", u"tr_", d)
+
+    with open("../req_dist.d", u"wb") as cf:
+            pickle.dump(d, cf)
 

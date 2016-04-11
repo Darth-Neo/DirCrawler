@@ -53,8 +53,6 @@ class DirCrawl(object):
     def getWordsConcepts(self):
         return self.wordsConcepts
 
-
-
     def _saveConcepts(self):
         logger.info(u"Saving %s" % self.documentsConceptsFile)
         Concepts.saveConcepts(self.documentsConcepts, self.documentsConceptsFile)
@@ -63,7 +61,6 @@ class DirCrawl(object):
 
         logger.info(u"Saving Documents %s" % os.getcwd() + os.sep + self.documentsConceptsFile)
         logger.info(u"Saving Words%s" % os.getcwd() + os.sep + self.wordsConceptsFile)
-
 
     def _getOpenXmlText(self, filename, c):
         logger.debug(u"OpenXmlText: %s" % filename)
@@ -244,7 +241,6 @@ class DirCrawl(object):
                     f.write(output)
             except Exception, msg:
                 logger.debug(u"%d: %s" % (n, msg))
-
 
     def _getConcepts(self, fname, d, w, DOCX=True, XLSX=True, PDF=True, PPTX=True, MISC=True):
         listText = list()
