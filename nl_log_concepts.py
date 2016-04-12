@@ -26,7 +26,7 @@ def check(c, d):
     try:
         logger.info("d[s] : %s" % d[s])
         g = d[s]
-        f = g.decode("ascii", errors="replace")
+        f = g.decode("utf-8", errors="replace")
         logger.info("f : %s" % f)
 
     except Exception, msg:
@@ -38,24 +38,23 @@ def check(c, d):
 
 def logConcepts(c, d, nf, m=0, n=0):
     pc = c.getConcepts()
-    spaces = u"" # u"    " * n
-    f = logger.info
+    spaces = u""  # u"    " * n
 
     for p in pc.values():
         # pp(u"%s%s[%d]{%s}->Count=%s" % (spaces, p.name, len(p.name), p.typeName, p.count))
         f = check(p.name, d)
 
         try:
-            g = u"".join([c for c in f if c < 127])
+            g = f.encode("utf-8", errors="replace")
+
+            if n > 0:
+                nf.write("%d,%d,,%s%s%s" % (m, n, spaces, g, os.linesep))
+            else:
+                m += 1
+                nf.write("%d,%d,%s%s%s" % (m, n, spaces, g, os.linesep))
 
         except Exception, msg:
             logger.warn(u"%s" % msg)
-
-        if n > 0:
-            nf.write("%d,%d,,%s%s%s" % (m, n, spaces, g, os.linesep))
-        else:
-            m += 1
-            nf.write("%d,%d,%s%s%s" % (m, n, spaces, g, os.linesep))
 
         logConcepts(p, d, nf, m, n+1)
 
@@ -90,25 +89,33 @@ if __name__ == u"__main__":
             d = pickle.load(cf)
 
         try:
-
             with open("Sim.csv", "wb") as nf:
                 logConcepts(concepts, d, nf)
 
         except KeyboardInterrupt, msg:
             logger.info(u"Bye")
 
-    elif False:
-        for x in concepts.getConcepts():
-            logger.info("%x" % d[x])
+    elif True:
 
-            for y in x.getConcepts():
-                logger.info("%x" % y.name)
+        with open("similarity.csv", "wb") as fl:
 
-            concepts.printConcepts()
-    elif False:
+            for p in concepts.getConcepts().values():
+                logger.debug("%s" % os.path.basename(p.name))
+
+                pre_pn = os.path.basename(p.name)[3:]
+                pn = pre_pn[:-4]
+
+                for q in p.getConcepts().values():
+
+                    pre_qn = os.path.basename(q.name)[3:]
+                    qn = pre_qn[:-4]
+
+                    output = "%10s,%10s" % (pn, qn)
+                    logger.info("%s" % output)
+                    fl.write("%s%s" % (output, os.linesep))
+
         # concepts.printConcepts()
-        concepts.logConcepts()
 
     else:
-        concepts.printConcepts()
+        concepts.logConcepts()
 

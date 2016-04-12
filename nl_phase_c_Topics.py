@@ -13,7 +13,7 @@ from nl_lib.TopicsModel import TopicsModel
 
 from nl_lib import Logger
 logger = Logger.setupLogging(__name__)
-logger.setLevel(Logger.DEBUG)
+logger.setLevel(Logger.INFO)
 
 THREAD = False
 
