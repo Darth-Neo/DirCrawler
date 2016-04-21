@@ -4,11 +4,9 @@
 #
 import os
 
-from nl_lib import Logger
-logger = Logger.setupLogging(__name__)
-
-import logging
-logger.setLevel(logging.INFO)
+from Logger import *
+logger = setupLogging(__name__)
+logger.setLevel(INFO)
 
 from nl_lib.Constants import *
 from nl_lib.Concepts import Concepts

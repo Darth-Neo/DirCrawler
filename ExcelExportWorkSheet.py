@@ -2,10 +2,10 @@
 
 __author__ = u'morrj140'
 import os
-from nl_lib.Logger import *
+
+from Logger import *
 logger = setupLogging(__name__)
 logger.setLevel(INFO)
-
 import xlrd
 
 def getXLSText(filename):

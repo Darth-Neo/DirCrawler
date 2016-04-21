@@ -8,7 +8,7 @@ import pickle
 from nl_lib.Constants import *
 from nl_lib.Concepts import Concepts
 
-from nl_lib.Logger import *
+from Logger import *
 logger = setupLogging(__name__)
 logger.setLevel(INFO)
 

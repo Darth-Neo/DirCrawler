@@ -16,12 +16,13 @@
 *.lsi
 *.index
 *.net
-Runs/*
+runs/*
 *.gml
 *.csv
 build/*
 dist/*
 nl_lib.egg-info/
+RTP/export
 .idea/*
 .project
 *.pptx

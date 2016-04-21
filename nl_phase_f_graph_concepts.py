@@ -6,10 +6,10 @@ import os
 from nl_lib.Logger import *
 from nl_lib.Concepts import Concepts
 from nl_lib.ConceptGraph import PatternGraph, GraphVizGraph, NetworkXGraph
-from nl_lib.Constants import *
 
+from Logger import *
 logger = setupLogging(__name__)
-logger.setLevel(DEBUG)
+logger.setLevel(INFO)
 
 def logGraph(gl, title, scale=1):
     logger.info(u"---%s---" % title)

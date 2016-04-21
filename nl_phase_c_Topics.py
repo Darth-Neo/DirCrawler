@@ -11,9 +11,9 @@ from nl_lib.Constants import *
 from nl_lib.Concepts import Concepts
 from nl_lib.TopicsModel import TopicsModel
 
-from nl_lib import Logger
-logger = Logger.setupLogging(__name__)
-logger.setLevel(Logger.INFO)
+from Logger import *
+logger = setupLogging(__name__)
+logger.setLevel(INFO)
 
 THREAD = False
 

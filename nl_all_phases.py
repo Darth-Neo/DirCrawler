@@ -13,7 +13,7 @@ from nl_phase_e_TopicCloud import *
 from nl_phase_f_graph_concepts import *
 import time
 
-from nl_lib import Logger
+from Logger import *
 logger = Logger.setupLogging(__name__)
 logger.setLevel(Logger.INFO)
 
